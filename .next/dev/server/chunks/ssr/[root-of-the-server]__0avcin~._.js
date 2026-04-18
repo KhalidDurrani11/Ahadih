@@ -59,7 +59,9 @@ __turbopack_context__.n(__TURBOPACK__imported__module__$5b$project$5d2f$Ahadih$2
 
 __turbopack_context__.s([
     "default",
-    ()=>DepartmentsPage
+    ()=>DepartmentsPage,
+    "dynamic",
+    ()=>dynamic
 ]);
 var __TURBOPACK__imported__module__$5b$project$5d2f$Ahadih$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/Ahadih/node_modules/next/dist/server/route-modules/app-page/vendored/rsc/react-jsx-dev-runtime.js [app-rsc] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$Ahadih$2f$src$2f$lib$2f$prisma$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/Ahadih/src/lib/prisma.ts [app-rsc] (ecmascript)");
@@ -67,6 +69,7 @@ var __TURBOPACK__imported__module__$5b$project$5d2f$Ahadih$2f$src$2f$components$
 ;
 ;
 ;
+const dynamic = 'force-dynamic';
 async function DepartmentsPage() {
     const departments = await __TURBOPACK__imported__module__$5b$project$5d2f$Ahadih$2f$src$2f$lib$2f$prisma$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["prisma"].department.findMany({
         orderBy: {
@@ -77,7 +80,7 @@ async function DepartmentsPage() {
         initialDepartments: departments
     }, void 0, false, {
         fileName: "[project]/Ahadih/src/app/departments/page.tsx",
-        lineNumber: 9,
+        lineNumber: 11,
         columnNumber: 10
     }, this);
 }
