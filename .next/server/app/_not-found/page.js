@@ -1,12 +1,13 @@
 var R=require("../../chunks/ssr/[turbopack]_runtime.js")("server/app/_not-found/page.js")
 R.c("server/chunks/ssr/[root-of-the-server]__12f6fgz._.js")
-R.c("server/chunks/ssr/0dj-_next_dist_esm_build_templates_app-page_0vvn6-f.js")
-R.c("server/chunks/ssr/[root-of-the-server]__0~veg9~._.js")
+R.c("server/chunks/ssr/0dj-_next_dist_esm_build_templates_app-page_0gsw_pg.js")
+R.c("server/chunks/ssr/[root-of-the-server]__00-_f.z._.js")
 R.c("server/chunks/ssr/[root-of-the-server]__02fabps._.js")
 R.c("server/chunks/ssr/[root-of-the-server]__0gqlboy._.js")
+R.c("server/chunks/ssr/Ahadih_src_app_error_tsx_0hd_689._.js")
 R.c("server/chunks/ssr/0dj-_next_dist_client_components_0-lh6hf._.js")
 R.c("server/chunks/ssr/0dj-_next_dist_client_components_builtin_forbidden_0eu1_z_.js")
 R.c("server/chunks/ssr/0dj-_next_dist_client_components_builtin_unauthorized_0ubruv1.js")
 R.c("server/chunks/ssr/Ahadih__next-internal_server_app__not-found_page_actions_08~qvmh.js")
-R.m(77883)
-module.exports=R.m(77883).exports
+R.m(87049)
+module.exports=R.m(87049).exports
