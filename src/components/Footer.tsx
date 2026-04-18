@@ -1,11 +1,9 @@
-import { Heart, Instagram, Linkedin, Mail, MapPin, Phone, Twitter } from 'lucide-react';
-import { Page } from '../types';
+"use client";
 
-interface FooterProps {
-  setPage: (page: Page) => void;
-}
+import { Instagram, Linkedin, Mail, MapPin, Phone, Twitter } from 'lucide-react';
+import Link from 'next/link';
 
-export function Footer({ setPage }: FooterProps) {
+export function Footer() {
   const currentYear = new Date().getFullYear();
 
   return (
@@ -14,14 +12,15 @@ export function Footer({ setPage }: FooterProps) {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-16">
           {/* Brand */}
           <div className="space-y-6">
-            <div className="flex items-center group cursor-pointer" onClick={() => setPage('home')}>
-              <div className="w-10 h-10 bg-white rounded-xl flex items-center justify-center mr-3">
-                <Heart className="text-medical-blue w-6 h-6" />
-              </div>
-              <span className="font-display font-bold text-2xl tracking-tight">AHAD</span>
-            </div>
+            <Link href="/" className="inline-flex items-center group cursor-pointer bg-white/5 border border-white/10 rounded-xl px-3 py-2">
+              <img
+                src="/Aih_logo.ai"
+                alt="AHAD International Hospital"
+                className="h-11 w-auto object-contain logo-clean-footer group-hover:scale-[1.02] transition-transform"
+              />
+            </Link>
             <p className="text-medical-light/60 text-sm leading-relaxed max-w-xs">
-              Setting global standards in healthcare through compassionate care and cutting-edge medical innovation.
+              AHAD International Hospital delivers trusted tertiary care, multidisciplinary expertise, and patient-centered outcomes for local and international families.
             </p>
             <div className="flex space-x-4">
               <a href="#" className="w-10 h-10 rounded-full border border-white/10 flex items-center justify-center hover:bg-white hover:text-medical-dark transition-all">
@@ -40,11 +39,11 @@ export function Footer({ setPage }: FooterProps) {
           <div>
             <h4 className="font-display font-bold text-lg mb-6 underline decoration-medical-blue decoration-2 underline-offset-8">Quick Links</h4>
             <ul className="space-y-4 text-sm text-medical-light/60">
-              <li><button onClick={() => setPage('about')} className="hover:text-white transition-colors">About Us</button></li>
-              <li><button onClick={() => setPage('specialists')} className="hover:text-white transition-colors">Our Specialists</button></li>
-              <li><button onClick={() => setPage('departments')} className="hover:text-white transition-colors">Departments</button></li>
-              <li><button onClick={() => setPage('appointment')} className="hover:text-white transition-colors">Book Appointment</button></li>
-              <li><button onClick={() => setPage('contact')} className="hover:text-white transition-colors">Contact Support</button></li>
+              <li><Link href="/about" className="hover:text-white transition-colors">About Us</Link></li>
+              <li><Link href="/specialists" className="hover:text-white transition-colors">Our Specialists</Link></li>
+              <li><Link href="/departments" className="hover:text-white transition-colors">Departments</Link></li>
+              <li><Link href="/appointment" className="hover:text-white transition-colors">Book Appointment</Link></li>
+              <li><Link href="/contact" className="hover:text-white transition-colors">Contact Support</Link></li>
             </ul>
           </div>
 
@@ -52,11 +51,11 @@ export function Footer({ setPage }: FooterProps) {
           <div>
             <h4 className="font-display font-bold text-lg mb-6 underline decoration-medical-blue decoration-2 underline-offset-8">Departments</h4>
             <ul className="space-y-4 text-sm text-medical-light/60">
-              <li><a href="#" className="hover:text-white transition-colors">Cardiology</a></li>
-              <li><a href="#" className="hover:text-white transition-colors">Neurology</a></li>
-              <li><a href="#" className="hover:text-white transition-colors">Orthopedics</a></li>
-              <li><a href="#" className="hover:text-white transition-colors">Pediatrics</a></li>
-              <li><a href="#" className="hover:text-white transition-colors">Radiology</a></li>
+              <li><Link href="/departments" className="hover:text-white transition-colors">Cardiology</Link></li>
+              <li><Link href="/departments" className="hover:text-white transition-colors">Neurology</Link></li>
+              <li><Link href="/departments" className="hover:text-white transition-colors">Orthopedics</Link></li>
+              <li><Link href="/departments" className="hover:text-white transition-colors">Pediatrics</Link></li>
+              <li><Link href="/departments" className="hover:text-white transition-colors">Radiology</Link></li>
             </ul>
           </div>
 
@@ -66,11 +65,11 @@ export function Footer({ setPage }: FooterProps) {
             <ul className="space-y-4 text-sm text-medical-light/60">
               <li className="flex items-start">
                 <MapPin className="w-5 h-5 mr-3 text-medical-blue shrink-0" />
-                <span>123 Medical Drive, International City, Health District</span>
+                <span>Al Zahiyah District, Abu Dhabi, United Arab Emirates</span>
               </li>
               <li className="flex items-center">
                 <Phone className="w-5 h-5 mr-3 text-medical-blue" />
-                <span>+1 (234) 567-890</span>
+                <span>+971 800 2423</span>
               </li>
               <li className="flex items-center">
                 <Mail className="w-5 h-5 mr-3 text-medical-blue" />

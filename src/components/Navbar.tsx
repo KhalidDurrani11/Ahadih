@@ -1,75 +1,71 @@
+"use client";
+
 import { motion } from 'motion/react';
-import { Heart, Menu, Phone, X } from 'lucide-react';
+import { Menu, Phone, X } from 'lucide-react';
 import { useState } from 'react';
-import { Page } from '../types';
 import { cn } from '../lib/utils';
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 
-interface NavbarProps {
-  currentPage: Page;
-  setPage: (page: Page) => void;
-}
-
-export function Navbar({ currentPage, setPage }: NavbarProps) {
+export function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
+  const pathname = usePathname();
 
-  const navItems: { label: string; value: Page }[] = [
-    { label: 'Home', value: 'home' },
-    { label: 'Departments', value: 'departments' },
-    { label: 'Specialists', value: 'specialists' },
-    { label: 'About Us', value: 'about' },
-    { label: 'Contact', value: 'contact' },
+  const navItems = [
+    { label: 'Home', href: '/' },
+    { label: 'Departments', href: '/departments' },
+    { label: 'Specialists', href: '/specialists' },
+    { label: 'About Us', href: '/about' },
+    { label: 'Contact', href: '/contact' },
   ];
 
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 glass">
+    <nav className="fixed top-0 left-0 right-0 z-50 glass border-b border-medical-blue/10">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-20">
-          {/* Logo */}
-          <div 
-            className="flex items-center cursor-pointer group"
-            onClick={() => setPage('home')}
-          >
-            <div className="w-10 h-10 premium-gradient rounded-xl flex items-center justify-center mr-3 group-hover:rotate-12 transition-transform shadow-lg">
-              <Heart className="text-white w-6 h-6" />
-            </div>
-            <div>
-              <span className="font-display font-bold text-xl tracking-tight text-medical-dark">AHAD</span>
-              <p className="text-[10px] uppercase tracking-[0.2em] font-medium text-medical-accent -mt-1 underline decoration-medical-blue/30 decoration-2 underline-offset-2">International Hospital</p>
-            </div>
-          </div>
+          <Link href="/" className="flex items-center cursor-pointer group">
+             <img
+                src="/Aih_logo.ai"
+                alt="AHAD International Hospital"
+                className="h-12 w-auto object-contain logo-clean group-hover:scale-[1.02] transition-transform"
+             />
+          </Link>
 
           {/* Desktop Nav */}
           <div className="hidden md:flex items-center space-x-8">
-            {navItems.map((item) => (
-              <button
-                key={item.value}
-                onClick={() => setPage(item.value)}
-                className={cn(
-                  "text-sm font-medium transition-all hover:text-medical-blue relative py-2",
-                  currentPage === item.value ? "text-medical-blue" : "text-gray-500"
-                )}
-              >
-                {item.label}
-                {currentPage === item.value && (
-                  <motion.div
-                    layoutId="navUnderline"
-                    className="absolute bottom-0 left-0 right-0 h-0.5 bg-medical-blue rounded-full"
-                  />
-                )}
-              </button>
-            ))}
+            {navItems.map((item) => {
+              const isActive = pathname === item.href || (pathname.startsWith(item.href) && item.href !== '/');
+              return (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  className={cn(
+                    "text-sm font-medium transition-all hover:text-medical-blue relative py-2",
+                    isActive ? "text-medical-blue" : "text-gray-500"
+                  )}
+                >
+                  {item.label}
+                  {isActive && (
+                    <motion.div
+                      layoutId="navUnderline"
+                      className="absolute bottom-0 left-0 right-0 h-0.5 bg-medical-blue rounded-full"
+                    />
+                  )}
+                </Link>
+              );
+            })}
             
-            <button 
-              onClick={() => setPage('appointment')}
-              className="px-6 py-2.5 premium-gradient text-white rounded-full text-sm font-semibold shadow-xl shadow-medical-blue/20 hover:scale-105 active:scale-95 transition-all"
+            <Link
+              href="/appointment"
+              className="px-6 py-2.5 premium-gradient text-white rounded-full text-sm font-semibold shadow-xl shadow-medical-blue/20 hover:scale-105 active:scale-95 transition-all inline-block"
             >
               Book Appointment
-            </button>
+            </Link>
           </div>
 
           {/* Mobile Toggle */}
           <div className="md:hidden flex items-center space-x-4">
-             <a href="tel:+123456789" className="p-2 bg-medical-blue/10 rounded-full text-medical-blue uppercase text-[10px] font-bold">
+             <a href="tel:+9718002423" className="p-2 bg-medical-blue/10 rounded-full text-medical-blue uppercase text-[10px] font-bold">
                <Phone className="w-4 h-4" />
              </a>
             <button onClick={() => setIsOpen(!isOpen)} className="text-medical-dark p-2">
@@ -86,30 +82,29 @@ export function Navbar({ currentPage, setPage }: NavbarProps) {
           animate={{ opacity: 1, y: 0 }}
           className="md:hidden absolute top-20 left-0 right-0 glass border-t border-gray-100 p-4 shadow-2xl space-y-2"
         >
-          {navItems.map((item) => (
-            <button
-              key={item.value}
-              onClick={() => {
-                setPage(item.value);
-                setIsOpen(false);
-              }}
-              className={cn(
-                "w-full text-left px-4 py-3 rounded-xl text-sm font-medium",
-                currentPage === item.value ? "bg-medical-blue text-white" : "text-gray-600 hover:bg-gray-50"
-              )}
-            >
-              {item.label}
-            </button>
-          ))}
-          <button
-            onClick={() => {
-              setPage('appointment');
-              setIsOpen(false);
-            }}
-            className="w-full mt-4 premium-gradient text-white py-4 rounded-xl font-bold shadow-lg"
+          {navItems.map((item) => {
+            const isActive = pathname === item.href;
+            return (
+              <Link
+                key={item.href}
+                href={item.href}
+                onClick={() => setIsOpen(false)}
+                className={cn(
+                  "block w-full text-left px-4 py-3 rounded-xl text-sm font-medium",
+                  isActive ? "bg-medical-blue text-white" : "text-gray-600 hover:bg-gray-50"
+                )}
+              >
+                {item.label}
+              </Link>
+            )
+          })}
+          <Link
+            href="/appointment"
+            onClick={() => setIsOpen(false)}
+             className="block w-full mt-4 premium-gradient text-center text-white py-4 rounded-xl font-bold shadow-lg"
           >
             Book Appointment
-          </button>
+          </Link>
         </motion.div>
       )}
     </nav>

@@ -1,0 +1,19 @@
+{
+  "/_global-error/page": "app/_global-error/page.js",
+  "/_not-found/page": "app/_not-found/page.js",
+  "/about/page": "app/about/page.js",
+  "/admin/page": "app/admin/page.js",
+  "/api/admin/login/route": "app/api/admin/login/route.js",
+  "/api/appointments/[id]/route": "app/api/appointments/[id]/route.js",
+  "/api/appointments/route": "app/api/appointments/route.js",
+  "/api/departments/route": "app/api/departments/route.js",
+  "/api/doctors/[id]/route": "app/api/doctors/[id]/route.js",
+  "/api/doctors/route": "app/api/doctors/route.js",
+  "/api/messages/[id]/route": "app/api/messages/[id]/route.js",
+  "/api/messages/route": "app/api/messages/route.js",
+  "/appointment/page": "app/appointment/page.js",
+  "/contact/page": "app/contact/page.js",
+  "/departments/page": "app/departments/page.js",
+  "/page": "app/page.js",
+  "/specialists/page": "app/specialists/page.js"
+}

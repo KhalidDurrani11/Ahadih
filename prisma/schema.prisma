@@ -1,0 +1,63 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Department {
+  id           String        @id @default(uuid())
+  title        String
+  description  String
+  icon         String
+  image        String
+  doctors      Doctor[]
+  appointments Appointment[]
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+}
+
+model Doctor {
+  id             String        @id @default(uuid())
+  name           String
+  role           String
+  specialization String
+  qualifications String
+  experience     Int
+  image          String
+  bio            String
+  achievements   String[]
+  departmentId   String
+  department     Department    @relation(fields: [departmentId], references: [id], onDelete: Cascade)
+  appointments   Appointment[]
+  createdAt      DateTime      @default(now())
+  updatedAt      DateTime      @updatedAt
+}
+
+model Appointment {
+  id           String     @id @default(uuid())
+  patientName  String
+  phone        String
+  date         String
+  time         String
+  notes        String?
+  status       String     @default("Pending") // Pending, Confirmed, Completed, Cancelled
+  departmentId String
+  doctorId     String
+  department   Department @relation(fields: [departmentId], references: [id])
+  doctor       Doctor     @relation(fields: [doctorId], references: [id])
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime   @updatedAt
+}
+
+model ContactMessage {
+  id        String   @id @default(uuid())
+  name      String
+  email     String
+  subject   String
+  message   String
+  status    String   @default("Unread") // Unread, Read, Resolved
+  createdAt DateTime @default(now())
+}

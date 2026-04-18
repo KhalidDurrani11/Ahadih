@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 1000">
+  <rect width="800" height="1000" fill="#d3dae0" />
+  <circle cx="400" cy="320" r="140" fill="#385d78" opacity="0.85" />
+  <rect x="210" y="500" width="380" height="330" rx="60" fill="#234c6a" />
+  <text x="400" y="910" text-anchor="middle" font-family="Arial, sans-serif" font-size="40" fill="#193449" font-weight="700">
+    Specialist Profile
+  </text>
+</svg>

@@ -1,0 +1,19 @@
+{
+  "/_global-error/page": "/_global-error",
+  "/_not-found/page": "/_not-found",
+  "/about/page": "/about",
+  "/admin/page": "/admin",
+  "/api/admin/login/route": "/api/admin/login",
+  "/api/appointments/[id]/route": "/api/appointments/[id]",
+  "/api/appointments/route": "/api/appointments",
+  "/api/departments/route": "/api/departments",
+  "/api/doctors/[id]/route": "/api/doctors/[id]",
+  "/api/doctors/route": "/api/doctors",
+  "/api/messages/[id]/route": "/api/messages/[id]",
+  "/api/messages/route": "/api/messages",
+  "/appointment/page": "/appointment",
+  "/contact/page": "/contact",
+  "/departments/page": "/departments",
+  "/page": "/",
+  "/specialists/page": "/specialists"
+}

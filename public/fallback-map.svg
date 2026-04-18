@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 700">
+  <rect width="1200" height="700" fill="#e7edf2" />
+  <g stroke="#9ab0c2" stroke-width="8" fill="none" opacity="0.9">
+    <path d="M80 140h1040" />
+    <path d="M80 280h1040" />
+    <path d="M80 420h1040" />
+    <path d="M80 560h1040" />
+    <path d="M180 80v540" />
+    <path d="M420 80v540" />
+    <path d="M660 80v540" />
+    <path d="M900 80v540" />
+  </g>
+  <circle cx="650" cy="360" r="42" fill="#234c6a" />
+  <text x="710" y="374" font-family="Arial, sans-serif" font-size="42" fill="#193449" font-weight="700">
+    AHAD Location
+  </text>
+</svg>
