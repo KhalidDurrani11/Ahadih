@@ -25,7 +25,7 @@ export function Navbar() {
         <div className="flex justify-between items-center h-20">
           <Link href="/" className="flex items-center cursor-pointer group">
              <img
-                src="/Aih_logo.ai"
+                src="/ahad-logo.png"
                 alt="AHAD International Hospital"
                 className="h-12 w-auto object-contain logo-clean group-hover:scale-[1.02] transition-transform"
              />

@@ -30,9 +30,9 @@ export default function Error({
         
         <h1 className="text-3xl font-display font-black text-medical-dark mb-4">Something went wrong</h1>
         <p className="text-gray-500 mb-8 leading-relaxed">
-          {error.message.includes('DATABASE_URL') 
-            ? "Database connection failed. Please ensure environment variables are set." 
-            : "An unexpected error occurred while loading this page."}
+          {error.message.includes('DATABASE_URL') || error.message.includes('Can\'t reach database')
+            ? "Database connection failed. Please ensure your Vercel Environment Variables are set correctly." 
+            : `Error: ${error.name} - ${error.message}`}
         </p>
 
         <div className="space-y-4">
