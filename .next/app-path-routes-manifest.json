@@ -6,6 +6,7 @@
   "/api/admin/login/route": "/api/admin/login",
   "/api/appointments/[id]/route": "/api/appointments/[id]",
   "/api/appointments/route": "/api/appointments",
+  "/api/departments/[id]/route": "/api/departments/[id]",
   "/api/departments/route": "/api/departments",
   "/api/doctors/[id]/route": "/api/doctors/[id]",
   "/api/doctors/route": "/api/doctors",

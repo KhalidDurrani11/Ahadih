@@ -24,11 +24,13 @@ export function Navbar() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-20">
           <Link href="/" className="flex items-center cursor-pointer group">
-             <img
+            <div className="bg-white rounded-xl p-1 shadow-sm border border-gray-100 flex items-center justify-center">
+              <img
                 src="/ahadd-logo.jpeg"
                 alt="AHAD International Hospital"
-                className="h-12 w-auto object-contain logo-clean group-hover:scale-[1.02] transition-transform"
-             />
+                className="h-10 w-auto object-contain mix-blend-multiply group-hover:scale-[1.02] transition-transform"
+              />
+            </div>
           </Link>
 
           {/* Desktop Nav */}

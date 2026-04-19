@@ -31,6 +31,14 @@
       "namedRegex": "^/api/appointments/(?<nxtPid>[^/]+?)(?:/)?$"
     },
     {
+      "page": "/api/departments/[id]",
+      "regex": "^/api/departments/([^/]+?)(?:/)?$",
+      "routeKeys": {
+        "nxtPid": "nxtPid"
+      },
+      "namedRegex": "^/api/departments/(?<nxtPid>[^/]+?)(?:/)?$"
+    },
+    {
       "page": "/api/doctors/[id]",
       "regex": "^/api/doctors/([^/]+?)(?:/)?$",
       "routeKeys": {
