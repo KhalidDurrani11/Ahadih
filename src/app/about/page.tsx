@@ -93,8 +93,8 @@ export default function AboutPage() {
             >
               <div className="aspect-square rounded-[80px] overflow-hidden rotate-3 shadow-2xl relative z-10">
                 <img 
-                  src="https://images.unsplash.com/photo-1538108197017-c1b89c0ef319?auto=format&fit=crop&q=80&w=1000" 
-                  alt="Modern Hospital Interior" 
+                  src="https://images.unsplash.com/photo-1559839734-2b71f1eac89?auto=format&fit=crop&q=80&w=1200" 
+                  alt="Expert Medical Team at AHAD" 
                   className="w-full h-full object-cover"
                   referrerPolicy="no-referrer"
                   onError={(e) => {

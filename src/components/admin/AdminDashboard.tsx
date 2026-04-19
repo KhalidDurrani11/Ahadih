@@ -31,10 +31,11 @@ export default function AdminDashboard({ initialDepartments, initialDoctors, ini
   // --- CRUD Operations ---
 
   const openModal = (type: 'doctor' | 'department', item: any = null) => {
-    setEditingItem(item);
     if (item) {
+      setEditingItem({ ...item });
       setFormData({ ...item });
     } else {
+      setEditingItem(null);
       setFormData(type === 'doctor' ? {
         name: '', role: 'Specialist', specialization: '', qualifications: '',
         experience: 5, bio: '', image: '', departmentId: departments[0]?.id || ''
@@ -43,6 +44,17 @@ export default function AdminDashboard({ initialDepartments, initialDoctors, ini
       });
     }
     setIsModalOpen(true);
+  };
+
+  const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setFormData({ ...formData, image: reader.result as string });
+      };
+      reader.readAsDataURL(file);
+    }
   };
 
   const saveItem = async (e: React.FormEvent) => {
@@ -62,9 +74,9 @@ export default function AdminDashboard({ initialDepartments, initialDoctors, ini
       if (res.ok) {
         const saved = await res.json();
         if (activeTab === 'doctors') {
-          setDoctors(editingItem ? doctors.map((d: any) => d.id === saved.id ? saved : d) : [...doctors, saved]);
+          setDoctors(editingItem?.id ? doctors.map((d: any) => d.id === saved.id ? saved : d) : [...doctors, saved]);
         } else {
-          setDepartments(editingItem ? departments.map((d: any) => d.id === saved.id ? saved : d) : [...departments, saved]);
+          setDepartments(editingItem?.id ? departments.map((d: any) => d.id === saved.id ? saved : d) : [...departments, saved]);
         }
         setIsModalOpen(false);
       } else {
@@ -395,19 +407,26 @@ export default function AdminDashboard({ initialDepartments, initialDoctors, ini
                     </div>
 
                     <div className="space-y-2">
-                      <label className="text-xs font-bold text-gray-400 uppercase tracking-wider">Image URL</label>
-                      <div className="flex space-x-4">
-                        <input 
-                          value={formData.image || ''}
-                          onChange={e => setFormData({ ...formData, image: e.target.value })}
-                          className="flex-1 p-4 bg-gray-50 rounded-2xl border border-gray-100 focus:outline-none focus:border-medical-blue transition-all"
-                          placeholder="https://images.unsplash.com/..."
-                        />
-                        {formData.image && (
-                           <div className="w-14 h-14 rounded-xl overflow-hidden border border-gray-200">
-                             <img src={formData.image} alt="Preview" className="w-full h-full object-cover" />
-                           </div>
-                        )}
+                      <label className="text-xs font-bold text-gray-400 uppercase tracking-wider">Doctor Image</label>
+                      <div className="flex flex-col space-y-4">
+                        <div className="flex space-x-4">
+                          <input 
+                            value={formData.image || ''}
+                            onChange={e => setFormData({ ...formData, image: e.target.value })}
+                            className="flex-1 p-4 bg-gray-50 rounded-2xl border border-gray-100 focus:outline-none focus:border-medical-blue transition-all"
+                            placeholder="Image URL or Upload below..."
+                          />
+                          {formData.image && (
+                            <div className="w-14 h-14 rounded-xl overflow-hidden border border-gray-200 shrink-0">
+                              <img src={formData.image} alt="Preview" className="w-full h-full object-cover" />
+                            </div>
+                          )}
+                        </div>
+                        <label className="flex items-center space-x-2 px-6 py-3 bg-white border-2 border-dashed border-gray-200 rounded-2xl cursor-pointer hover:border-medical-blue hover:bg-medical-blue/5 transition-all text-sm font-bold text-gray-500">
+                          <ImageIcon className="w-4 h-4" />
+                          <span>Upload Local Photo</span>
+                          <input type="file" className="hidden" accept="image/*" onChange={handleFileUpload} />
+                        </label>
                       </div>
                     </div>
 
@@ -454,15 +473,24 @@ export default function AdminDashboard({ initialDepartments, initialDoctors, ini
                           className="w-full p-4 bg-gray-50 rounded-2xl border border-gray-100 focus:outline-none focus:border-medical-blue transition-all"
                         />
                       </div>
-                      <div className="space-y-2">
-                        <label className="text-xs font-bold text-gray-400 uppercase tracking-wider">Image URL</label>
-                        <input 
-                          value={formData.image || ''}
-                          onChange={e => setFormData({ ...formData, image: e.target.value })}
-                          className="w-full p-4 bg-gray-50 rounded-2xl border border-gray-100 focus:outline-none focus:border-medical-blue transition-all"
-                          placeholder="https://images.unsplash.com/..."
-                        />
+                    <div className="space-y-2">
+                       <label className="text-xs font-bold text-gray-400 uppercase tracking-wider">Department Image</label>
+                       <div className="flex flex-col space-y-4">
+                        <div className="flex space-x-4">
+                          <input 
+                            value={formData.image || ''}
+                            onChange={e => setFormData({ ...formData, image: e.target.value })}
+                            className="flex-1 p-4 bg-gray-50 rounded-2xl border border-gray-100 focus:outline-none focus:border-medical-blue transition-all"
+                            placeholder="Image URL or Upload below..."
+                          />
+                        </div>
+                        <label className="flex items-center space-x-2 px-6 py-3 bg-white border-2 border-dashed border-gray-200 rounded-2xl cursor-pointer hover:border-medical-blue hover:bg-medical-blue/5 transition-all text-sm font-bold text-gray-500">
+                          <ImageIcon className="w-4 h-4" />
+                          <span>Upload Local Icon/Photo</span>
+                          <input type="file" className="hidden" accept="image/*" onChange={handleFileUpload} />
+                        </label>
                       </div>
+                    </div>
                     </div>
                   </>
                 )}

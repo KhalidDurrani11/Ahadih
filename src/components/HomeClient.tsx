@@ -197,7 +197,7 @@ export function HomeClient({ initialDepartments }: HomeClientProps) {
                   </p>
                   <Link 
                     href="/departments"
-                    className="text-medical-blue text-xs uppercase tracking-widest font-black inline-flex items-center group/btn"
+                    className="text-medical-blue text-xs uppercase tracking-widest font-black inline-flex items-center group/btn py-2"
                   >
                     <span>Learn More</span>
                     <ArrowRight className="w-4 h-4 ml-2 group-hover/btn:translate-x-1 transition-transform" />
@@ -231,12 +231,25 @@ export function HomeClient({ initialDepartments }: HomeClientProps) {
               </div>
             </div>
             <div className="hidden lg:flex justify-end pr-8">
-              <div className="grid grid-cols-2 gap-4">
-                  {[1, 2, 3, 4].map(i => (
-                    <div key={i} className="w-32 h-32 glass border-white/10 rounded-3xl flex items-center justify-center">
-                       <ShieldCheck className="text-white/40 w-12 h-12" />
+              <div className="grid grid-cols-2 gap-6">
+                {[
+                  { label: "Ambulance 24/7", icon: Activity, desc: "Fast Response" },
+                  { label: "Pharmacy Support", icon: ShieldCheck, desc: "24h Open" },
+                  { label: "ICU / Trauma", icon: Heart, desc: "Critical Care" },
+                  { label: "Blood Bank", icon: Activity, desc: "All Groups" }
+                ].map((item, idx) => (
+                  <motion.div 
+                    key={idx}
+                    whileHover={{ scale: 1.05, y: -5 }}
+                    className="w-40 h-40 glass border-white/10 rounded-[32px] flex flex-col items-center justify-center p-4 text-center group transition-all"
+                  >
+                    <div className="w-12 h-12 rounded-2xl bg-white/10 flex items-center justify-center mb-3 group-hover:bg-white group-hover:text-medical-blue transition-colors">
+                      <item.icon className="w-6 h-6 text-white group-hover:text-medical-blue" />
                     </div>
-                  ))}
+                    <p className="text-[10px] font-bold text-white uppercase tracking-wider mb-1">{item.label}</p>
+                    <p className="text-[8px] text-white/40 uppercase tracking-widest font-medium">{item.desc}</p>
+                  </motion.div>
+                ))}
               </div>
             </div>
           </div>

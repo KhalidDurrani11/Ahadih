@@ -21,6 +21,7 @@ var __TURBOPACK__imported__module__$5b$project$5d2f$Ahadih$2f$node_modules$2f$lu
 var __TURBOPACK__imported__module__$5b$project$5d2f$Ahadih$2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$circle$2d$check$2d$big$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__CheckCircle$3e$__ = __turbopack_context__.i("[project]/Ahadih/node_modules/lucide-react/dist/esm/icons/circle-check-big.js [app-ssr] (ecmascript) <export default as CheckCircle>");
 var __TURBOPACK__imported__module__$5b$project$5d2f$Ahadih$2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$save$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Save$3e$__ = __turbopack_context__.i("[project]/Ahadih/node_modules/lucide-react/dist/esm/icons/save.js [app-ssr] (ecmascript) <export default as Save>");
 var __TURBOPACK__imported__module__$5b$project$5d2f$Ahadih$2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$x$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__X$3e$__ = __turbopack_context__.i("[project]/Ahadih/node_modules/lucide-react/dist/esm/icons/x.js [app-ssr] (ecmascript) <export default as X>");
+var __TURBOPACK__imported__module__$5b$project$5d2f$Ahadih$2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$image$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Image$3e$__ = __turbopack_context__.i("[project]/Ahadih/node_modules/lucide-react/dist/esm/icons/image.js [app-ssr] (ecmascript) <export default as Image>");
 var __TURBOPACK__imported__module__$5b$project$5d2f$Ahadih$2f$node_modules$2f$next$2f$navigation$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/Ahadih/node_modules/next/navigation.js [app-ssr] (ecmascript)");
 "use client";
 ;
@@ -46,12 +47,15 @@ function AdminDashboard({ initialDepartments, initialDoctors, initialAppointment
     };
     // --- CRUD Operations ---
     const openModal = (type, item = null)=>{
-        setEditingItem(item);
         if (item) {
+            setEditingItem({
+                ...item
+            });
             setFormData({
                 ...item
             });
         } else {
+            setEditingItem(null);
             setFormData(type === 'doctor' ? {
                 name: '',
                 role: 'Specialist',
@@ -70,6 +74,19 @@ function AdminDashboard({ initialDepartments, initialDoctors, initialAppointment
         }
         setIsModalOpen(true);
     };
+    const handleFileUpload = (e)=>{
+        const file = e.target.files?.[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onloadend = ()=>{
+                setFormData({
+                    ...formData,
+                    image: reader.result
+                });
+            };
+            reader.readAsDataURL(file);
+        }
+    };
     const saveItem = async (e)=>{
         e.preventDefault();
         setLoading(true);
@@ -87,12 +104,12 @@ function AdminDashboard({ initialDepartments, initialDoctors, initialAppointment
             if (res.ok) {
                 const saved = await res.json();
                 if (activeTab === 'doctors') {
-                    setDoctors(editingItem ? doctors.map((d)=>d.id === saved.id ? saved : d) : [
+                    setDoctors(editingItem?.id ? doctors.map((d)=>d.id === saved.id ? saved : d) : [
                         ...doctors,
                         saved
                     ]);
                 } else {
-                    setDepartments(editingItem ? departments.map((d)=>d.id === saved.id ? saved : d) : [
+                    setDepartments(editingItem?.id ? departments.map((d)=>d.id === saved.id ? saved : d) : [
                         ...departments,
                         saved
                     ]);
@@ -156,7 +173,7 @@ function AdminDashboard({ initialDepartments, initialDoctors, initialAppointment
                                 children: "Management"
                             }, void 0, false, {
                                 fileName: "[project]/Ahadih/src/components/admin/AdminDashboard.tsx",
-                                lineNumber: 113,
+                                lineNumber: 125,
                                 columnNumber: 11
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Ahadih$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("nav", {
@@ -190,31 +207,31 @@ function AdminDashboard({ initialDepartments, initialDoctors, initialAppointment
                                                 className: "w-5 h-5"
                                             }, void 0, false, {
                                                 fileName: "[project]/Ahadih/src/components/admin/AdminDashboard.tsx",
-                                                lineNumber: 126,
+                                                lineNumber: 138,
                                                 columnNumber: 17
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Ahadih$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
                                                 children: tab.label
                                             }, void 0, false, {
                                                 fileName: "[project]/Ahadih/src/components/admin/AdminDashboard.tsx",
-                                                lineNumber: 127,
+                                                lineNumber: 139,
                                                 columnNumber: 17
                                             }, this)
                                         ]
                                     }, tab.id, true, {
                                         fileName: "[project]/Ahadih/src/components/admin/AdminDashboard.tsx",
-                                        lineNumber: 121,
+                                        lineNumber: 133,
                                         columnNumber: 15
                                     }, this))
                             }, void 0, false, {
                                 fileName: "[project]/Ahadih/src/components/admin/AdminDashboard.tsx",
-                                lineNumber: 114,
+                                lineNumber: 126,
                                 columnNumber: 11
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/Ahadih/src/components/admin/AdminDashboard.tsx",
-                        lineNumber: 112,
+                        lineNumber: 124,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Ahadih$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -227,31 +244,31 @@ function AdminDashboard({ initialDepartments, initialDoctors, initialAppointment
                                     className: "w-5 h-5"
                                 }, void 0, false, {
                                     fileName: "[project]/Ahadih/src/components/admin/AdminDashboard.tsx",
-                                    lineNumber: 134,
+                                    lineNumber: 146,
                                     columnNumber: 13
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Ahadih$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
                                     children: "Logout"
                                 }, void 0, false, {
                                     fileName: "[project]/Ahadih/src/components/admin/AdminDashboard.tsx",
-                                    lineNumber: 135,
+                                    lineNumber: 147,
                                     columnNumber: 13
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/Ahadih/src/components/admin/AdminDashboard.tsx",
-                            lineNumber: 133,
+                            lineNumber: 145,
                             columnNumber: 11
                         }, this)
                     }, void 0, false, {
                         fileName: "[project]/Ahadih/src/components/admin/AdminDashboard.tsx",
-                        lineNumber: 132,
+                        lineNumber: 144,
                         columnNumber: 9
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/Ahadih/src/components/admin/AdminDashboard.tsx",
-                lineNumber: 111,
+                lineNumber: 123,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Ahadih$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("main", {
@@ -270,7 +287,7 @@ function AdminDashboard({ initialDepartments, initialDoctors, initialAppointment
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/Ahadih/src/components/admin/AdminDashboard.tsx",
-                                    lineNumber: 144,
+                                    lineNumber: 156,
                                     columnNumber: 14
                                 }, this),
                                 (activeTab === 'doctors' || activeTab === 'departments') && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Ahadih$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -281,7 +298,7 @@ function AdminDashboard({ initialDepartments, initialDoctors, initialAppointment
                                             className: "w-5 h-5"
                                         }, void 0, false, {
                                             fileName: "[project]/Ahadih/src/components/admin/AdminDashboard.tsx",
-                                            lineNumber: 150,
+                                            lineNumber: 162,
                                             columnNumber: 18
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Ahadih$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -291,19 +308,19 @@ function AdminDashboard({ initialDepartments, initialDoctors, initialAppointment
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/Ahadih/src/components/admin/AdminDashboard.tsx",
-                                            lineNumber: 151,
+                                            lineNumber: 163,
                                             columnNumber: 18
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/Ahadih/src/components/admin/AdminDashboard.tsx",
-                                    lineNumber: 146,
+                                    lineNumber: 158,
                                     columnNumber: 16
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/Ahadih/src/components/admin/AdminDashboard.tsx",
-                            lineNumber: 143,
+                            lineNumber: 155,
                             columnNumber: 11
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Ahadih$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -321,7 +338,7 @@ function AdminDashboard({ initialDepartments, initialDoctors, initialAppointment
                                                         children: "Patient"
                                                     }, void 0, false, {
                                                         fileName: "[project]/Ahadih/src/components/admin/AdminDashboard.tsx",
-                                                        lineNumber: 162,
+                                                        lineNumber: 174,
                                                         columnNumber: 21
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Ahadih$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("th", {
@@ -329,7 +346,7 @@ function AdminDashboard({ initialDepartments, initialDoctors, initialAppointment
                                                         children: "Contact"
                                                     }, void 0, false, {
                                                         fileName: "[project]/Ahadih/src/components/admin/AdminDashboard.tsx",
-                                                        lineNumber: 163,
+                                                        lineNumber: 175,
                                                         columnNumber: 21
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Ahadih$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("th", {
@@ -337,7 +354,7 @@ function AdminDashboard({ initialDepartments, initialDoctors, initialAppointment
                                                         children: "Schedule"
                                                     }, void 0, false, {
                                                         fileName: "[project]/Ahadih/src/components/admin/AdminDashboard.tsx",
-                                                        lineNumber: 164,
+                                                        lineNumber: 176,
                                                         columnNumber: 21
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Ahadih$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("th", {
@@ -345,7 +362,7 @@ function AdminDashboard({ initialDepartments, initialDoctors, initialAppointment
                                                         children: "Doctor"
                                                     }, void 0, false, {
                                                         fileName: "[project]/Ahadih/src/components/admin/AdminDashboard.tsx",
-                                                        lineNumber: 165,
+                                                        lineNumber: 177,
                                                         columnNumber: 21
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Ahadih$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("th", {
@@ -353,7 +370,7 @@ function AdminDashboard({ initialDepartments, initialDoctors, initialAppointment
                                                         children: "Status"
                                                     }, void 0, false, {
                                                         fileName: "[project]/Ahadih/src/components/admin/AdminDashboard.tsx",
-                                                        lineNumber: 166,
+                                                        lineNumber: 178,
                                                         columnNumber: 21
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Ahadih$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("th", {
@@ -361,18 +378,18 @@ function AdminDashboard({ initialDepartments, initialDoctors, initialAppointment
                                                         children: "Manage"
                                                     }, void 0, false, {
                                                         fileName: "[project]/Ahadih/src/components/admin/AdminDashboard.tsx",
-                                                        lineNumber: 167,
+                                                        lineNumber: 179,
                                                         columnNumber: 21
                                                     }, this)
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/Ahadih/src/components/admin/AdminDashboard.tsx",
-                                                lineNumber: 161,
+                                                lineNumber: 173,
                                                 columnNumber: 19
                                             }, this)
                                         }, void 0, false, {
                                             fileName: "[project]/Ahadih/src/components/admin/AdminDashboard.tsx",
-                                            lineNumber: 160,
+                                            lineNumber: 172,
                                             columnNumber: 17
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Ahadih$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("tbody", {
@@ -385,12 +402,12 @@ function AdminDashboard({ initialDepartments, initialDoctors, initialAppointment
                                                         children: "No appointments yet."
                                                     }, void 0, false, {
                                                         fileName: "[project]/Ahadih/src/components/admin/AdminDashboard.tsx",
-                                                        lineNumber: 171,
+                                                        lineNumber: 183,
                                                         columnNumber: 53
                                                     }, this)
                                                 }, void 0, false, {
                                                     fileName: "[project]/Ahadih/src/components/admin/AdminDashboard.tsx",
-                                                    lineNumber: 171,
+                                                    lineNumber: 183,
                                                     columnNumber: 49
                                                 }, this),
                                                 appointments.map((app)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Ahadih$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("tr", {
@@ -401,7 +418,7 @@ function AdminDashboard({ initialDepartments, initialDoctors, initialAppointment
                                                                 children: app.patientName
                                                             }, void 0, false, {
                                                                 fileName: "[project]/Ahadih/src/components/admin/AdminDashboard.tsx",
-                                                                lineNumber: 174,
+                                                                lineNumber: 186,
                                                                 columnNumber: 23
                                                             }, this),
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Ahadih$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
@@ -409,7 +426,7 @@ function AdminDashboard({ initialDepartments, initialDoctors, initialAppointment
                                                                 children: app.phone
                                                             }, void 0, false, {
                                                                 fileName: "[project]/Ahadih/src/components/admin/AdminDashboard.tsx",
-                                                                lineNumber: 175,
+                                                                lineNumber: 187,
                                                                 columnNumber: 23
                                                             }, this),
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Ahadih$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
@@ -419,7 +436,7 @@ function AdminDashboard({ initialDepartments, initialDoctors, initialAppointment
                                                                     " ",
                                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Ahadih$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("br", {}, void 0, false, {
                                                                         fileName: "[project]/Ahadih/src/components/admin/AdminDashboard.tsx",
-                                                                        lineNumber: 176,
+                                                                        lineNumber: 188,
                                                                         columnNumber: 76
                                                                     }, this),
                                                                     " ",
@@ -427,7 +444,7 @@ function AdminDashboard({ initialDepartments, initialDoctors, initialAppointment
                                                                 ]
                                                             }, void 0, true, {
                                                                 fileName: "[project]/Ahadih/src/components/admin/AdminDashboard.tsx",
-                                                                lineNumber: 176,
+                                                                lineNumber: 188,
                                                                 columnNumber: 23
                                                             }, this),
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Ahadih$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
@@ -435,7 +452,7 @@ function AdminDashboard({ initialDepartments, initialDoctors, initialAppointment
                                                                 children: app.doctor?.name
                                                             }, void 0, false, {
                                                                 fileName: "[project]/Ahadih/src/components/admin/AdminDashboard.tsx",
-                                                                lineNumber: 177,
+                                                                lineNumber: 189,
                                                                 columnNumber: 23
                                                             }, this),
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Ahadih$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
@@ -445,12 +462,12 @@ function AdminDashboard({ initialDepartments, initialDoctors, initialAppointment
                                                                     children: app.status
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/Ahadih/src/components/admin/AdminDashboard.tsx",
-                                                                    lineNumber: 179,
+                                                                    lineNumber: 191,
                                                                     columnNumber: 25
                                                                 }, this)
                                                             }, void 0, false, {
                                                                 fileName: "[project]/Ahadih/src/components/admin/AdminDashboard.tsx",
-                                                                lineNumber: 178,
+                                                                lineNumber: 190,
                                                                 columnNumber: 23
                                                             }, this),
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Ahadih$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
@@ -464,12 +481,12 @@ function AdminDashboard({ initialDepartments, initialDoctors, initialAppointment
                                                                             className: "w-4 h-4"
                                                                         }, void 0, false, {
                                                                             fileName: "[project]/Ahadih/src/components/admin/AdminDashboard.tsx",
-                                                                            lineNumber: 188,
+                                                                            lineNumber: 200,
                                                                             columnNumber: 189
                                                                         }, this)
                                                                     }, void 0, false, {
                                                                         fileName: "[project]/Ahadih/src/components/admin/AdminDashboard.tsx",
-                                                                        lineNumber: 188,
+                                                                        lineNumber: 200,
                                                                         columnNumber: 28
                                                                     }, this),
                                                                     app.status === 'Confirmed' && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Ahadih$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -480,36 +497,36 @@ function AdminDashboard({ initialDepartments, initialDoctors, initialAppointment
                                                                             className: "w-4 h-4"
                                                                         }, void 0, false, {
                                                                             fileName: "[project]/Ahadih/src/components/admin/AdminDashboard.tsx",
-                                                                            lineNumber: 191,
+                                                                            lineNumber: 203,
                                                                             columnNumber: 198
                                                                         }, this)
                                                                     }, void 0, false, {
                                                                         fileName: "[project]/Ahadih/src/components/admin/AdminDashboard.tsx",
-                                                                        lineNumber: 191,
+                                                                        lineNumber: 203,
                                                                         columnNumber: 28
                                                                     }, this)
                                                                 ]
                                                             }, void 0, true, {
                                                                 fileName: "[project]/Ahadih/src/components/admin/AdminDashboard.tsx",
-                                                                lineNumber: 186,
+                                                                lineNumber: 198,
                                                                 columnNumber: 23
                                                             }, this)
                                                         ]
                                                     }, app.id, true, {
                                                         fileName: "[project]/Ahadih/src/components/admin/AdminDashboard.tsx",
-                                                        lineNumber: 173,
+                                                        lineNumber: 185,
                                                         columnNumber: 21
                                                     }, this))
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/Ahadih/src/components/admin/AdminDashboard.tsx",
-                                            lineNumber: 170,
+                                            lineNumber: 182,
                                             columnNumber: 17
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/Ahadih/src/components/admin/AdminDashboard.tsx",
-                                    lineNumber: 159,
+                                    lineNumber: 171,
                                     columnNumber: 15
                                 }, this),
                                 activeTab === 'messages' && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Ahadih$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("table", {
@@ -524,7 +541,7 @@ function AdminDashboard({ initialDepartments, initialDoctors, initialAppointment
                                                         children: "From"
                                                     }, void 0, false, {
                                                         fileName: "[project]/Ahadih/src/components/admin/AdminDashboard.tsx",
-                                                        lineNumber: 204,
+                                                        lineNumber: 216,
                                                         columnNumber: 21
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Ahadih$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("th", {
@@ -532,7 +549,7 @@ function AdminDashboard({ initialDepartments, initialDoctors, initialAppointment
                                                         children: "Subject"
                                                     }, void 0, false, {
                                                         fileName: "[project]/Ahadih/src/components/admin/AdminDashboard.tsx",
-                                                        lineNumber: 205,
+                                                        lineNumber: 217,
                                                         columnNumber: 21
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Ahadih$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("th", {
@@ -540,7 +557,7 @@ function AdminDashboard({ initialDepartments, initialDoctors, initialAppointment
                                                         children: "Message"
                                                     }, void 0, false, {
                                                         fileName: "[project]/Ahadih/src/components/admin/AdminDashboard.tsx",
-                                                        lineNumber: 206,
+                                                        lineNumber: 218,
                                                         columnNumber: 21
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Ahadih$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("th", {
@@ -548,18 +565,18 @@ function AdminDashboard({ initialDepartments, initialDoctors, initialAppointment
                                                         children: "Action"
                                                     }, void 0, false, {
                                                         fileName: "[project]/Ahadih/src/components/admin/AdminDashboard.tsx",
-                                                        lineNumber: 207,
+                                                        lineNumber: 219,
                                                         columnNumber: 21
                                                     }, this)
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/Ahadih/src/components/admin/AdminDashboard.tsx",
-                                                lineNumber: 203,
+                                                lineNumber: 215,
                                                 columnNumber: 19
                                             }, this)
                                         }, void 0, false, {
                                             fileName: "[project]/Ahadih/src/components/admin/AdminDashboard.tsx",
-                                            lineNumber: 202,
+                                            lineNumber: 214,
                                             columnNumber: 17
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Ahadih$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("tbody", {
@@ -572,12 +589,12 @@ function AdminDashboard({ initialDepartments, initialDoctors, initialAppointment
                                                         children: "No messages yet."
                                                     }, void 0, false, {
                                                         fileName: "[project]/Ahadih/src/components/admin/AdminDashboard.tsx",
-                                                        lineNumber: 211,
+                                                        lineNumber: 223,
                                                         columnNumber: 49
                                                     }, this)
                                                 }, void 0, false, {
                                                     fileName: "[project]/Ahadih/src/components/admin/AdminDashboard.tsx",
-                                                    lineNumber: 211,
+                                                    lineNumber: 223,
                                                     columnNumber: 45
                                                 }, this),
                                                 messages.map((msg)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Ahadih$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("tr", {
@@ -591,7 +608,7 @@ function AdminDashboard({ initialDepartments, initialDoctors, initialAppointment
                                                                         children: msg.name
                                                                     }, void 0, false, {
                                                                         fileName: "[project]/Ahadih/src/components/admin/AdminDashboard.tsx",
-                                                                        lineNumber: 215,
+                                                                        lineNumber: 227,
                                                                         columnNumber: 26
                                                                     }, this),
                                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Ahadih$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -599,13 +616,13 @@ function AdminDashboard({ initialDepartments, initialDoctors, initialAppointment
                                                                         children: msg.email
                                                                     }, void 0, false, {
                                                                         fileName: "[project]/Ahadih/src/components/admin/AdminDashboard.tsx",
-                                                                        lineNumber: 216,
+                                                                        lineNumber: 228,
                                                                         columnNumber: 26
                                                                     }, this)
                                                                 ]
                                                             }, void 0, true, {
                                                                 fileName: "[project]/Ahadih/src/components/admin/AdminDashboard.tsx",
-                                                                lineNumber: 214,
+                                                                lineNumber: 226,
                                                                 columnNumber: 23
                                                             }, this),
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Ahadih$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
@@ -613,7 +630,7 @@ function AdminDashboard({ initialDepartments, initialDoctors, initialAppointment
                                                                 children: msg.subject
                                                             }, void 0, false, {
                                                                 fileName: "[project]/Ahadih/src/components/admin/AdminDashboard.tsx",
-                                                                lineNumber: 218,
+                                                                lineNumber: 230,
                                                                 columnNumber: 23
                                                             }, this),
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Ahadih$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
@@ -622,7 +639,7 @@ function AdminDashboard({ initialDepartments, initialDoctors, initialAppointment
                                                                 children: msg.message
                                                             }, void 0, false, {
                                                                 fileName: "[project]/Ahadih/src/components/admin/AdminDashboard.tsx",
-                                                                lineNumber: 219,
+                                                                lineNumber: 231,
                                                                 columnNumber: 23
                                                             }, this),
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Ahadih$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
@@ -634,35 +651,35 @@ function AdminDashboard({ initialDepartments, initialDoctors, initialAppointment
                                                                         className: "w-4 h-4"
                                                                     }, void 0, false, {
                                                                         fileName: "[project]/Ahadih/src/components/admin/AdminDashboard.tsx",
-                                                                        lineNumber: 221,
+                                                                        lineNumber: 233,
                                                                         columnNumber: 187
                                                                     }, this)
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/Ahadih/src/components/admin/AdminDashboard.tsx",
-                                                                    lineNumber: 221,
+                                                                    lineNumber: 233,
                                                                     columnNumber: 25
                                                                 }, this)
                                                             }, void 0, false, {
                                                                 fileName: "[project]/Ahadih/src/components/admin/AdminDashboard.tsx",
-                                                                lineNumber: 220,
+                                                                lineNumber: 232,
                                                                 columnNumber: 23
                                                             }, this)
                                                         ]
                                                     }, msg.id, true, {
                                                         fileName: "[project]/Ahadih/src/components/admin/AdminDashboard.tsx",
-                                                        lineNumber: 213,
+                                                        lineNumber: 225,
                                                         columnNumber: 21
                                                     }, this))
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/Ahadih/src/components/admin/AdminDashboard.tsx",
-                                            lineNumber: 210,
+                                            lineNumber: 222,
                                             columnNumber: 17
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/Ahadih/src/components/admin/AdminDashboard.tsx",
-                                    lineNumber: 201,
+                                    lineNumber: 213,
                                     columnNumber: 15
                                 }, this),
                                 activeTab === 'doctors' && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Ahadih$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("table", {
@@ -677,7 +694,7 @@ function AdminDashboard({ initialDepartments, initialDoctors, initialAppointment
                                                         children: "Doctor"
                                                     }, void 0, false, {
                                                         fileName: "[project]/Ahadih/src/components/admin/AdminDashboard.tsx",
-                                                        lineNumber: 233,
+                                                        lineNumber: 245,
                                                         columnNumber: 21
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Ahadih$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("th", {
@@ -685,7 +702,7 @@ function AdminDashboard({ initialDepartments, initialDoctors, initialAppointment
                                                         children: "Specialization"
                                                     }, void 0, false, {
                                                         fileName: "[project]/Ahadih/src/components/admin/AdminDashboard.tsx",
-                                                        lineNumber: 234,
+                                                        lineNumber: 246,
                                                         columnNumber: 21
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Ahadih$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("th", {
@@ -693,7 +710,7 @@ function AdminDashboard({ initialDepartments, initialDoctors, initialAppointment
                                                         children: "Experience"
                                                     }, void 0, false, {
                                                         fileName: "[project]/Ahadih/src/components/admin/AdminDashboard.tsx",
-                                                        lineNumber: 235,
+                                                        lineNumber: 247,
                                                         columnNumber: 21
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Ahadih$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("th", {
@@ -701,18 +718,18 @@ function AdminDashboard({ initialDepartments, initialDoctors, initialAppointment
                                                         children: "Actions"
                                                     }, void 0, false, {
                                                         fileName: "[project]/Ahadih/src/components/admin/AdminDashboard.tsx",
-                                                        lineNumber: 236,
+                                                        lineNumber: 248,
                                                         columnNumber: 21
                                                     }, this)
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/Ahadih/src/components/admin/AdminDashboard.tsx",
-                                                lineNumber: 232,
+                                                lineNumber: 244,
                                                 columnNumber: 19
                                             }, this)
                                         }, void 0, false, {
                                             fileName: "[project]/Ahadih/src/components/admin/AdminDashboard.tsx",
-                                            lineNumber: 231,
+                                            lineNumber: 243,
                                             columnNumber: 17
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Ahadih$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("tbody", {
@@ -725,12 +742,12 @@ function AdminDashboard({ initialDepartments, initialDoctors, initialAppointment
                                                         children: "No doctors added."
                                                     }, void 0, false, {
                                                         fileName: "[project]/Ahadih/src/components/admin/AdminDashboard.tsx",
-                                                        lineNumber: 240,
+                                                        lineNumber: 252,
                                                         columnNumber: 48
                                                     }, this)
                                                 }, void 0, false, {
                                                     fileName: "[project]/Ahadih/src/components/admin/AdminDashboard.tsx",
-                                                    lineNumber: 240,
+                                                    lineNumber: 252,
                                                     columnNumber: 44
                                                 }, this),
                                                 doctors.map((doc)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Ahadih$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("tr", {
@@ -745,7 +762,7 @@ function AdminDashboard({ initialDepartments, initialDoctors, initialAppointment
                                                                         className: "w-10 h-10 rounded-full object-cover border border-gray-100 shadow-sm"
                                                                     }, void 0, false, {
                                                                         fileName: "[project]/Ahadih/src/components/admin/AdminDashboard.tsx",
-                                                                        lineNumber: 244,
+                                                                        lineNumber: 256,
                                                                         columnNumber: 25
                                                                     }, this),
                                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Ahadih$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -755,7 +772,7 @@ function AdminDashboard({ initialDepartments, initialDoctors, initialAppointment
                                                                                 children: doc.name
                                                                             }, void 0, false, {
                                                                                 fileName: "[project]/Ahadih/src/components/admin/AdminDashboard.tsx",
-                                                                                lineNumber: 246,
+                                                                                lineNumber: 258,
                                                                                 columnNumber: 27
                                                                             }, this),
                                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Ahadih$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -763,19 +780,19 @@ function AdminDashboard({ initialDepartments, initialDoctors, initialAppointment
                                                                                 children: doc.role
                                                                             }, void 0, false, {
                                                                                 fileName: "[project]/Ahadih/src/components/admin/AdminDashboard.tsx",
-                                                                                lineNumber: 247,
+                                                                                lineNumber: 259,
                                                                                 columnNumber: 27
                                                                             }, this)
                                                                         ]
                                                                     }, void 0, true, {
                                                                         fileName: "[project]/Ahadih/src/components/admin/AdminDashboard.tsx",
-                                                                        lineNumber: 245,
+                                                                        lineNumber: 257,
                                                                         columnNumber: 25
                                                                     }, this)
                                                                 ]
                                                             }, void 0, true, {
                                                                 fileName: "[project]/Ahadih/src/components/admin/AdminDashboard.tsx",
-                                                                lineNumber: 243,
+                                                                lineNumber: 255,
                                                                 columnNumber: 23
                                                             }, this),
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Ahadih$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
@@ -783,7 +800,7 @@ function AdminDashboard({ initialDepartments, initialDoctors, initialAppointment
                                                                 children: doc.specialization
                                                             }, void 0, false, {
                                                                 fileName: "[project]/Ahadih/src/components/admin/AdminDashboard.tsx",
-                                                                lineNumber: 250,
+                                                                lineNumber: 262,
                                                                 columnNumber: 23
                                                             }, this),
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Ahadih$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
@@ -794,7 +811,7 @@ function AdminDashboard({ initialDepartments, initialDoctors, initialAppointment
                                                                 ]
                                                             }, void 0, true, {
                                                                 fileName: "[project]/Ahadih/src/components/admin/AdminDashboard.tsx",
-                                                                lineNumber: 251,
+                                                                lineNumber: 263,
                                                                 columnNumber: 23
                                                             }, this),
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Ahadih$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
@@ -807,12 +824,12 @@ function AdminDashboard({ initialDepartments, initialDoctors, initialAppointment
                                                                             className: "w-4 h-4"
                                                                         }, void 0, false, {
                                                                             fileName: "[project]/Ahadih/src/components/admin/AdminDashboard.tsx",
-                                                                            lineNumber: 257,
+                                                                            lineNumber: 269,
                                                                             columnNumber: 27
                                                                         }, this)
                                                                     }, void 0, false, {
                                                                         fileName: "[project]/Ahadih/src/components/admin/AdminDashboard.tsx",
-                                                                        lineNumber: 253,
+                                                                        lineNumber: 265,
                                                                         columnNumber: 25
                                                                     }, this),
                                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Ahadih$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -822,36 +839,36 @@ function AdminDashboard({ initialDepartments, initialDoctors, initialAppointment
                                                                             className: "w-4 h-4"
                                                                         }, void 0, false, {
                                                                             fileName: "[project]/Ahadih/src/components/admin/AdminDashboard.tsx",
-                                                                            lineNumber: 263,
+                                                                            lineNumber: 275,
                                                                             columnNumber: 27
                                                                         }, this)
                                                                     }, void 0, false, {
                                                                         fileName: "[project]/Ahadih/src/components/admin/AdminDashboard.tsx",
-                                                                        lineNumber: 259,
+                                                                        lineNumber: 271,
                                                                         columnNumber: 25
                                                                     }, this)
                                                                 ]
                                                             }, void 0, true, {
                                                                 fileName: "[project]/Ahadih/src/components/admin/AdminDashboard.tsx",
-                                                                lineNumber: 252,
+                                                                lineNumber: 264,
                                                                 columnNumber: 23
                                                             }, this)
                                                         ]
                                                     }, doc.id, true, {
                                                         fileName: "[project]/Ahadih/src/components/admin/AdminDashboard.tsx",
-                                                        lineNumber: 242,
+                                                        lineNumber: 254,
                                                         columnNumber: 21
                                                     }, this))
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/Ahadih/src/components/admin/AdminDashboard.tsx",
-                                            lineNumber: 239,
+                                            lineNumber: 251,
                                             columnNumber: 17
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/Ahadih/src/components/admin/AdminDashboard.tsx",
-                                    lineNumber: 230,
+                                    lineNumber: 242,
                                     columnNumber: 15
                                 }, this),
                                 activeTab === 'departments' && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Ahadih$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("table", {
@@ -866,7 +883,7 @@ function AdminDashboard({ initialDepartments, initialDoctors, initialAppointment
                                                         children: "Title"
                                                     }, void 0, false, {
                                                         fileName: "[project]/Ahadih/src/components/admin/AdminDashboard.tsx",
-                                                        lineNumber: 276,
+                                                        lineNumber: 288,
                                                         columnNumber: 21
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Ahadih$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("th", {
@@ -874,7 +891,7 @@ function AdminDashboard({ initialDepartments, initialDoctors, initialAppointment
                                                         children: "Description"
                                                     }, void 0, false, {
                                                         fileName: "[project]/Ahadih/src/components/admin/AdminDashboard.tsx",
-                                                        lineNumber: 277,
+                                                        lineNumber: 289,
                                                         columnNumber: 21
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Ahadih$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("th", {
@@ -882,18 +899,18 @@ function AdminDashboard({ initialDepartments, initialDoctors, initialAppointment
                                                         children: "Actions"
                                                     }, void 0, false, {
                                                         fileName: "[project]/Ahadih/src/components/admin/AdminDashboard.tsx",
-                                                        lineNumber: 278,
+                                                        lineNumber: 290,
                                                         columnNumber: 21
                                                     }, this)
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/Ahadih/src/components/admin/AdminDashboard.tsx",
-                                                lineNumber: 275,
+                                                lineNumber: 287,
                                                 columnNumber: 19
                                             }, this)
                                         }, void 0, false, {
                                             fileName: "[project]/Ahadih/src/components/admin/AdminDashboard.tsx",
-                                            lineNumber: 274,
+                                            lineNumber: 286,
                                             columnNumber: 17
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Ahadih$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("tbody", {
@@ -906,12 +923,12 @@ function AdminDashboard({ initialDepartments, initialDoctors, initialAppointment
                                                         children: "No departments added."
                                                     }, void 0, false, {
                                                         fileName: "[project]/Ahadih/src/components/admin/AdminDashboard.tsx",
-                                                        lineNumber: 282,
+                                                        lineNumber: 294,
                                                         columnNumber: 52
                                                     }, this)
                                                 }, void 0, false, {
                                                     fileName: "[project]/Ahadih/src/components/admin/AdminDashboard.tsx",
-                                                    lineNumber: 282,
+                                                    lineNumber: 294,
                                                     columnNumber: 48
                                                 }, this),
                                                 departments.map((dept)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Ahadih$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("tr", {
@@ -924,12 +941,12 @@ function AdminDashboard({ initialDepartments, initialDoctors, initialAppointment
                                                                     children: dept.title
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/Ahadih/src/components/admin/AdminDashboard.tsx",
-                                                                    lineNumber: 286,
+                                                                    lineNumber: 298,
                                                                     columnNumber: 25
                                                                 }, this)
                                                             }, void 0, false, {
                                                                 fileName: "[project]/Ahadih/src/components/admin/AdminDashboard.tsx",
-                                                                lineNumber: 285,
+                                                                lineNumber: 297,
                                                                 columnNumber: 23
                                                             }, this),
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Ahadih$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
@@ -937,7 +954,7 @@ function AdminDashboard({ initialDepartments, initialDoctors, initialAppointment
                                                                 children: dept.description
                                                             }, void 0, false, {
                                                                 fileName: "[project]/Ahadih/src/components/admin/AdminDashboard.tsx",
-                                                                lineNumber: 288,
+                                                                lineNumber: 300,
                                                                 columnNumber: 23
                                                             }, this),
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Ahadih$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
@@ -950,12 +967,12 @@ function AdminDashboard({ initialDepartments, initialDoctors, initialAppointment
                                                                             className: "w-4 h-4"
                                                                         }, void 0, false, {
                                                                             fileName: "[project]/Ahadih/src/components/admin/AdminDashboard.tsx",
-                                                                            lineNumber: 294,
+                                                                            lineNumber: 306,
                                                                             columnNumber: 29
                                                                         }, this)
                                                                     }, void 0, false, {
                                                                         fileName: "[project]/Ahadih/src/components/admin/AdminDashboard.tsx",
-                                                                        lineNumber: 290,
+                                                                        lineNumber: 302,
                                                                         columnNumber: 26
                                                                     }, this),
                                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Ahadih$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -965,53 +982,53 @@ function AdminDashboard({ initialDepartments, initialDoctors, initialAppointment
                                                                             className: "w-4 h-4"
                                                                         }, void 0, false, {
                                                                             fileName: "[project]/Ahadih/src/components/admin/AdminDashboard.tsx",
-                                                                            lineNumber: 300,
+                                                                            lineNumber: 312,
                                                                             columnNumber: 28
                                                                         }, this)
                                                                     }, void 0, false, {
                                                                         fileName: "[project]/Ahadih/src/components/admin/AdminDashboard.tsx",
-                                                                        lineNumber: 296,
+                                                                        lineNumber: 308,
                                                                         columnNumber: 26
                                                                     }, this)
                                                                 ]
                                                             }, void 0, true, {
                                                                 fileName: "[project]/Ahadih/src/components/admin/AdminDashboard.tsx",
-                                                                lineNumber: 289,
+                                                                lineNumber: 301,
                                                                 columnNumber: 23
                                                             }, this)
                                                         ]
                                                     }, dept.id, true, {
                                                         fileName: "[project]/Ahadih/src/components/admin/AdminDashboard.tsx",
-                                                        lineNumber: 284,
+                                                        lineNumber: 296,
                                                         columnNumber: 21
                                                     }, this))
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/Ahadih/src/components/admin/AdminDashboard.tsx",
-                                            lineNumber: 281,
+                                            lineNumber: 293,
                                             columnNumber: 17
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/Ahadih/src/components/admin/AdminDashboard.tsx",
-                                    lineNumber: 273,
+                                    lineNumber: 285,
                                     columnNumber: 15
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/Ahadih/src/components/admin/AdminDashboard.tsx",
-                            lineNumber: 156,
+                            lineNumber: 168,
                             columnNumber: 11
                         }, this)
                     ]
                 }, void 0, true, {
                     fileName: "[project]/Ahadih/src/components/admin/AdminDashboard.tsx",
-                    lineNumber: 142,
+                    lineNumber: 154,
                     columnNumber: 9
                 }, this)
             }, void 0, false, {
                 fileName: "[project]/Ahadih/src/components/admin/AdminDashboard.tsx",
-                lineNumber: 141,
+                lineNumber: 153,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Ahadih$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$Ahadih$2f$node_modules$2f$framer$2d$motion$2f$dist$2f$es$2f$components$2f$AnimatePresence$2f$index$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["AnimatePresence"], {
@@ -1032,7 +1049,7 @@ function AdminDashboard({ initialDepartments, initialDoctors, initialAppointment
                             className: "absolute inset-0 bg-medical-dark/40 backdrop-blur-sm"
                         }, void 0, false, {
                             fileName: "[project]/Ahadih/src/components/admin/AdminDashboard.tsx",
-                            lineNumber: 316,
+                            lineNumber: 328,
                             columnNumber: 13
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Ahadih$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$Ahadih$2f$node_modules$2f$framer$2d$motion$2f$dist$2f$es$2f$render$2f$components$2f$motion$2f$proxy$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["motion"].div, {
@@ -1065,7 +1082,7 @@ function AdminDashboard({ initialDepartments, initialDoctors, initialAppointment
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/Ahadih/src/components/admin/AdminDashboard.tsx",
-                                            lineNumber: 330,
+                                            lineNumber: 342,
                                             columnNumber: 17
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Ahadih$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -1075,18 +1092,18 @@ function AdminDashboard({ initialDepartments, initialDoctors, initialAppointment
                                                 className: "w-6 h-6 text-gray-400"
                                             }, void 0, false, {
                                                 fileName: "[project]/Ahadih/src/components/admin/AdminDashboard.tsx",
-                                                lineNumber: 334,
+                                                lineNumber: 346,
                                                 columnNumber: 19
                                             }, this)
                                         }, void 0, false, {
                                             fileName: "[project]/Ahadih/src/components/admin/AdminDashboard.tsx",
-                                            lineNumber: 333,
+                                            lineNumber: 345,
                                             columnNumber: 17
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/Ahadih/src/components/admin/AdminDashboard.tsx",
-                                    lineNumber: 329,
+                                    lineNumber: 341,
                                     columnNumber: 15
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Ahadih$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("form", {
@@ -1106,7 +1123,7 @@ function AdminDashboard({ initialDepartments, initialDoctors, initialAppointment
                                                                     children: "Full Name"
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/Ahadih/src/components/admin/AdminDashboard.tsx",
-                                                                    lineNumber: 343,
+                                                                    lineNumber: 355,
                                                                     columnNumber: 25
                                                                 }, this),
                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Ahadih$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
@@ -1119,13 +1136,13 @@ function AdminDashboard({ initialDepartments, initialDoctors, initialAppointment
                                                                     className: "w-full p-4 bg-gray-50 rounded-2xl border border-gray-100 focus:outline-none focus:border-medical-blue transition-all"
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/Ahadih/src/components/admin/AdminDashboard.tsx",
-                                                                    lineNumber: 344,
+                                                                    lineNumber: 356,
                                                                     columnNumber: 25
                                                                 }, this)
                                                             ]
                                                         }, void 0, true, {
                                                             fileName: "[project]/Ahadih/src/components/admin/AdminDashboard.tsx",
-                                                            lineNumber: 342,
+                                                            lineNumber: 354,
                                                             columnNumber: 23
                                                         }, this),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Ahadih$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1136,7 +1153,7 @@ function AdminDashboard({ initialDepartments, initialDoctors, initialAppointment
                                                                     children: "Specialization"
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/Ahadih/src/components/admin/AdminDashboard.tsx",
-                                                                    lineNumber: 352,
+                                                                    lineNumber: 364,
                                                                     columnNumber: 25
                                                                 }, this),
                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Ahadih$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
@@ -1149,19 +1166,19 @@ function AdminDashboard({ initialDepartments, initialDoctors, initialAppointment
                                                                     className: "w-full p-4 bg-gray-50 rounded-2xl border border-gray-100 focus:outline-none focus:border-medical-blue transition-all"
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/Ahadih/src/components/admin/AdminDashboard.tsx",
-                                                                    lineNumber: 353,
+                                                                    lineNumber: 365,
                                                                     columnNumber: 25
                                                                 }, this)
                                                             ]
                                                         }, void 0, true, {
                                                             fileName: "[project]/Ahadih/src/components/admin/AdminDashboard.tsx",
-                                                            lineNumber: 351,
+                                                            lineNumber: 363,
                                                             columnNumber: 23
                                                         }, this)
                                                     ]
                                                 }, void 0, true, {
                                                     fileName: "[project]/Ahadih/src/components/admin/AdminDashboard.tsx",
-                                                    lineNumber: 341,
+                                                    lineNumber: 353,
                                                     columnNumber: 21
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Ahadih$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1175,7 +1192,7 @@ function AdminDashboard({ initialDepartments, initialDoctors, initialAppointment
                                                                     children: "Department"
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/Ahadih/src/components/admin/AdminDashboard.tsx",
-                                                                    lineNumber: 364,
+                                                                    lineNumber: 376,
                                                                     columnNumber: 25
                                                                 }, this),
                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Ahadih$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("select", {
@@ -1191,18 +1208,18 @@ function AdminDashboard({ initialDepartments, initialDoctors, initialAppointment
                                                                             children: d.title
                                                                         }, d.id, false, {
                                                                             fileName: "[project]/Ahadih/src/components/admin/AdminDashboard.tsx",
-                                                                            lineNumber: 372,
+                                                                            lineNumber: 384,
                                                                             columnNumber: 29
                                                                         }, this))
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/Ahadih/src/components/admin/AdminDashboard.tsx",
-                                                                    lineNumber: 365,
+                                                                    lineNumber: 377,
                                                                     columnNumber: 25
                                                                 }, this)
                                                             ]
                                                         }, void 0, true, {
                                                             fileName: "[project]/Ahadih/src/components/admin/AdminDashboard.tsx",
-                                                            lineNumber: 363,
+                                                            lineNumber: 375,
                                                             columnNumber: 24
                                                         }, this),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Ahadih$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1213,7 +1230,7 @@ function AdminDashboard({ initialDepartments, initialDoctors, initialAppointment
                                                                     children: "Experience (Years)"
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/Ahadih/src/components/admin/AdminDashboard.tsx",
-                                                                    lineNumber: 377,
+                                                                    lineNumber: 389,
                                                                     columnNumber: 25
                                                                 }, this),
                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Ahadih$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
@@ -1226,19 +1243,19 @@ function AdminDashboard({ initialDepartments, initialDoctors, initialAppointment
                                                                     className: "w-full p-4 bg-gray-50 rounded-2xl border border-gray-100 focus:outline-none focus:border-medical-blue transition-all"
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/Ahadih/src/components/admin/AdminDashboard.tsx",
-                                                                    lineNumber: 378,
+                                                                    lineNumber: 390,
                                                                     columnNumber: 25
                                                                 }, this)
                                                             ]
                                                         }, void 0, true, {
                                                             fileName: "[project]/Ahadih/src/components/admin/AdminDashboard.tsx",
-                                                            lineNumber: 376,
+                                                            lineNumber: 388,
                                                             columnNumber: 23
                                                         }, this)
                                                     ]
                                                 }, void 0, true, {
                                                     fileName: "[project]/Ahadih/src/components/admin/AdminDashboard.tsx",
-                                                    lineNumber: 362,
+                                                    lineNumber: 374,
                                                     columnNumber: 21
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Ahadih$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1249,7 +1266,7 @@ function AdminDashboard({ initialDepartments, initialDoctors, initialAppointment
                                                             children: "Qualifications (Separate by comma)"
                                                         }, void 0, false, {
                                                             fileName: "[project]/Ahadih/src/components/admin/AdminDashboard.tsx",
-                                                            lineNumber: 388,
+                                                            lineNumber: 400,
                                                             columnNumber: 23
                                                         }, this),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Ahadih$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
@@ -1262,13 +1279,13 @@ function AdminDashboard({ initialDepartments, initialDoctors, initialAppointment
                                                             placeholder: "MBBS, MD, FRCP..."
                                                         }, void 0, false, {
                                                             fileName: "[project]/Ahadih/src/components/admin/AdminDashboard.tsx",
-                                                            lineNumber: 389,
+                                                            lineNumber: 401,
                                                             columnNumber: 23
                                                         }, this)
                                                     ]
                                                 }, void 0, true, {
                                                     fileName: "[project]/Ahadih/src/components/admin/AdminDashboard.tsx",
-                                                    lineNumber: 387,
+                                                    lineNumber: 399,
                                                     columnNumber: 21
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Ahadih$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1276,54 +1293,96 @@ function AdminDashboard({ initialDepartments, initialDoctors, initialAppointment
                                                     children: [
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Ahadih$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("label", {
                                                             className: "text-xs font-bold text-gray-400 uppercase tracking-wider",
-                                                            children: "Image URL"
+                                                            children: "Doctor Image"
                                                         }, void 0, false, {
                                                             fileName: "[project]/Ahadih/src/components/admin/AdminDashboard.tsx",
-                                                            lineNumber: 398,
+                                                            lineNumber: 410,
                                                             columnNumber: 23
                                                         }, this),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Ahadih$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                            className: "flex space-x-4",
+                                                            className: "flex flex-col space-y-4",
                                                             children: [
-                                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Ahadih$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
-                                                                    value: formData.image || '',
-                                                                    onChange: (e)=>setFormData({
-                                                                            ...formData,
-                                                                            image: e.target.value
-                                                                        }),
-                                                                    className: "flex-1 p-4 bg-gray-50 rounded-2xl border border-gray-100 focus:outline-none focus:border-medical-blue transition-all",
-                                                                    placeholder: "https://images.unsplash.com/..."
-                                                                }, void 0, false, {
+                                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Ahadih$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                                    className: "flex space-x-4",
+                                                                    children: [
+                                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Ahadih$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
+                                                                            value: formData.image || '',
+                                                                            onChange: (e)=>setFormData({
+                                                                                    ...formData,
+                                                                                    image: e.target.value
+                                                                                }),
+                                                                            className: "flex-1 p-4 bg-gray-50 rounded-2xl border border-gray-100 focus:outline-none focus:border-medical-blue transition-all",
+                                                                            placeholder: "Image URL or Upload below..."
+                                                                        }, void 0, false, {
+                                                                            fileName: "[project]/Ahadih/src/components/admin/AdminDashboard.tsx",
+                                                                            lineNumber: 413,
+                                                                            columnNumber: 27
+                                                                        }, this),
+                                                                        formData.image && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Ahadih$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                                            className: "w-14 h-14 rounded-xl overflow-hidden border border-gray-200 shrink-0",
+                                                                            children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Ahadih$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("img", {
+                                                                                src: formData.image,
+                                                                                alt: "Preview",
+                                                                                className: "w-full h-full object-cover"
+                                                                            }, void 0, false, {
+                                                                                fileName: "[project]/Ahadih/src/components/admin/AdminDashboard.tsx",
+                                                                                lineNumber: 421,
+                                                                                columnNumber: 31
+                                                                            }, this)
+                                                                        }, void 0, false, {
+                                                                            fileName: "[project]/Ahadih/src/components/admin/AdminDashboard.tsx",
+                                                                            lineNumber: 420,
+                                                                            columnNumber: 29
+                                                                        }, this)
+                                                                    ]
+                                                                }, void 0, true, {
                                                                     fileName: "[project]/Ahadih/src/components/admin/AdminDashboard.tsx",
-                                                                    lineNumber: 400,
+                                                                    lineNumber: 412,
                                                                     columnNumber: 25
                                                                 }, this),
-                                                                formData.image && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Ahadih$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                                    className: "w-14 h-14 rounded-xl overflow-hidden border border-gray-200",
-                                                                    children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Ahadih$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("img", {
-                                                                        src: formData.image,
-                                                                        alt: "Preview",
-                                                                        className: "w-full h-full object-cover"
-                                                                    }, void 0, false, {
-                                                                        fileName: "[project]/Ahadih/src/components/admin/AdminDashboard.tsx",
-                                                                        lineNumber: 408,
-                                                                        columnNumber: 30
-                                                                    }, this)
-                                                                }, void 0, false, {
+                                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Ahadih$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("label", {
+                                                                    className: "flex items-center space-x-2 px-6 py-3 bg-white border-2 border-dashed border-gray-200 rounded-2xl cursor-pointer hover:border-medical-blue hover:bg-medical-blue/5 transition-all text-sm font-bold text-gray-500",
+                                                                    children: [
+                                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Ahadih$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$Ahadih$2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$image$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Image$3e$__["Image"], {
+                                                                            className: "w-4 h-4"
+                                                                        }, void 0, false, {
+                                                                            fileName: "[project]/Ahadih/src/components/admin/AdminDashboard.tsx",
+                                                                            lineNumber: 426,
+                                                                            columnNumber: 27
+                                                                        }, this),
+                                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Ahadih$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                                                            children: "Upload Local Photo"
+                                                                        }, void 0, false, {
+                                                                            fileName: "[project]/Ahadih/src/components/admin/AdminDashboard.tsx",
+                                                                            lineNumber: 427,
+                                                                            columnNumber: 27
+                                                                        }, this),
+                                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Ahadih$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
+                                                                            type: "file",
+                                                                            className: "hidden",
+                                                                            accept: "image/*",
+                                                                            onChange: handleFileUpload
+                                                                        }, void 0, false, {
+                                                                            fileName: "[project]/Ahadih/src/components/admin/AdminDashboard.tsx",
+                                                                            lineNumber: 428,
+                                                                            columnNumber: 27
+                                                                        }, this)
+                                                                    ]
+                                                                }, void 0, true, {
                                                                     fileName: "[project]/Ahadih/src/components/admin/AdminDashboard.tsx",
-                                                                    lineNumber: 407,
-                                                                    columnNumber: 28
+                                                                    lineNumber: 425,
+                                                                    columnNumber: 25
                                                                 }, this)
                                                             ]
                                                         }, void 0, true, {
                                                             fileName: "[project]/Ahadih/src/components/admin/AdminDashboard.tsx",
-                                                            lineNumber: 399,
+                                                            lineNumber: 411,
                                                             columnNumber: 23
                                                         }, this)
                                                     ]
                                                 }, void 0, true, {
                                                     fileName: "[project]/Ahadih/src/components/admin/AdminDashboard.tsx",
-                                                    lineNumber: 397,
+                                                    lineNumber: 409,
                                                     columnNumber: 21
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Ahadih$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1334,7 +1393,7 @@ function AdminDashboard({ initialDepartments, initialDoctors, initialAppointment
                                                             children: "Bio / Profile"
                                                         }, void 0, false, {
                                                             fileName: "[project]/Ahadih/src/components/admin/AdminDashboard.tsx",
-                                                            lineNumber: 415,
+                                                            lineNumber: 434,
                                                             columnNumber: 23
                                                         }, this),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Ahadih$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("textarea", {
@@ -1347,13 +1406,13 @@ function AdminDashboard({ initialDepartments, initialDoctors, initialAppointment
                                                             className: "w-full p-4 bg-gray-50 rounded-2xl border border-gray-100 focus:outline-none focus:border-medical-blue transition-all resize-none"
                                                         }, void 0, false, {
                                                             fileName: "[project]/Ahadih/src/components/admin/AdminDashboard.tsx",
-                                                            lineNumber: 416,
+                                                            lineNumber: 435,
                                                             columnNumber: 23
                                                         }, this)
                                                     ]
                                                 }, void 0, true, {
                                                     fileName: "[project]/Ahadih/src/components/admin/AdminDashboard.tsx",
-                                                    lineNumber: 414,
+                                                    lineNumber: 433,
                                                     columnNumber: 21
                                                 }, this)
                                             ]
@@ -1367,7 +1426,7 @@ function AdminDashboard({ initialDepartments, initialDoctors, initialAppointment
                                                             children: "Department Title"
                                                         }, void 0, false, {
                                                             fileName: "[project]/Ahadih/src/components/admin/AdminDashboard.tsx",
-                                                            lineNumber: 427,
+                                                            lineNumber: 446,
                                                             columnNumber: 23
                                                         }, this),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Ahadih$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
@@ -1381,13 +1440,13 @@ function AdminDashboard({ initialDepartments, initialDoctors, initialAppointment
                                                             placeholder: "e.g. Cardiology"
                                                         }, void 0, false, {
                                                             fileName: "[project]/Ahadih/src/components/admin/AdminDashboard.tsx",
-                                                            lineNumber: 428,
+                                                            lineNumber: 447,
                                                             columnNumber: 23
                                                         }, this)
                                                     ]
                                                 }, void 0, true, {
                                                     fileName: "[project]/Ahadih/src/components/admin/AdminDashboard.tsx",
-                                                    lineNumber: 426,
+                                                    lineNumber: 445,
                                                     columnNumber: 21
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Ahadih$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1398,7 +1457,7 @@ function AdminDashboard({ initialDepartments, initialDoctors, initialAppointment
                                                             children: "Description"
                                                         }, void 0, false, {
                                                             fileName: "[project]/Ahadih/src/components/admin/AdminDashboard.tsx",
-                                                            lineNumber: 438,
+                                                            lineNumber: 457,
                                                             columnNumber: 23
                                                         }, this),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Ahadih$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("textarea", {
@@ -1412,13 +1471,13 @@ function AdminDashboard({ initialDepartments, initialDoctors, initialAppointment
                                                             className: "w-full p-4 bg-gray-50 rounded-2xl border border-gray-100 focus:outline-none focus:border-medical-blue transition-all resize-none"
                                                         }, void 0, false, {
                                                             fileName: "[project]/Ahadih/src/components/admin/AdminDashboard.tsx",
-                                                            lineNumber: 439,
+                                                            lineNumber: 458,
                                                             columnNumber: 23
                                                         }, this)
                                                     ]
                                                 }, void 0, true, {
                                                     fileName: "[project]/Ahadih/src/components/admin/AdminDashboard.tsx",
-                                                    lineNumber: 437,
+                                                    lineNumber: 456,
                                                     columnNumber: 21
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Ahadih$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1432,7 +1491,7 @@ function AdminDashboard({ initialDepartments, initialDoctors, initialAppointment
                                                                     children: "Icon Name (Lucide)"
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/Ahadih/src/components/admin/AdminDashboard.tsx",
-                                                                    lineNumber: 450,
+                                                                    lineNumber: 469,
                                                                     columnNumber: 25
                                                                 }, this),
                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Ahadih$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
@@ -1444,13 +1503,13 @@ function AdminDashboard({ initialDepartments, initialDoctors, initialAppointment
                                                                     className: "w-full p-4 bg-gray-50 rounded-2xl border border-gray-100 focus:outline-none focus:border-medical-blue transition-all"
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/Ahadih/src/components/admin/AdminDashboard.tsx",
-                                                                    lineNumber: 451,
+                                                                    lineNumber: 470,
                                                                     columnNumber: 25
                                                                 }, this)
                                                             ]
                                                         }, void 0, true, {
                                                             fileName: "[project]/Ahadih/src/components/admin/AdminDashboard.tsx",
-                                                            lineNumber: 449,
+                                                            lineNumber: 468,
                                                             columnNumber: 23
                                                         }, this),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Ahadih$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1458,35 +1517,84 @@ function AdminDashboard({ initialDepartments, initialDoctors, initialAppointment
                                                             children: [
                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Ahadih$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("label", {
                                                                     className: "text-xs font-bold text-gray-400 uppercase tracking-wider",
-                                                                    children: "Image URL"
+                                                                    children: "Department Image"
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/Ahadih/src/components/admin/AdminDashboard.tsx",
-                                                                    lineNumber: 458,
-                                                                    columnNumber: 25
+                                                                    lineNumber: 477,
+                                                                    columnNumber: 24
                                                                 }, this),
-                                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Ahadih$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
-                                                                    value: formData.image || '',
-                                                                    onChange: (e)=>setFormData({
-                                                                            ...formData,
-                                                                            image: e.target.value
-                                                                        }),
-                                                                    className: "w-full p-4 bg-gray-50 rounded-2xl border border-gray-100 focus:outline-none focus:border-medical-blue transition-all",
-                                                                    placeholder: "https://images.unsplash.com/..."
-                                                                }, void 0, false, {
+                                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Ahadih$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                                    className: "flex flex-col space-y-4",
+                                                                    children: [
+                                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Ahadih$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                                            className: "flex space-x-4",
+                                                                            children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Ahadih$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
+                                                                                value: formData.image || '',
+                                                                                onChange: (e)=>setFormData({
+                                                                                        ...formData,
+                                                                                        image: e.target.value
+                                                                                    }),
+                                                                                className: "flex-1 p-4 bg-gray-50 rounded-2xl border border-gray-100 focus:outline-none focus:border-medical-blue transition-all",
+                                                                                placeholder: "Image URL or Upload below..."
+                                                                            }, void 0, false, {
+                                                                                fileName: "[project]/Ahadih/src/components/admin/AdminDashboard.tsx",
+                                                                                lineNumber: 480,
+                                                                                columnNumber: 27
+                                                                            }, this)
+                                                                        }, void 0, false, {
+                                                                            fileName: "[project]/Ahadih/src/components/admin/AdminDashboard.tsx",
+                                                                            lineNumber: 479,
+                                                                            columnNumber: 25
+                                                                        }, this),
+                                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Ahadih$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("label", {
+                                                                            className: "flex items-center space-x-2 px-6 py-3 bg-white border-2 border-dashed border-gray-200 rounded-2xl cursor-pointer hover:border-medical-blue hover:bg-medical-blue/5 transition-all text-sm font-bold text-gray-500",
+                                                                            children: [
+                                                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Ahadih$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$Ahadih$2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$image$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Image$3e$__["Image"], {
+                                                                                    className: "w-4 h-4"
+                                                                                }, void 0, false, {
+                                                                                    fileName: "[project]/Ahadih/src/components/admin/AdminDashboard.tsx",
+                                                                                    lineNumber: 488,
+                                                                                    columnNumber: 27
+                                                                                }, this),
+                                                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Ahadih$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                                                                    children: "Upload Local Icon/Photo"
+                                                                                }, void 0, false, {
+                                                                                    fileName: "[project]/Ahadih/src/components/admin/AdminDashboard.tsx",
+                                                                                    lineNumber: 489,
+                                                                                    columnNumber: 27
+                                                                                }, this),
+                                                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Ahadih$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
+                                                                                    type: "file",
+                                                                                    className: "hidden",
+                                                                                    accept: "image/*",
+                                                                                    onChange: handleFileUpload
+                                                                                }, void 0, false, {
+                                                                                    fileName: "[project]/Ahadih/src/components/admin/AdminDashboard.tsx",
+                                                                                    lineNumber: 490,
+                                                                                    columnNumber: 27
+                                                                                }, this)
+                                                                            ]
+                                                                        }, void 0, true, {
+                                                                            fileName: "[project]/Ahadih/src/components/admin/AdminDashboard.tsx",
+                                                                            lineNumber: 487,
+                                                                            columnNumber: 25
+                                                                        }, this)
+                                                                    ]
+                                                                }, void 0, true, {
                                                                     fileName: "[project]/Ahadih/src/components/admin/AdminDashboard.tsx",
-                                                                    lineNumber: 459,
-                                                                    columnNumber: 25
+                                                                    lineNumber: 478,
+                                                                    columnNumber: 24
                                                                 }, this)
                                                             ]
                                                         }, void 0, true, {
                                                             fileName: "[project]/Ahadih/src/components/admin/AdminDashboard.tsx",
-                                                            lineNumber: 457,
-                                                            columnNumber: 23
+                                                            lineNumber: 476,
+                                                            columnNumber: 21
                                                         }, this)
                                                     ]
                                                 }, void 0, true, {
                                                     fileName: "[project]/Ahadih/src/components/admin/AdminDashboard.tsx",
-                                                    lineNumber: 448,
+                                                    lineNumber: 467,
                                                     columnNumber: 21
                                                 }, this)
                                             ]
@@ -1501,7 +1609,7 @@ function AdminDashboard({ initialDepartments, initialDoctors, initialAppointment
                                                     children: "Cancel"
                                                 }, void 0, false, {
                                                     fileName: "[project]/Ahadih/src/components/admin/AdminDashboard.tsx",
-                                                    lineNumber: 471,
+                                                    lineNumber: 499,
                                                     columnNumber: 19
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Ahadih$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -1512,7 +1620,7 @@ function AdminDashboard({ initialDepartments, initialDoctors, initialAppointment
                                                         className: "w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin"
                                                     }, void 0, false, {
                                                         fileName: "[project]/Ahadih/src/components/admin/AdminDashboard.tsx",
-                                                        lineNumber: 483,
+                                                        lineNumber: 511,
                                                         columnNumber: 32
                                                     }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Ahadih$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$Ahadih$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Fragment"], {
                                                         children: [
@@ -1520,56 +1628,56 @@ function AdminDashboard({ initialDepartments, initialDoctors, initialAppointment
                                                                 className: "w-5 h-5"
                                                             }, void 0, false, {
                                                                 fileName: "[project]/Ahadih/src/components/admin/AdminDashboard.tsx",
-                                                                lineNumber: 485,
+                                                                lineNumber: 513,
                                                                 columnNumber: 25
                                                             }, this),
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Ahadih$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
                                                                 children: "Save Changes"
                                                             }, void 0, false, {
                                                                 fileName: "[project]/Ahadih/src/components/admin/AdminDashboard.tsx",
-                                                                lineNumber: 486,
+                                                                lineNumber: 514,
                                                                 columnNumber: 25
                                                             }, this)
                                                         ]
                                                     }, void 0, true)
                                                 }, void 0, false, {
                                                     fileName: "[project]/Ahadih/src/components/admin/AdminDashboard.tsx",
-                                                    lineNumber: 478,
+                                                    lineNumber: 506,
                                                     columnNumber: 19
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/Ahadih/src/components/admin/AdminDashboard.tsx",
-                                            lineNumber: 470,
+                                            lineNumber: 498,
                                             columnNumber: 17
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/Ahadih/src/components/admin/AdminDashboard.tsx",
-                                    lineNumber: 338,
+                                    lineNumber: 350,
                                     columnNumber: 15
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/Ahadih/src/components/admin/AdminDashboard.tsx",
-                            lineNumber: 323,
+                            lineNumber: 335,
                             columnNumber: 13
                         }, this)
                     ]
                 }, void 0, true, {
                     fileName: "[project]/Ahadih/src/components/admin/AdminDashboard.tsx",
-                    lineNumber: 315,
+                    lineNumber: 327,
                     columnNumber: 11
                 }, this)
             }, void 0, false, {
                 fileName: "[project]/Ahadih/src/components/admin/AdminDashboard.tsx",
-                lineNumber: 313,
+                lineNumber: 325,
                 columnNumber: 7
             }, this)
         ]
     }, void 0, true, {
         fileName: "[project]/Ahadih/src/components/admin/AdminDashboard.tsx",
-        lineNumber: 109,
+        lineNumber: 121,
         columnNumber: 5
     }, this);
 }

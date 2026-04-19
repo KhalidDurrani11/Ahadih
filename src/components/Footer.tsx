@@ -13,13 +13,11 @@ export function Footer() {
           {/* Brand */}
           <div className="space-y-6">
             <Link href="/" className="inline-flex items-center group cursor-pointer">
-              <div className="bg-white rounded-xl p-1 shadow-inner">
-                <img
-                  src="/ahadd-logo.jpeg"
-                  alt="AHAD International Hospital"
-                  className="h-10 w-auto object-contain mix-blend-multiply group-hover:scale-[1.02] transition-transform"
-                />
-              </div>
+              <img
+                src="/ahadd-logo.jpeg"
+                alt="AHAD International Hospital"
+                className="h-20 w-auto object-contain invert mix-blend-screen group-hover:scale-105 transition-transform duration-500"
+              />
             </Link>
             <p className="text-medical-light/60 text-sm leading-relaxed max-w-xs">
               AHAD International Hospital delivers trusted tertiary care, multidisciplinary expertise, and patient-centered outcomes for local and international families.

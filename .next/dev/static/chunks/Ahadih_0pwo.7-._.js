@@ -590,7 +590,7 @@ function HomeClient({ initialDepartments }) {
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Ahadih$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$Ahadih$2f$node_modules$2f$next$2f$dist$2f$client$2f$app$2d$dir$2f$link$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {
                                                     href: "/departments",
-                                                    className: "text-medical-blue text-xs uppercase tracking-widest font-black inline-flex items-center group/btn",
+                                                    className: "text-medical-blue text-xs uppercase tracking-widest font-black inline-flex items-center group/btn py-2",
                                                     children: [
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Ahadih$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
                                                             children: "Learn More"
@@ -721,25 +721,70 @@ function HomeClient({ initialDepartments }) {
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Ahadih$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                     className: "hidden lg:flex justify-end pr-8",
                                     children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Ahadih$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                        className: "grid grid-cols-2 gap-4",
+                                        className: "grid grid-cols-2 gap-6",
                                         children: [
-                                            1,
-                                            2,
-                                            3,
-                                            4
-                                        ].map((i)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Ahadih$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                className: "w-32 h-32 glass border-white/10 rounded-3xl flex items-center justify-center",
-                                                children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Ahadih$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$Ahadih$2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$shield$2d$check$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__ShieldCheck$3e$__["ShieldCheck"], {
-                                                    className: "text-white/40 w-12 h-12"
-                                                }, void 0, false, {
-                                                    fileName: "[project]/Ahadih/src/components/HomeClient.tsx",
-                                                    lineNumber: 237,
-                                                    columnNumber: 24
-                                                }, this)
-                                            }, i, false, {
+                                            {
+                                                label: "Ambulance 24/7",
+                                                icon: __TURBOPACK__imported__module__$5b$project$5d2f$Ahadih$2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$activity$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Activity$3e$__["Activity"],
+                                                desc: "Fast Response"
+                                            },
+                                            {
+                                                label: "Pharmacy Support",
+                                                icon: __TURBOPACK__imported__module__$5b$project$5d2f$Ahadih$2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$shield$2d$check$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__ShieldCheck$3e$__["ShieldCheck"],
+                                                desc: "24h Open"
+                                            },
+                                            {
+                                                label: "ICU / Trauma",
+                                                icon: __TURBOPACK__imported__module__$5b$project$5d2f$Ahadih$2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$heart$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Heart$3e$__["Heart"],
+                                                desc: "Critical Care"
+                                            },
+                                            {
+                                                label: "Blood Bank",
+                                                icon: __TURBOPACK__imported__module__$5b$project$5d2f$Ahadih$2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$activity$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Activity$3e$__["Activity"],
+                                                desc: "All Groups"
+                                            }
+                                        ].map((item, idx)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Ahadih$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$Ahadih$2f$node_modules$2f$framer$2d$motion$2f$dist$2f$es$2f$render$2f$components$2f$motion$2f$proxy$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__["motion"].div, {
+                                                whileHover: {
+                                                    scale: 1.05,
+                                                    y: -5
+                                                },
+                                                className: "w-40 h-40 glass border-white/10 rounded-[32px] flex flex-col items-center justify-center p-4 text-center group transition-all",
+                                                children: [
+                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Ahadih$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                        className: "w-12 h-12 rounded-2xl bg-white/10 flex items-center justify-center mb-3 group-hover:bg-white group-hover:text-medical-blue transition-colors",
+                                                        children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Ahadih$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(item.icon, {
+                                                            className: "w-6 h-6 text-white group-hover:text-medical-blue"
+                                                        }, void 0, false, {
+                                                            fileName: "[project]/Ahadih/src/components/HomeClient.tsx",
+                                                            lineNumber: 247,
+                                                            columnNumber: 23
+                                                        }, this)
+                                                    }, void 0, false, {
+                                                        fileName: "[project]/Ahadih/src/components/HomeClient.tsx",
+                                                        lineNumber: 246,
+                                                        columnNumber: 21
+                                                    }, this),
+                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Ahadih$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                                                        className: "text-[10px] font-bold text-white uppercase tracking-wider mb-1",
+                                                        children: item.label
+                                                    }, void 0, false, {
+                                                        fileName: "[project]/Ahadih/src/components/HomeClient.tsx",
+                                                        lineNumber: 249,
+                                                        columnNumber: 21
+                                                    }, this),
+                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Ahadih$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                                                        className: "text-[8px] text-white/40 uppercase tracking-widest font-medium",
+                                                        children: item.desc
+                                                    }, void 0, false, {
+                                                        fileName: "[project]/Ahadih/src/components/HomeClient.tsx",
+                                                        lineNumber: 250,
+                                                        columnNumber: 21
+                                                    }, this)
+                                                ]
+                                            }, idx, true, {
                                                 fileName: "[project]/Ahadih/src/components/HomeClient.tsx",
-                                                lineNumber: 236,
-                                                columnNumber: 21
+                                                lineNumber: 241,
+                                                columnNumber: 19
                                             }, this))
                                     }, void 0, false, {
                                         fileName: "[project]/Ahadih/src/components/HomeClient.tsx",
