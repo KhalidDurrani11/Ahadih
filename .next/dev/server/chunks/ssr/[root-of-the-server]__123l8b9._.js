@@ -92,7 +92,8 @@ const prismaClientSingleton = ()=>{
             'query',
             'error',
             'warn'
-        ] : "TURBOPACK unreachable"
+        ] : "TURBOPACK unreachable",
+        datasourceUrl: process.env.DATABASE_URL
     });
 };
 const prisma = globalThis.prisma ?? prismaClientSingleton();

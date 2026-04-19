@@ -99,7 +99,7 @@ function Navbar() {
                             href: "/",
                             className: "flex items-center cursor-pointer group",
                             children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Ahadih$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("img", {
-                                src: "/ahad-logo.png",
+                                src: "/ahadd-logo.jpeg",
                                 alt: "AHAD International Hospital",
                                 className: "h-12 w-auto object-contain logo-clean group-hover:scale-[1.02] transition-transform"
                             }, void 0, false, {
@@ -292,9 +292,9 @@ function Footer() {
                                     href: "/",
                                     className: "inline-flex items-center group cursor-pointer bg-white/5 border border-white/10 rounded-xl px-3 py-2",
                                     children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Ahadih$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("img", {
-                                        src: "/ahad-logo.png",
+                                        src: "/ahadd-logo_2.jpeg",
                                         alt: "AHAD International Hospital",
-                                        className: "h-11 w-auto object-contain logo-clean-footer group-hover:scale-[1.02] transition-transform"
+                                        className: "h-12 w-auto object-contain logo-clean-footer group-hover:scale-[1.02] transition-transform invert brightness-0"
                                     }, void 0, false, {
                                         fileName: "[project]/Ahadih/src/components/Footer.tsx",
                                         lineNumber: 16,

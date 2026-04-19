@@ -11,6 +11,7 @@
   "/api/doctors/route": "/api/doctors",
   "/api/messages/[id]/route": "/api/messages/[id]",
   "/api/messages/route": "/api/messages",
+  "/api/test-db/route": "/api/test-db",
   "/appointment/page": "/appointment",
   "/contact/page": "/contact",
   "/departments/page": "/departments",

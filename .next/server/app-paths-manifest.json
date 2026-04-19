@@ -11,6 +11,7 @@
   "/api/doctors/route": "app/api/doctors/route.js",
   "/api/messages/[id]/route": "app/api/messages/[id]/route.js",
   "/api/messages/route": "app/api/messages/route.js",
+  "/api/test-db/route": "app/api/test-db/route.js",
   "/appointment/page": "app/appointment/page.js",
   "/contact/page": "app/contact/page.js",
   "/departments/page": "app/departments/page.js",

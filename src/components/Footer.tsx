@@ -14,9 +14,9 @@ export function Footer() {
           <div className="space-y-6">
             <Link href="/" className="inline-flex items-center group cursor-pointer bg-white/5 border border-white/10 rounded-xl px-3 py-2">
               <img
-                src="/ahad-logo.png"
+                src="/ahadd-logo_2.jpeg"
                 alt="AHAD International Hospital"
-                className="h-11 w-auto object-contain logo-clean-footer group-hover:scale-[1.02] transition-transform"
+                className="h-12 w-auto object-contain logo-clean-footer group-hover:scale-[1.02] transition-transform invert brightness-0"
               />
             </Link>
             <p className="text-medical-light/60 text-sm leading-relaxed max-w-xs">

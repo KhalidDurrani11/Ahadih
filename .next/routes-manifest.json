@@ -109,6 +109,12 @@
       "namedRegex": "^/api/messages(?:/)?$"
     },
     {
+      "page": "/api/test-db",
+      "regex": "^/api/test\\-db(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/api/test\\-db(?:/)?$"
+    },
+    {
       "page": "/appointment",
       "regex": "^/appointment(?:/)?$",
       "routeKeys": {},
