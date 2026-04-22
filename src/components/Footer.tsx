@@ -16,7 +16,7 @@ export function Footer() {
               <img
                 src="/logo-transparent.png"
                 alt="AHAD International Hospital"
-                className="h-[85px] md:h-[110px] w-auto object-contain transition-transform duration-500 hover:scale-[1.03] drop-shadow brightness-0 invert"
+                className="h-[100px] md:h-[130px] w-auto object-contain transition-transform duration-500 hover:scale-[1.03] drop-shadow brightness-0 invert"
               />
             </Link>
             <p className="text-medical-light/60 text-sm leading-relaxed max-w-xs">
