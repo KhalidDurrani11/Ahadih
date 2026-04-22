@@ -402,17 +402,17 @@ export default function AdminDashboard({ initialDepartments, initialDoctors, ini
                       <h3 className="font-black text-lg text-medical-dark">🏠 Home Page Content</h3>
                       <div>
                         <label className="block text-xs font-bold text-gray-500 mb-1 uppercase">Badge Text</label>
-                        <input value={pageContent.home.heroBadge} onChange={e => setPageContent(p => ({ ...p, home: { ...p.home, heroBadge: e.target.value } }))}
+                        <input value={pageContent.home.heroBadge} onChange={e => setPageContent((p: any) => ({ ...p, home: { ...p.home, heroBadge: e.target.value } }))}
                           className="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm focus:ring-2 focus:ring-medical-blue outline-none" />
                       </div>
                       <div>
                         <label className="block text-xs font-bold text-gray-500 mb-1 uppercase">Hero Title</label>
-                        <textarea rows={2} value={pageContent.home.heroTitle} onChange={e => setPageContent(p => ({ ...p, home: { ...p.home, heroTitle: e.target.value } }))}
+                        <textarea rows={2} value={pageContent.home.heroTitle} onChange={e => setPageContent((p: any) => ({ ...p, home: { ...p.home, heroTitle: e.target.value } }))}
                           className="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm focus:ring-2 focus:ring-medical-blue outline-none resize-none" />
                       </div>
                       <div>
                         <label className="block text-xs font-bold text-gray-500 mb-1 uppercase">Hero Subtitle</label>
-                        <textarea rows={3} value={pageContent.home.heroSubtitle} onChange={e => setPageContent(p => ({ ...p, home: { ...p.home, heroSubtitle: e.target.value } }))}
+                        <textarea rows={3} value={pageContent.home.heroSubtitle} onChange={e => setPageContent((p: any) => ({ ...p, home: { ...p.home, heroSubtitle: e.target.value } }))}
                           className="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm focus:ring-2 focus:ring-medical-blue outline-none resize-none" />
                       </div>
                     </>
@@ -424,17 +424,17 @@ export default function AdminDashboard({ initialDepartments, initialDoctors, ini
                       <h3 className="font-black text-lg text-medical-dark">ℹ️ About Page Content</h3>
                       <div>
                         <label className="block text-xs font-bold text-gray-500 mb-1 uppercase">Section Title</label>
-                        <input value={pageContent.about.title} onChange={e => setPageContent(p => ({ ...p, about: { ...p.about, title: e.target.value } }))}
+                        <input value={pageContent.about.title} onChange={e => setPageContent((p: any) => ({ ...p, about: { ...p.about, title: e.target.value } }))}
                           className="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm focus:ring-2 focus:ring-medical-blue outline-none" />
                       </div>
                       <div>
                         <label className="block text-xs font-bold text-gray-500 mb-1 uppercase">Mission Statement</label>
-                        <textarea rows={3} value={pageContent.about.mission} onChange={e => setPageContent(p => ({ ...p, about: { ...p.about, mission: e.target.value } }))}
+                        <textarea rows={3} value={pageContent.about.mission} onChange={e => setPageContent((p: any) => ({ ...p, about: { ...p.about, mission: e.target.value } }))}
                           className="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm focus:ring-2 focus:ring-medical-blue outline-none resize-none" />
                       </div>
                       <div>
                         <label className="block text-xs font-bold text-gray-500 mb-1 uppercase">Vision Statement</label>
-                        <textarea rows={3} value={pageContent.about.vision} onChange={e => setPageContent(p => ({ ...p, about: { ...p.about, vision: e.target.value } }))}
+                        <textarea rows={3} value={pageContent.about.vision} onChange={e => setPageContent((p: any) => ({ ...p, about: { ...p.about, vision: e.target.value } }))}
                           className="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm focus:ring-2 focus:ring-medical-blue outline-none resize-none" />
                       </div>
                     </>
@@ -452,7 +452,7 @@ export default function AdminDashboard({ initialDepartments, initialDoctors, ini
                       ].map(({ key, label }) => (
                         <div key={key}>
                           <label className="block text-xs font-bold text-gray-500 mb-1 uppercase">{label}</label>
-                          <input value={(pageContent.contact as any)[key]} onChange={e => setPageContent(p => ({ ...p, contact: { ...p.contact, [key]: e.target.value } }))}
+                          <input value={(pageContent.contact as any)[key]} onChange={e => setPageContent((p: any) => ({ ...p, contact: { ...p.contact, [key]: e.target.value } }))}
                             className="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm focus:ring-2 focus:ring-medical-blue outline-none" />
                         </div>
                       ))}
@@ -465,17 +465,17 @@ export default function AdminDashboard({ initialDepartments, initialDoctors, ini
                       <h3 className="font-black text-lg text-medical-dark">🔍 SEO & Meta Tags</h3>
                       <div>
                         <label className="block text-xs font-bold text-gray-500 mb-1 uppercase">Site Title</label>
-                        <input value={pageContent.seo.siteTitle} onChange={e => setPageContent(p => ({ ...p, seo: { ...p.seo, siteTitle: e.target.value } }))}
+                        <input value={pageContent.seo.siteTitle} onChange={e => setPageContent((p: any) => ({ ...p, seo: { ...p.seo, siteTitle: e.target.value } }))}
                           className="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm focus:ring-2 focus:ring-medical-blue outline-none" />
                       </div>
                       <div>
                         <label className="block text-xs font-bold text-gray-500 mb-1 uppercase">Meta Description</label>
-                        <textarea rows={3} value={pageContent.seo.siteDescription} onChange={e => setPageContent(p => ({ ...p, seo: { ...p.seo, siteDescription: e.target.value } }))}
+                        <textarea rows={3} value={pageContent.seo.siteDescription} onChange={e => setPageContent((p: any) => ({ ...p, seo: { ...p.seo, siteDescription: e.target.value } }))}
                           className="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm focus:ring-2 focus:ring-medical-blue outline-none resize-none" />
                       </div>
                       <div>
                         <label className="block text-xs font-bold text-gray-500 mb-1 uppercase">Keywords (comma-separated)</label>
-                        <input value={pageContent.seo.keywords} onChange={e => setPageContent(p => ({ ...p, seo: { ...p.seo, keywords: e.target.value } }))}
+                        <input value={pageContent.seo.keywords} onChange={e => setPageContent((p: any) => ({ ...p, seo: { ...p.seo, keywords: e.target.value } }))}
                           className="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm focus:ring-2 focus:ring-medical-blue outline-none" />
                       </div>
                     </>
