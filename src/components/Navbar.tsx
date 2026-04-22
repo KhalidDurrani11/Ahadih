@@ -64,10 +64,26 @@ export function Navbar() {
             
             <button
               onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
-              className="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+              className="relative w-16 h-8 flex items-center bg-gray-200/50 dark:bg-gray-800/50 backdrop-blur-sm rounded-full p-1 cursor-pointer transition-colors border border-gray-200 dark:border-gray-700 overflow-hidden group"
               aria-label="Toggle Dark Mode"
             >
-              {mounted && (theme === 'dark' ? <Sun className="w-5 h-5 text-yellow-500" /> : <Moon className="w-5 h-5 text-gray-500 dark:text-gray-400" />)}
+              {mounted && (
+                <>
+                  <div className="absolute left-2 transition-opacity duration-300"><Sun className="w-3.5 h-3.5 text-yellow-500/50" /></div>
+                  <div className="absolute right-2 transition-opacity duration-300"><Moon className="w-3.5 h-3.5 text-medical-blue/50" /></div>
+                  <motion.div
+                    className="w-6 h-6 bg-white dark:bg-[#000a51] rounded-full shadow-md flex items-center justify-center z-10 border border-gray-100 dark:border-gray-600"
+                    initial={false}
+                    animate={{
+                      x: theme === 'dark' ? 32 : 0,
+                      rotate: theme === 'dark' ? 360 : 0
+                    }}
+                    transition={{ type: "spring", stiffness: 500, damping: 30 }}
+                  >
+                    {theme === 'dark' ? <Moon className="w-3 h-3 text-white" /> : <Sun className="w-3 h-3 text-yellow-500" />}
+                  </motion.div>
+                </>
+              )}
             </button>
             <Link
               href="/appointment"
@@ -81,9 +97,23 @@ export function Navbar() {
           <div className="md:hidden flex items-center space-x-2">
             <button
               onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
-              className="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+              className="relative w-14 h-7 flex items-center bg-gray-200/50 dark:bg-gray-800/50 backdrop-blur-sm rounded-full p-1 cursor-pointer transition-colors border border-gray-200 dark:border-gray-700"
             >
-              {mounted && (theme === 'dark' ? <Sun className="w-5 h-5 text-yellow-500" /> : <Moon className="w-5 h-5 text-gray-500 dark:text-gray-400" />)}
+              {mounted && (
+                <>
+                  <motion.div
+                    className="w-5 h-5 bg-white dark:bg-[#000a51] rounded-full shadow-md flex items-center justify-center z-10 border border-gray-100 dark:border-gray-600"
+                    initial={false}
+                    animate={{
+                      x: theme === 'dark' ? 28 : 0,
+                      rotate: theme === 'dark' ? 360 : 0
+                    }}
+                    transition={{ type: "spring", stiffness: 500, damping: 30 }}
+                  >
+                    {theme === 'dark' ? <Moon className="w-3 h-3 text-white" /> : <Sun className="w-3 h-3 text-yellow-500" />}
+                  </motion.div>
+                </>
+              )}
             </button>
              <a href="tel:+9718002423" className="p-2 bg-medical-blue/10 rounded-full text-medical-blue uppercase text-[10px] font-bold">
                <Phone className="w-4 h-4" />
