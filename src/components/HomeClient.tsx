@@ -55,10 +55,10 @@ export function HomeClient({ initialDepartments }: HomeClientProps) {
             </motion.div>
             
             <motion.h1 
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.2 }}
-              className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-display font-black leading-[0.95] text-medical-dark mb-8"
+              initial={{ opacity: 0, y: 40, scale: 0.95 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              transition={{ type: "spring", stiffness: 100, damping: 20, delay: 0.1 }}
+              className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-display font-black leading-[0.95] text-medical-dark mb-8 tracking-tight"
             >
               Advanced Care, <br />
               <span className="text-gradient">Personalized</span> for You.
@@ -67,7 +67,7 @@ export function HomeClient({ initialDepartments }: HomeClientProps) {
             <motion.p 
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.4 }}
+              transition={{ type: "spring", stiffness: 100, damping: 20, delay: 0.3 }}
               className="text-lg md:text-xl text-gray-500 mb-12 leading-relaxed max-w-xl"
             >
               AHAD International Hospital combines evidence-based medicine, leading specialists, and seamless patient journeys for local and international communities.

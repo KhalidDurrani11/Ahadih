@@ -25,17 +25,24 @@ export function Navbar() {
   ];
 
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 glass border-b border-medical-blue/10">
+    <motion.nav 
+      initial={{ y: -100, opacity: 0 }}
+      animate={{ y: 0, opacity: 1 }}
+      transition={{ type: "spring", stiffness: 100, damping: 20 }}
+      className={cn(
+        "fixed top-0 left-0 right-0 z-50 transition-all duration-300",
+        isScrolled ? "glass border-b border-medical-blue/10 py-1" : "bg-transparent py-2"
+      )}
+    >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-20">
           <Link href="/" className="flex items-center cursor-pointer group shrink-0 py-2">
-            <div className="relative w-[180px] md:w-[220px] h-[50px] md:h-[65px] overflow-hidden flex items-center justify-center mix-blend-multiply contrast-[1.15] dark:invert dark:mix-blend-screen rounded-xl">
-              <img
-                src="/ahadd-logo.jpeg"
-                alt="AHAD International Hospital"
-                className="w-full h-full object-cover scale-[1.35] transition-transform duration-500 group-hover:scale-[1.45]"
-              />
-            </div>
+            <img
+              src="/ahadd-logo.jpeg"
+              alt="AHAD International Hospital"
+              style={{ clipPath: 'inset(4% 2% 4% 2%)' }}
+              className="h-[55px] md:h-[65px] w-auto object-contain mix-blend-multiply contrast-[1.5] brightness-[1.1] dark:invert dark:mix-blend-screen transition-transform duration-500 hover:scale-[1.03]"
+            />
           </Link>
 
           {/* Desktop Nav */}
@@ -130,7 +137,7 @@ export function Navbar() {
         <motion.div 
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="md:hidden absolute top-20 left-0 right-0 glass border-t border-gray-100 p-4 shadow-2xl space-y-2"
+          className="md:hidden absolute top-20 left-0 right-0 bg-white/95 dark:bg-[#0a192f]/95 backdrop-blur-xl border-t border-gray-200 dark:border-gray-800 p-4 shadow-2xl space-y-2 z-50"
         >
           {navItems.map((item) => {
             const isActive = pathname === item.href;
@@ -157,6 +164,6 @@ export function Navbar() {
           </Link>
         </motion.div>
       )}
-    </nav>
+    </motion.nav>
   );
 }
