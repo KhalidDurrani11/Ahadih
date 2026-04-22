@@ -14,10 +14,9 @@ export function Footer() {
           <div className="space-y-6">
             <Link href="/" className="inline-flex items-center group cursor-pointer py-2">
               <img
-                src="/ahadd-logo.jpeg"
+                src="/logo-transparent.png"
                 alt="AHAD International Hospital"
-                style={{ clipPath: 'inset(4% 2% 4% 2%)' }}
-                className="h-[75px] md:h-[95px] w-auto object-contain invert mix-blend-screen contrast-[1.5] brightness-[1.1] transition-transform duration-500 hover:scale-[1.03]"
+                className="h-[70px] md:h-[90px] w-auto object-contain transition-transform duration-500 hover:scale-[1.03] drop-shadow brightness-0 invert"
               />
             </Link>
             <p className="text-medical-light/60 text-sm leading-relaxed max-w-xs">

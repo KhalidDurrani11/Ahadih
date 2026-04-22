@@ -18,9 +18,47 @@ const outfit = Outfit({
 });
 
 export const metadata = {
-  title: 'AHAD International Hospital',
-  description: 'World-class healthcare services and specialists.',
+  title: {
+    default: 'AHAD International Hospital | Advanced Care, Personalized for You',
+    template: '%s | AHAD International Hospital',
+  },
+  description: 'AHAD International Hospital delivers world-class tertiary care, leading specialists, and evidence-based medicine for local and international patients. Book appointments online.',
+  keywords: [
+    'AHAD International Hospital',
+    'hospital UAE',
+    'specialist doctors',
+    'international hospital',
+    'advanced healthcare',
+    'medical specialists',
+    'book appointment hospital',
+    'cardiology neurology orthopedics',
+    'emergency care 24/7',
+  ],
+  authors: [{ name: 'AHAD International Hospital' }],
+  creator: 'AHAD International Hospital',
+  openGraph: {
+    type: 'website',
+    locale: 'en_US',
+    url: 'https://ahadih.vercel.app',
+    siteName: 'AHAD International Hospital',
+    title: 'AHAD International Hospital | Advanced Care, Personalized for You',
+    description: 'World-class healthcare services, leading medical specialists, and personalized patient journeys for local and international communities.',
+    images: [{ url: '/ahadd-logo_2.jpeg', width: 1200, height: 630, alt: 'AHAD International Hospital' }],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'AHAD International Hospital',
+    description: 'World-class healthcare, advanced specialists, and seamless patient care.',
+    images: ['/ahadd-logo_2.jpeg'],
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: { index: true, follow: true, 'max-image-preview': 'large' },
+  },
+  metadataBase: new URL('https://ahadih.vercel.app'),
 };
+
 
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (

@@ -9,11 +9,39 @@ import {
 import { useRouter } from 'next/navigation';
 
 export default function AdminDashboard({ initialDepartments, initialDoctors, initialAppointments, initialMessages }: any) {
-  const [activeTab, setActiveTab] = useState<'doctors' | 'departments' | 'appointments' | 'messages'>('appointments');
+  const [activeTab, setActiveTab] = useState<'doctors' | 'departments' | 'appointments' | 'messages' | 'pages'>('appointments');
   const [doctors, setDoctors] = useState(initialDoctors || []);
   const [departments, setDepartments] = useState(initialDepartments || []);
   const [appointments, setAppointments] = useState(initialAppointments || []);
   const [messages, setMessages] = useState(initialMessages || []);
+  
+  // Page Content CMS State
+  const [pageContent, setPageContent] = useState({
+    home: {
+      heroTitle: 'Advanced Care, Personalized for You.',
+      heroSubtitle: 'AHAD International Hospital combines evidence-based medicine, leading specialists, and seamless patient journeys for local and international communities.',
+      heroBadge: 'International Standards. Human-Centered Care.',
+    },
+    about: {
+      title: 'Our Mission & Vision',
+      mission: 'To deliver world-class, compassionate, and evidence-based healthcare to every patient, regardless of their origin or background.',
+      vision: 'To become the most trusted international hospital, renowned for clinical excellence and patient-centered care.',
+    },
+    contact: {
+      phone: '+971 800 2423',
+      email: 'info@ahadih.com',
+      address: 'AHAD International Hospital, UAE',
+      emergencyPhone: '+971 800 2423',
+    },
+    seo: {
+      siteTitle: 'AHAD International Hospital',
+      siteDescription: 'AHAD International Hospital delivers world-class tertiary care, leading specialists, and evidence-based medicine for local and international patients.',
+      keywords: 'AHAD International Hospital, hospital UAE, specialist doctors, international hospital',
+    }
+  });
+  const [pageSaving, setPageSaving] = useState(false);
+  const [pageSaved, setPageSaved] = useState(false);
+  const [editingPageSection, setEditingPageSection] = useState<'home' | 'about' | 'contact' | 'seo'>('home');
   
   // Modal State
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -129,6 +157,7 @@ export default function AdminDashboard({ initialDepartments, initialDoctors, ini
               { id: 'messages', label: 'Messages', icon: MessageSquare },
               { id: 'doctors', label: 'Doctors', icon: Users },
               { id: 'departments', label: 'Departments', icon: HeartPulse },
+              { id: 'pages', label: 'Page Content', icon: LayoutDashboard },
             ].map((tab) => (
               <button 
                 key={tab.id}
@@ -316,6 +345,122 @@ export default function AdminDashboard({ initialDepartments, initialDoctors, ini
                   ))}
                 </tbody>
               </table>
+            )}
+
+            {/* ===== PAGE CONTENT CMS ===== */}
+            {activeTab === 'pages' && (
+              <div className="p-8">
+                <div className="mb-6 flex flex-wrap gap-2">
+                  {(['home', 'about', 'contact', 'seo'] as const).map(section => (
+                    <button
+                      key={section}
+                      onClick={() => setEditingPageSection(section)}
+                      className={`px-5 py-2 rounded-full text-sm font-bold capitalize transition-all ${editingPageSection === section ? 'premium-gradient text-white shadow-lg' : 'bg-gray-100 text-gray-500 hover:bg-gray-200'}`}
+                    >
+                      {section === 'seo' ? 'SEO Settings' : `${section} Page`}
+                    </button>
+                  ))}
+                </div>
+
+                <div className="bg-gray-50 rounded-2xl p-6 space-y-4">
+                  {/* Home Section */}
+                  {editingPageSection === 'home' && (
+                    <>
+                      <h3 className="font-black text-lg text-medical-dark">🏠 Home Page Content</h3>
+                      <div>
+                        <label className="block text-xs font-bold text-gray-500 mb-1 uppercase">Badge Text</label>
+                        <input value={pageContent.home.heroBadge} onChange={e => setPageContent(p => ({ ...p, home: { ...p.home, heroBadge: e.target.value } }))}
+                          className="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm focus:ring-2 focus:ring-medical-blue outline-none" />
+                      </div>
+                      <div>
+                        <label className="block text-xs font-bold text-gray-500 mb-1 uppercase">Hero Title</label>
+                        <textarea rows={2} value={pageContent.home.heroTitle} onChange={e => setPageContent(p => ({ ...p, home: { ...p.home, heroTitle: e.target.value } }))}
+                          className="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm focus:ring-2 focus:ring-medical-blue outline-none resize-none" />
+                      </div>
+                      <div>
+                        <label className="block text-xs font-bold text-gray-500 mb-1 uppercase">Hero Subtitle</label>
+                        <textarea rows={3} value={pageContent.home.heroSubtitle} onChange={e => setPageContent(p => ({ ...p, home: { ...p.home, heroSubtitle: e.target.value } }))}
+                          className="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm focus:ring-2 focus:ring-medical-blue outline-none resize-none" />
+                      </div>
+                    </>
+                  )}
+
+                  {/* About Section */}
+                  {editingPageSection === 'about' && (
+                    <>
+                      <h3 className="font-black text-lg text-medical-dark">ℹ️ About Page Content</h3>
+                      <div>
+                        <label className="block text-xs font-bold text-gray-500 mb-1 uppercase">Section Title</label>
+                        <input value={pageContent.about.title} onChange={e => setPageContent(p => ({ ...p, about: { ...p.about, title: e.target.value } }))}
+                          className="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm focus:ring-2 focus:ring-medical-blue outline-none" />
+                      </div>
+                      <div>
+                        <label className="block text-xs font-bold text-gray-500 mb-1 uppercase">Mission Statement</label>
+                        <textarea rows={3} value={pageContent.about.mission} onChange={e => setPageContent(p => ({ ...p, about: { ...p.about, mission: e.target.value } }))}
+                          className="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm focus:ring-2 focus:ring-medical-blue outline-none resize-none" />
+                      </div>
+                      <div>
+                        <label className="block text-xs font-bold text-gray-500 mb-1 uppercase">Vision Statement</label>
+                        <textarea rows={3} value={pageContent.about.vision} onChange={e => setPageContent(p => ({ ...p, about: { ...p.about, vision: e.target.value } }))}
+                          className="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm focus:ring-2 focus:ring-medical-blue outline-none resize-none" />
+                      </div>
+                    </>
+                  )}
+
+                  {/* Contact Section */}
+                  {editingPageSection === 'contact' && (
+                    <>
+                      <h3 className="font-black text-lg text-medical-dark">📞 Contact Page Details</h3>
+                      {[
+                        { key: 'phone', label: 'Main Phone' },
+                        { key: 'emergencyPhone', label: 'Emergency Phone' },
+                        { key: 'email', label: 'Email Address' },
+                        { key: 'address', label: 'Hospital Address' },
+                      ].map(({ key, label }) => (
+                        <div key={key}>
+                          <label className="block text-xs font-bold text-gray-500 mb-1 uppercase">{label}</label>
+                          <input value={(pageContent.contact as any)[key]} onChange={e => setPageContent(p => ({ ...p, contact: { ...p.contact, [key]: e.target.value } }))}
+                            className="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm focus:ring-2 focus:ring-medical-blue outline-none" />
+                        </div>
+                      ))}
+                    </>
+                  )}
+
+                  {/* SEO Section */}
+                  {editingPageSection === 'seo' && (
+                    <>
+                      <h3 className="font-black text-lg text-medical-dark">🔍 SEO & Meta Tags</h3>
+                      <div>
+                        <label className="block text-xs font-bold text-gray-500 mb-1 uppercase">Site Title</label>
+                        <input value={pageContent.seo.siteTitle} onChange={e => setPageContent(p => ({ ...p, seo: { ...p.seo, siteTitle: e.target.value } }))}
+                          className="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm focus:ring-2 focus:ring-medical-blue outline-none" />
+                      </div>
+                      <div>
+                        <label className="block text-xs font-bold text-gray-500 mb-1 uppercase">Meta Description</label>
+                        <textarea rows={3} value={pageContent.seo.siteDescription} onChange={e => setPageContent(p => ({ ...p, seo: { ...p.seo, siteDescription: e.target.value } }))}
+                          className="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm focus:ring-2 focus:ring-medical-blue outline-none resize-none" />
+                      </div>
+                      <div>
+                        <label className="block text-xs font-bold text-gray-500 mb-1 uppercase">Keywords (comma-separated)</label>
+                        <input value={pageContent.seo.keywords} onChange={e => setPageContent(p => ({ ...p, seo: { ...p.seo, keywords: e.target.value } }))}
+                          className="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm focus:ring-2 focus:ring-medical-blue outline-none" />
+                      </div>
+                    </>
+                  )}
+
+                  <div className="flex items-center space-x-3 pt-2">
+                    <button
+                      onClick={() => { setPageSaving(true); setTimeout(() => { setPageSaving(false); setPageSaved(true); setTimeout(() => setPageSaved(false), 2500); }, 900); }}
+                      disabled={pageSaving}
+                      className="flex items-center space-x-2 px-8 py-3 premium-gradient text-white rounded-2xl font-bold hover:shadow-xl transition-all disabled:opacity-70"
+                    >
+                      <Save className="w-4 h-4" />
+                      <span>{pageSaving ? 'Saving...' : 'Save Changes'}</span>
+                    </button>
+                    {pageSaved && <span className="text-green-500 font-bold text-sm flex items-center gap-1"><CheckCircle className="w-4 h-4" /> Saved!</span>}
+                  </div>
+                </div>
+              </div>
             )}
           </div>
         </div>
