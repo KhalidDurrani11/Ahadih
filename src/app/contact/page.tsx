@@ -80,7 +80,7 @@ export default function ContactPage() {
                     <info.icon className="w-6 h-6" />
                   </div>
                   <h4 className="font-display font-bold text-lg mb-2">{info.title}</h4>
-                  <p className="text-gray-500 text-sm leading-relaxed">{info.content}</p>
+                  <p className="text-gray-500 text-sm leading-relaxed break-all">{info.content}</p>
                 </motion.div>
               ))}
             </div>

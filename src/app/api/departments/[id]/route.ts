@@ -3,7 +3,7 @@ import { prisma } from '../../../../lib/prisma';
 
 export async function PUT(request: Request, context: any) {
   try {
-    const { id } = context.params;
+    const { id } = await context.params;
     const body = await request.json();
     
     const updatedDepartment = await prisma.department.update({
@@ -23,7 +23,7 @@ export async function PUT(request: Request, context: any) {
 
 export async function DELETE(request: Request, context: any) {
   try {
-    const { id } = context.params;
+    const { id } = await context.params;
     
     // Check for associated doctors
     const doctorsCount = await prisma.doctor.count({

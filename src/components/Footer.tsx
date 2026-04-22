@@ -12,12 +12,14 @@ export function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-16">
           {/* Brand */}
           <div className="space-y-6">
-            <Link href="/" className="inline-flex items-center group cursor-pointer">
-              <img
-                src="/ahadd-logo.jpeg"
-                alt="AHAD International Hospital"
-                className="h-20 w-auto object-contain invert mix-blend-screen group-hover:scale-105 transition-transform duration-500"
-              />
+            <Link href="/" className="inline-flex items-center group cursor-pointer py-2">
+              <div className="relative w-[220px] md:w-[280px] h-[70px] md:h-[90px] overflow-hidden flex items-center justify-center invert mix-blend-screen contrast-[1.15] rounded-xl">
+                <img
+                  src="/ahadd-logo.jpeg"
+                  alt="AHAD International Hospital"
+                  className="w-full h-full object-cover scale-[1.35] transition-transform duration-500 group-hover:scale-[1.45]"
+                />
+              </div>
             </Link>
             <p className="text-medical-light/60 text-sm leading-relaxed max-w-xs">
               AHAD International Hospital delivers trusted tertiary care, multidisciplinary expertise, and patient-centered outcomes for local and international families.

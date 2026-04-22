@@ -2,7 +2,7 @@
 
 import { motion, AnimatePresence } from 'motion/react';
 import { useState } from 'react';
-import { Award, Briefcase, GraduationCap, Star, X, Calendar, Linkedin, Mail } from 'lucide-react';
+import { Award, Briefcase, GraduationCap, Star, X, Calendar, Linkedin, Mail, Search, Filter } from 'lucide-react';
 import Link from 'next/link';
 
 interface SpecialistsClientProps {
@@ -11,6 +11,16 @@ interface SpecialistsClientProps {
 
 export function SpecialistsClient({ initialDoctors }: SpecialistsClientProps) {
   const [selectedDoctor, setSelectedDoctor] = useState<any | null>(null);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [selectedSpec, setSelectedSpec] = useState('All');
+
+  const uniqueSpecializations = ['All', ...Array.from(new Set(initialDoctors.map(doc => doc.specialization)))].sort();
+
+  const filteredDoctors = initialDoctors.filter(doc => {
+    const matchesSearch = doc.name.toLowerCase().includes(searchQuery.toLowerCase());
+    const matchesSpec = selectedSpec === 'All' || doc.specialization === selectedSpec;
+    return matchesSearch && matchesSpec;
+  });
 
   return (
     <div className="pt-32 pb-24 bg-gray-50/30 min-h-screen relative">
@@ -40,8 +50,59 @@ export function SpecialistsClient({ initialDoctors }: SpecialistsClientProps) {
           </motion.p>
         </header>
 
+        {/* Filters */}
+        <div className="max-w-4xl mx-auto mb-16 space-y-6">
+          <div className="flex flex-col md:flex-row gap-4">
+            <div className="flex-1 relative">
+              <Search className="absolute left-6 top-1/2 -translate-y-1/2 text-gray-400 w-5 h-5" />
+              <input 
+                type="text" 
+                placeholder="Search doctors by name..."
+                value={searchQuery}
+                onChange={e => setSearchQuery(e.target.value)}
+                className="w-full pl-14 pr-6 py-4 rounded-[20px] border border-gray-200 focus:outline-none focus:ring-2 focus:ring-medical-blue focus:border-transparent shadow-sm dark:bg-gray-800 dark:border-gray-700 text-medical-dark dark:text-white transition-all placeholder:text-gray-400"
+              />
+            </div>
+            <div className="w-full md:w-72 relative">
+              <Filter className="absolute left-6 top-1/2 -translate-y-1/2 text-gray-400 w-5 h-5" />
+              <select
+                value={selectedSpec}
+                onChange={e => setSelectedSpec(e.target.value)}
+                className="w-full pl-14 pr-10 py-4 rounded-[20px] border border-gray-200 focus:outline-none focus:ring-2 focus:ring-medical-blue focus:border-transparent shadow-sm appearance-none bg-white dark:bg-gray-800 dark:border-gray-700 text-medical-dark dark:text-white transition-all cursor-pointer"
+              >
+                {uniqueSpecializations.map(spec => (
+                  <option key={spec as string} value={spec as string}>{spec as string}</option>
+                ))}
+              </select>
+            </div>
+          </div>
+          
+          <div className="hidden md:flex flex-wrap gap-2 justify-center">
+            {uniqueSpecializations.slice(0, 6).map(spec => (
+              <button
+                key={spec as string}
+                onClick={() => setSelectedSpec(spec as string)}
+                className={`px-6 py-2 rounded-full text-sm font-bold transition-all ${selectedSpec === spec ? 'bg-medical-blue text-white shadow-md' : 'bg-white dark:bg-gray-800 text-gray-500 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 border border-gray-200 dark:border-gray-700'}`}
+              >
+                {spec as string}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        {filteredDoctors.length === 0 && (
+          <div className="text-center py-20">
+            <div className="w-20 h-20 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-6">
+              <Search className="w-10 h-10 text-gray-400" />
+            </div>
+            <h3 className="text-2xl font-bold text-medical-dark mb-2">No Specialists Found</h3>
+            <p className="text-gray-500">We couldn't find any doctors matching your current filters.</p>
+            <button onClick={() => {setSearchQuery(''); setSelectedSpec('All');}} className="mt-6 text-medical-blue font-bold hover:underline">Clear all filters</button>
+          </div>
+        )}
+
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12">
-          {initialDoctors.map((doc, index) => (
+          {filteredDoctors.map((doc, index) => (
             <motion.div
               key={doc.id}
               initial={{ opacity: 0, y: 30 }}

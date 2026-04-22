@@ -1,5 +1,0 @@
-1:"$Sreact.fragment"
-2:I[18330,["/_next/static/chunks/0xs6lymf1voib.js","/_next/static/chunks/0a3px1pow0h7_.js","/_next/static/chunks/09cygcstkpwc4.js","/_next/static/chunks/07-vsf52jz-1s.js"],"ViewportBoundary"]
-3:I[18330,["/_next/static/chunks/0xs6lymf1voib.js","/_next/static/chunks/0a3px1pow0h7_.js","/_next/static/chunks/09cygcstkpwc4.js","/_next/static/chunks/07-vsf52jz-1s.js"],"MetadataBoundary"]
-4:"$Sreact.suspense"
-0:{"rsc":["$","$1","h",{"children":[["$","meta",null,{"name":"robots","content":"noindex"}],["$","$L2",null,{"children":[["$","meta","0",{"charSet":"utf-8"}],["$","meta","1",{"name":"viewport","content":"width=device-width, initial-scale=1"}]]}],["$","div",null,{"hidden":true,"children":["$","$L3",null,{"children":["$","$4",null,{"name":"Next.Metadata","children":[["$","title","0",{"children":"AHAD International Hospital"}],["$","meta","1",{"name":"description","content":"World-class healthcare services and specialists."}]]}]}]}],["$","meta",null,{"name":"next-size-adjust","content":""}]]}],"isPartial":false,"staleTime":300,"varyParams":null,"buildId":"UIcIAtjPfmIhXCg_ZWDfK"}

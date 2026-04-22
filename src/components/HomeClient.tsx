@@ -32,8 +32,14 @@ export function HomeClient({ initialDepartments }: HomeClientProps) {
               e.currentTarget.src = '/fallback-hero.svg';
             }}
           />
-          <div className="absolute inset-0 bg-gradient-to-r from-white via-white/90 to-white/30"></div>
-          <div className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-white to-transparent"></div>
+          <div className="absolute inset-0 bg-gradient-to-r from-white via-white/90 to-white/30 dark:from-gray-900 dark:via-gray-900/95 dark:to-gray-900/80"></div>
+          
+          {/* Premium Watermark Logo */}
+          <div className="absolute top-1/2 right-[-5%] -translate-y-1/2 opacity-5 pointer-events-none mix-blend-multiply dark:invert dark:mix-blend-screen w-[600px] h-[600px] md:w-[800px] md:h-[800px]">
+             <img src="/ahadd-logo_2.jpeg" className="w-full h-full object-contain" alt="" />
+          </div>
+          
+          <div className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-white dark:from-gray-900 to-transparent"></div>
         </div>
 
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 py-20">
@@ -241,13 +247,13 @@ export function HomeClient({ initialDepartments }: HomeClientProps) {
                   <motion.div 
                     key={idx}
                     whileHover={{ scale: 1.05, y: -5 }}
-                    className="w-40 h-40 glass border-white/10 rounded-[32px] flex flex-col items-center justify-center p-4 text-center group transition-all"
+                    className="w-40 h-40 bg-white rounded-2xl flex flex-col items-center justify-center p-4 text-center group transition-all shadow-lg hover:shadow-xl cursor-pointer"
                   >
-                    <div className="w-12 h-12 rounded-2xl bg-white/10 flex items-center justify-center mb-3 group-hover:bg-white group-hover:text-medical-blue transition-colors">
-                      <item.icon className="w-6 h-6 text-white group-hover:text-medical-blue" />
+                    <div className="w-12 h-12 rounded-2xl bg-gray-50 flex items-center justify-center mb-3 group-hover:bg-medical-blue transition-colors text-medical-dark group-hover:text-white">
+                      <item.icon className="w-6 h-6" />
                     </div>
-                    <p className="text-[10px] font-bold text-white uppercase tracking-wider mb-1">{item.label}</p>
-                    <p className="text-[8px] text-white/40 uppercase tracking-widest font-medium">{item.desc}</p>
+                    <p className="text-[10px] font-bold text-medical-dark uppercase tracking-wider mb-1 group-hover:text-medical-blue transition-colors">{item.label}</p>
+                    <p className="text-[8px] text-gray-500 uppercase tracking-widest font-medium">{item.desc}</p>
                   </motion.div>
                 ))}
               </div>
