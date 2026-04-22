@@ -3,12 +3,32 @@
 import { motion } from 'motion/react';
 import { Activity, ArrowRight, Award, Heart, ShieldCheck, Star, Users, Phone } from 'lucide-react';
 import Link from 'next/link';
+import { useState, useEffect } from 'react';
 
 interface HomeClientProps {
   initialDepartments: any[];
 }
 
+const DEFAULT_CONTENT = {
+  home: {
+    heroTitle: 'Advanced Care, Personalized for You.',
+    heroSubtitle: 'AHAD International Hospital combines evidence-based medicine, leading specialists, and seamless patient journeys for local and international communities.',
+    heroBadge: 'International Standards. Human-Centered Care.',
+  },
+};
+
 export function HomeClient({ initialDepartments }: HomeClientProps) {
+  const [siteContent, setSiteContent] = useState(DEFAULT_CONTENT);
+
+  useEffect(() => {
+    fetch('/api/site-content')
+      .then(r => r.json())
+      .then(data => { if (data?.home) setSiteContent(data); })
+      .catch(() => {});
+  }, []);
+
+  const hero = siteContent.home;
+
   const stats = [
     { label: 'Years of Clinical Leadership', value: '25+', icon: Award },
     { label: 'Multidisciplinary Specialists', value: '150+', icon: Users },
@@ -51,7 +71,7 @@ export function HomeClient({ initialDepartments }: HomeClientProps) {
               className="inline-flex items-center space-x-2 px-4 py-2 rounded-full bg-medical-blue/10 border border-medical-blue/20 text-medical-blue text-sm font-semibold mb-8"
             >
               <Star className="w-4 h-4 fill-medical-blue" />
-              <span className="uppercase tracking-widest text-xs">International Standards. Human-Centered Care.</span>
+              <span className="uppercase tracking-widest text-xs">{hero.heroBadge}</span>
             </motion.div>
             
             <motion.h1 
@@ -60,8 +80,13 @@ export function HomeClient({ initialDepartments }: HomeClientProps) {
               transition={{ type: "spring", stiffness: 100, damping: 20, delay: 0.1 }}
               className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-display font-black leading-[0.95] text-medical-dark mb-8 tracking-tight"
             >
-              Advanced Care, <br />
-              <span className="text-gradient">Personalized</span> for You.
+              {hero.heroTitle.split('Personalized').length > 1 ? (
+                <>
+                  {hero.heroTitle.split('Personalized')[0]}
+                  <span className="text-gradient">Personalized</span>
+                  {hero.heroTitle.split('Personalized')[1]}
+                </>
+              ) : hero.heroTitle}
             </motion.h1>
             
             <motion.p 
@@ -70,7 +95,7 @@ export function HomeClient({ initialDepartments }: HomeClientProps) {
               transition={{ type: "spring", stiffness: 100, damping: 20, delay: 0.3 }}
               className="text-lg md:text-xl text-gray-500 mb-12 leading-relaxed max-w-xl"
             >
-              AHAD International Hospital combines evidence-based medicine, leading specialists, and seamless patient journeys for local and international communities.
+              {hero.heroSubtitle}
             </motion.p>
             
             <motion.div 

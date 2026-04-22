@@ -51,7 +51,7 @@ export function Navbar() {
             <motion.img
               src="/logo-transparent.png"
               alt="AHAD International Hospital"
-              className="h-[80px] md:h-[100px] w-auto object-contain dark:brightness-0 dark:invert transition-all duration-300"
+              className="h-[90px] md:h-[110px] w-auto object-contain dark:brightness-0 dark:invert transition-all duration-300"
               whileHover={{ scale: 1.04 }}
               transition={{ type: "spring", stiffness: 400, damping: 17 }}
             />

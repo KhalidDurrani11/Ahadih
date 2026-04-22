@@ -44,9 +44,11 @@ export default function AdminLogin() {
         className="max-w-md w-full bg-white rounded-3xl shadow-xl p-8 border border-gray-100"
       >
         <div className="text-center mb-8">
-          <div className="w-16 h-16 bg-medical-blue/10 rounded-2xl flex items-center justify-center mx-auto mb-4 text-medical-blue">
-            <Lock className="w-8 h-8" />
-          </div>
+          <img
+            src="/logo-transparent.png"
+            alt="AHAD International Hospital"
+            className="h-[90px] w-auto mx-auto mb-4 object-contain"
+          />
           <h2 className="text-2xl font-black font-display text-medical-dark">Admin Access</h2>
           <p className="text-gray-500 text-sm mt-2">Sign in to manage the hospital website</p>
         </div>
