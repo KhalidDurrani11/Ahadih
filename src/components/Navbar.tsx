@@ -38,18 +38,20 @@ export function Navbar() {
       transition={{ type: "spring", stiffness: 100, damping: 20 }}
       className={cn(
         "fixed top-0 left-0 right-0 z-50 transition-all duration-300",
-        isScrolled ? "bg-white/95 dark:bg-gray-900/95 backdrop-blur-xl shadow-md border-b border-gray-100 dark:border-gray-800" : "bg-transparent"
+        isScrolled
+          ? "bg-white/95 dark:bg-gray-900/95 backdrop-blur-xl shadow-md border-b border-gray-100 dark:border-gray-800"
+          : "bg-transparent"
       )}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center h-[70px]">
+        <div className="flex justify-between items-center h-[72px]">
 
-          {/* Logo — transparent PNG, no blend tricks needed */}
-          <Link href="/" className="flex items-center cursor-pointer group shrink-0">
+          {/* Logo — true transparent PNG */}
+          <Link href="/" className="flex items-center cursor-pointer shrink-0">
             <motion.img
               src="/logo-transparent.png"
               alt="AHAD International Hospital"
-              className="h-[50px] md:h-[60px] w-auto object-contain drop-shadow-sm"
+              className="h-[65px] md:h-[80px] w-auto object-contain"
               whileHover={{ scale: 1.04 }}
               transition={{ type: "spring", stiffness: 400, damping: 17 }}
             />
@@ -111,7 +113,6 @@ export function Navbar() {
 
           {/* Mobile controls */}
           <div className="md:hidden flex items-center space-x-2">
-            {/* Mini theme toggle */}
             <button
               onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
               className="relative w-12 h-6 flex items-center bg-gray-200/80 dark:bg-gray-700/80 rounded-full p-0.5 cursor-pointer border border-gray-300 dark:border-gray-600"

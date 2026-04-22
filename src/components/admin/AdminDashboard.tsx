@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { 
   LayoutDashboard, Users, HeartPulse, LogOut, Plus, Trash2, Edit, 
@@ -15,8 +15,7 @@ export default function AdminDashboard({ initialDepartments, initialDoctors, ini
   const [appointments, setAppointments] = useState(initialAppointments || []);
   const [messages, setMessages] = useState(initialMessages || []);
   
-  // Page Content CMS State
-  const [pageContent, setPageContent] = useState({
+  const [pageContent, setPageContent] = useState<any>({
     home: {
       heroTitle: 'Advanced Care, Personalized for You.',
       heroSubtitle: 'AHAD International Hospital combines evidence-based medicine, leading specialists, and seamless patient journeys for local and international communities.',
@@ -41,7 +40,41 @@ export default function AdminDashboard({ initialDepartments, initialDoctors, ini
   });
   const [pageSaving, setPageSaving] = useState(false);
   const [pageSaved, setPageSaved] = useState(false);
+  const [pageSaveError, setPageSaveError] = useState(false);
   const [editingPageSection, setEditingPageSection] = useState<'home' | 'about' | 'contact' | 'seo'>('home');
+
+  // Load site content from DB on mount
+  useEffect(() => {
+    fetch('/api/site-content')
+      .then(r => r.json())
+      .then(data => { if (data && data.home) setPageContent(data); })
+      .catch(() => {});
+  }, []);
+
+  const savePageContent = async () => {
+    setPageSaving(true);
+    setPageSaved(false);
+    setPageSaveError(false);
+    try {
+      const res = await fetch('/api/site-content', {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(pageContent),
+      });
+      if (res.ok) {
+        setPageSaved(true);
+        setTimeout(() => setPageSaved(false), 3000);
+      } else {
+        setPageSaveError(true);
+        setTimeout(() => setPageSaveError(false), 3000);
+      }
+    } catch {
+      setPageSaveError(true);
+      setTimeout(() => setPageSaveError(false), 3000);
+    } finally {
+      setPageSaving(false);
+    }
+  };
   
   // Modal State
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -450,14 +483,15 @@ export default function AdminDashboard({ initialDepartments, initialDoctors, ini
 
                   <div className="flex items-center space-x-3 pt-2">
                     <button
-                      onClick={() => { setPageSaving(true); setTimeout(() => { setPageSaving(false); setPageSaved(true); setTimeout(() => setPageSaved(false), 2500); }, 900); }}
+                      onClick={savePageContent}
                       disabled={pageSaving}
                       className="flex items-center space-x-2 px-8 py-3 premium-gradient text-white rounded-2xl font-bold hover:shadow-xl transition-all disabled:opacity-70"
                     >
                       <Save className="w-4 h-4" />
                       <span>{pageSaving ? 'Saving...' : 'Save Changes'}</span>
                     </button>
-                    {pageSaved && <span className="text-green-500 font-bold text-sm flex items-center gap-1"><CheckCircle className="w-4 h-4" /> Saved!</span>}
+                    {pageSaved && <span className="text-green-500 font-bold text-sm flex items-center gap-1"><CheckCircle className="w-4 h-4" /> Saved to database!</span>}
+                    {pageSaveError && <span className="text-red-500 font-bold text-sm flex items-center gap-1"><XCircle className="w-4 h-4" /> Save failed. Try again.</span>}
                   </div>
                 </div>
               </div>

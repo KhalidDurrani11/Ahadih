@@ -61,3 +61,9 @@ model ContactMessage {
   status    String   @default("Unread") // Unread, Read, Resolved
   createdAt DateTime @default(now())
 }
+
+model SiteContent {
+  id        String   @id @default("singleton")
+  data      Json
+  updatedAt DateTime @updatedAt
+}
