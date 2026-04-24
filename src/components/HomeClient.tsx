@@ -1,12 +1,13 @@
 "use client";
 
 import { motion } from 'motion/react';
-import { Activity, ArrowRight, Award, Heart, ShieldCheck, Star, Users, Phone } from 'lucide-react';
+import { Activity, ArrowRight, Award, Heart, ShieldCheck, Star, Users, Phone, Calendar, ChevronRight, ChevronLeft } from 'lucide-react';
 import Link from 'next/link';
 import { useState, useEffect } from 'react';
 
 interface HomeClientProps {
   initialDepartments: any[];
+  initialNews?: any[];
 }
 
 const DEFAULT_CONTENT = {
@@ -18,7 +19,7 @@ const DEFAULT_CONTENT = {
   },
 };
 
-export function HomeClient({ initialDepartments }: HomeClientProps) {
+export function HomeClient({ initialDepartments, initialNews = [] }: HomeClientProps) {
   const [siteContent, setSiteContent] = useState(DEFAULT_CONTENT);
 
   useEffect(() => {
@@ -149,6 +150,28 @@ export function HomeClient({ initialDepartments }: HomeClientProps) {
              ))}
           </div>
         </motion.div>
+
+        <motion.div 
+          animate={{ y: [0, -15, 0] }}
+          transition={{ duration: 5, repeat: Infinity, ease: "easeInOut", delay: 1 }}
+          className="hidden xl:block absolute right-16 2xl:right-32 top-[340px] glass p-6 rounded-3xl shadow-2xl z-20 w-64"
+        >
+          <div className="flex items-center space-x-4 mb-4">
+            <div className="p-3 bg-blue-100 rounded-2xl">
+              <Star className="text-medical-blue w-6 h-6 fill-medical-blue" />
+            </div>
+            <div>
+              <p className="text-[10px] font-bold text-gray-400 uppercase tracking-wider">Live Rating</p>
+              <h4 className="text-lg font-bold">98.5% Satisfaction</h4>
+            </div>
+          </div>
+          <div className="flex -space-x-3 overflow-hidden">
+             {[...Array(5)].map((_, i) => (
+                <img key={i} className="inline-block h-10 w-10 rounded-full ring-2 ring-white object-cover" src={`https://i.pravatar.cc/100?img=${i + 10}`} alt=""/>
+             ))}
+             <div className="h-10 w-10 rounded-full ring-2 ring-white bg-gray-50 flex items-center justify-center text-[10px] font-bold text-gray-500">+10k</div>
+          </div>
+        </motion.div>
       </section>
 
       {/* Trust Indicators */}
@@ -238,6 +261,97 @@ export function HomeClient({ initialDepartments }: HomeClientProps) {
               </motion.div>
             ))}
           </div>
+        </div>
+      </section>
+
+      {/* Latest News & Updates Timeline */}
+      <section className="py-32 bg-white overflow-hidden relative">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-16">
+           <div className="flex flex-col md:flex-row justify-between items-end mb-12">
+             <div>
+               <motion.p 
+                 initial={{ opacity: 0 }}
+                 whileInView={{ opacity: 1 }}
+                 viewport={{ once: true }}
+                 className="text-medical-blue font-bold tracking-[0.3em] uppercase text-[10px] mb-4"
+               >
+                 Pioneering Moments
+               </motion.p>
+               <h2 className="text-4xl md:text-5xl font-display font-black text-medical-dark leading-tight">
+                 Latest News <span className="text-gradient">& Updates</span>
+               </h2>
+             </div>
+             <Link 
+                href="/news"
+                className="mt-6 md:mt-0 flex items-center space-x-2 text-sm font-bold text-gray-500 hover:text-medical-blue transition-colors group/btn"
+             >
+                <span>View All News</span>
+                <div className="p-2 rounded-full bg-gray-50 group-hover/btn:bg-medical-blue/10 transition-colors">
+                  <ArrowRight className="w-4 h-4 text-medical-blue group-hover/btn:translate-x-1 transition-transform" />
+                </div>
+             </Link>
+           </div>
+
+           {/* Overlapping Cards Container */}
+           <div className="relative pt-12 pb-24 px-4 w-full flex justify-center">
+              <div className="flex flex-col md:flex-row items-center justify-center md:-space-x-12 space-y-8 md:space-y-0 relative z-10 w-full max-w-6xl">
+                 {initialNews.length === 0 ? (
+                    <div className="w-full text-center py-10 text-gray-400">No news updates available.</div>
+                 ) : initialNews.map((newsItem, index) => {
+                    const rotations = ['md:-rotate-6', 'md:rotate-3', 'md:-rotate-2', 'md:rotate-6', 'md:-rotate-3'];
+                    const zIndexes = ['z-10', 'z-20', 'z-30', 'z-20', 'z-10']; // Center ones higher
+                    const actualZ = zIndexes[index % zIndexes.length];
+                    
+                    let year = '';
+                    let month = '';
+                    const dStr = newsItem.date || newsItem.createdAt;
+                    const d = new Date(dStr);
+                    if (!isNaN(d.getTime())) {
+                       year = d.getFullYear().toString();
+                       month = d.toLocaleDateString('en-US', { month: 'long' });
+                    } else {
+                       year = newsItem.date || '2025';
+                    }
+
+                    return (
+                    <motion.div 
+                      key={newsItem.id}
+                      initial={{ opacity: 0, y: 50, rotate: 0 }}
+                      whileInView={{ opacity: 1, y: 0 }}
+                      viewport={{ once: true }}
+                      transition={{ delay: index * 0.1, type: "spring", stiffness: 100 }}
+                      className={`shrink-0 w-full max-w-sm md:w-[340px] aspect-square group cursor-pointer relative ${rotations[index % rotations.length]} hover:!rotate-0 hover:scale-110 hover:z-50 transition-all duration-500 ${actualZ}`}
+                    >
+                      <Link href={`/news/${newsItem.id}`} className="block w-full h-full relative rounded-3xl overflow-hidden shadow-2xl shadow-gray-400/40 border border-white/20">
+                         {/* Background Image */}
+                         <img 
+                           src={newsItem.image} 
+                           alt={newsItem.title} 
+                           className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                           referrerPolicy="no-referrer"
+                           onError={(e) => { e.currentTarget.src = '/fallback-hero.svg'; }}
+                         />
+                         
+                         {/* Gradients for readability */}
+                         <div className="absolute inset-0 bg-gradient-to-b from-black/50 via-transparent to-black/80 group-hover:from-black/60 group-hover:to-black/90 transition-colors"></div>
+                         
+                         {/* Top Date Overlay */}
+                         <div className="absolute top-6 left-6 text-white drop-shadow-md">
+                            <div className="text-5xl md:text-6xl font-light leading-none mb-1">{year}</div>
+                            {month && <div className="text-sm font-black uppercase tracking-[0.2em] text-white/90">{month}</div>}
+                         </div>
+                         
+                         {/* Bottom Title Overlay */}
+                         <div className="absolute bottom-6 left-6 right-6">
+                            <h3 className="text-lg md:text-xl font-medium text-white leading-snug line-clamp-4 drop-shadow-md">
+                              {newsItem.title}
+                            </h3>
+                         </div>
+                      </Link>
+                    </motion.div>
+                 )})}
+              </div>
+           </div>
         </div>
       </section>
 

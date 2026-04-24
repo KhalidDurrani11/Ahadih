@@ -7,6 +7,11 @@ export default async function HomePage() {
   const departments = await prisma.department.findMany({
     take: 3,
   });
+  
+  const news = await prisma.news.findMany({
+    take: 6,
+    orderBy: { createdAt: 'desc' }
+  });
 
-  return <HomeClient initialDepartments={departments} />;
+  return <HomeClient initialDepartments={departments} initialNews={news} />;
 }

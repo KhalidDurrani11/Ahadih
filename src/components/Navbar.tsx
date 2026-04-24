@@ -1,7 +1,7 @@
 "use client";
 
 import { motion, AnimatePresence } from 'motion/react';
-import { Menu, Phone, X, Moon, Sun } from 'lucide-react';
+import { Menu, Phone, X, Moon, Sun, ChevronDown } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import { cn } from '../lib/utils';
 import Link from 'next/link';
@@ -27,7 +27,18 @@ export function Navbar() {
     { label: 'Home', href: '/' },
     { label: 'Departments', href: '/departments' },
     { label: 'Specialists', href: '/specialists' },
-    { label: 'About Us', href: '/about' },
+    { 
+      label: 'About Us', 
+      href: '#',
+      subItems: [
+        { label: 'About The View Hospital', href: '/about' },
+        { label: 'Our Accreditations', href: '/accreditations' },
+        { label: 'Cedars-Sinai Affiliation', href: '/affiliation' },
+        { label: 'About the CEO', href: '/ceo' },
+        { label: 'News', href: '/news' },
+        { label: 'Careers', href: '/careers' },
+      ]
+    },
     { label: 'Contact', href: '/contact' },
   ];
 
@@ -58,26 +69,42 @@ export function Navbar() {
           </Link>
 
           {/* Desktop Nav */}
-          <div className="hidden md:flex items-center space-x-8">
+          <div className="hidden md:flex items-center space-x-8 h-full">
             {navItems.map((item) => {
-              const isActive = pathname === item.href;
+              const isActive = pathname === item.href || item.subItems?.some((s: any) => pathname === s.href);
               return (
-                <Link
-                  key={item.href}
-                  href={item.href}
-                  className={cn(
-                    "text-sm font-medium transition-all hover:text-medical-blue relative py-2",
-                    isActive ? "text-medical-blue" : "text-gray-500 dark:text-gray-300"
+                <div key={item.label} className="relative group h-full flex items-center">
+                  <Link
+                    href={item.href !== '#' ? item.href : item.subItems![0].href}
+                    className={cn(
+                      "text-sm font-medium transition-all hover:text-medical-blue relative flex items-center gap-1 py-4",
+                      isActive ? "text-medical-blue" : "text-gray-500 dark:text-gray-300"
+                    )}
+                  >
+                    {item.label}
+                    {item.subItems && <ChevronDown className="w-4 h-4" />}
+                    {isActive && (
+                      <motion.div
+                        layoutId="navUnderline"
+                        className="absolute bottom-2 left-0 right-0 h-0.5 bg-medical-blue rounded-full"
+                      />
+                    )}
+                  </Link>
+                  
+                  {item.subItems && (
+                    <div className="absolute top-[80%] left-0 w-64 bg-white dark:bg-gray-900 rounded-2xl shadow-xl border border-gray-100 dark:border-gray-800 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all translate-y-2 group-hover:translate-y-0 z-50 overflow-hidden py-2">
+                      {item.subItems.map((subItem: any) => (
+                        <Link 
+                           key={subItem.href} 
+                           href={subItem.href}
+                           className="block px-6 py-3 text-sm text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 hover:text-medical-blue transition-colors font-medium"
+                        >
+                           {subItem.label}
+                        </Link>
+                      ))}
+                    </div>
                   )}
-                >
-                  {item.label}
-                  {isActive && (
-                    <motion.div
-                      layoutId="navUnderline"
-                      className="absolute bottom-0 left-0 right-0 h-0.5 bg-medical-blue rounded-full"
-                    />
-                  )}
-                </Link>
+                </div>
               );
             })}
 
@@ -151,7 +178,7 @@ export function Navbar() {
           >
             <div className="px-4 pb-4 pt-2 space-y-1">
               {navItems.map((item, i) => {
-                const isActive = pathname === item.href;
+                const isActive = pathname === item.href || item.subItems?.some((s: any) => pathname === s.href);
                 return (
                   <motion.div
                     key={item.href}
@@ -159,18 +186,39 @@ export function Navbar() {
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ delay: i * 0.06 }}
                   >
-                    <Link
-                      href={item.href}
-                      onClick={() => setIsOpen(false)}
-                      className={cn(
-                        "block w-full text-left px-4 py-3 rounded-xl text-sm font-medium transition-all",
-                        isActive
-                          ? "bg-medical-blue text-white"
-                          : "text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800"
-                      )}
-                    >
-                      {item.label}
-                    </Link>
+                    {item.subItems ? (
+                      <div className="space-y-1">
+                        <div className="px-4 py-3 text-sm font-bold text-gray-400 uppercase tracking-widest">{item.label}</div>
+                        {item.subItems.map((subItem: any) => (
+                          <Link
+                            key={subItem.href}
+                            href={subItem.href}
+                            onClick={() => setIsOpen(false)}
+                            className={cn(
+                              "block w-full text-left px-8 py-3 rounded-xl text-sm font-medium transition-all",
+                              pathname === subItem.href
+                                ? "bg-medical-blue/10 text-medical-blue"
+                                : "text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800"
+                            )}
+                          >
+                            {subItem.label}
+                          </Link>
+                        ))}
+                      </div>
+                    ) : (
+                      <Link
+                        href={item.href}
+                        onClick={() => setIsOpen(false)}
+                        className={cn(
+                          "block w-full text-left px-4 py-3 rounded-xl text-sm font-medium transition-all",
+                          isActive
+                            ? "bg-medical-blue text-white"
+                            : "text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800"
+                        )}
+                      >
+                        {item.label}
+                      </Link>
+                    )}
                   </motion.div>
                 );
               })}

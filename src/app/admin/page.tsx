@@ -16,11 +16,13 @@ export default async function AdminPage() {
   const doctors = await prisma.doctor.findMany({ include: { department: true }, orderBy: { name: 'asc' } });
   const appointments = await prisma.appointment.findMany({ include: { doctor: true, department: true }, orderBy: { createdAt: 'desc' } });
   const messages = await prisma.contactMessage.findMany({ orderBy: { createdAt: 'desc' } });
+  const news = await prisma.news.findMany({ orderBy: { createdAt: 'desc' } });
 
   return <AdminDashboard 
     initialDepartments={departments} 
     initialDoctors={doctors} 
     initialAppointments={appointments} 
     initialMessages={messages} 
+    initialNews={news}
   />;
 }

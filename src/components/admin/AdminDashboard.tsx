@@ -4,16 +4,18 @@ import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { 
   LayoutDashboard, Users, HeartPulse, LogOut, Plus, Trash2, Edit, 
-  Calendar, MessageSquare, CheckCircle, XCircle, Save, X, Image as ImageIcon 
+  Calendar, MessageSquare, CheckCircle, XCircle, Save, X, Image as ImageIcon, Menu, FileText
 } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 
-export default function AdminDashboard({ initialDepartments, initialDoctors, initialAppointments, initialMessages }: any) {
-  const [activeTab, setActiveTab] = useState<'doctors' | 'departments' | 'appointments' | 'messages' | 'pages'>('appointments');
+export default function AdminDashboard({ initialDepartments, initialDoctors, initialAppointments, initialMessages, initialNews }: any) {
+  const [activeTab, setActiveTab] = useState<'doctors' | 'departments' | 'appointments' | 'messages' | 'pages' | 'news'>('appointments');
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [doctors, setDoctors] = useState(initialDoctors || []);
   const [departments, setDepartments] = useState(initialDepartments || []);
   const [appointments, setAppointments] = useState(initialAppointments || []);
   const [messages, setMessages] = useState(initialMessages || []);
+  const [news, setNews] = useState(initialNews || []);
   
   const [pageContent, setPageContent] = useState<any>({
     home: {
@@ -92,18 +94,26 @@ export default function AdminDashboard({ initialDepartments, initialDoctors, ini
 
   // --- CRUD Operations ---
 
-  const openModal = (type: 'doctor' | 'department', item: any = null) => {
+  const openModal = (type: 'doctor' | 'department' | 'news', item: any = null) => {
     if (item) {
       setEditingItem({ ...item });
       setFormData({ ...item });
     } else {
       setEditingItem(null);
-      setFormData(type === 'doctor' ? {
-        name: '', role: 'Specialist', specialization: '', qualifications: '',
-        experience: 5, bio: '', image: '', departmentId: departments[0]?.id || ''
-      } : {
-        title: '', description: '', icon: 'HeartPulse', image: ''
-      });
+      if (type === 'doctor') {
+        setFormData({
+          name: '', role: 'Specialist', specialization: '', qualifications: '',
+          experience: 5, bio: '', image: '', departmentId: departments[0]?.id || ''
+        });
+      } else if (type === 'news') {
+        setFormData({
+          title: '', description: '', content: '', image: '', date: ''
+        });
+      } else {
+        setFormData({
+          title: '', description: '', icon: 'HeartPulse', image: ''
+        });
+      }
     }
     setIsModalOpen(true);
   };
@@ -122,7 +132,7 @@ export default function AdminDashboard({ initialDepartments, initialDoctors, ini
   const saveItem = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
-    const type = activeTab === 'doctors' ? 'doctors' : 'departments';
+    const type = activeTab === 'doctors' ? 'doctors' : activeTab === 'news' ? 'news' : 'departments';
     const method = editingItem ? 'PUT' : 'POST';
     const url = editingItem ? `/api/${type}/${editingItem.id}` : `/api/${type}`;
 
@@ -136,9 +146,11 @@ export default function AdminDashboard({ initialDepartments, initialDoctors, ini
       if (res.ok) {
         const saved = await res.json();
         if (activeTab === 'doctors') {
-          setDoctors(editingItem?.id ? doctors.map((d: any) => d.id === saved.id ? saved : d) : [...doctors, saved]);
+          setDoctors(editingItem?.id ? doctors.map((d: any) => d.id === saved.id ? saved : d) : [saved, ...doctors]);
+        } else if (activeTab === 'news') {
+          setNews(editingItem?.id ? news.map((n: any) => n.id === saved.id ? saved : n) : [saved, ...news]);
         } else {
-          setDepartments(editingItem?.id ? departments.map((d: any) => d.id === saved.id ? saved : d) : [...departments, saved]);
+          setDepartments(editingItem?.id ? departments.map((d: any) => d.id === saved.id ? saved : d) : [saved, ...departments]);
         }
         setIsModalOpen(false);
       } else {
@@ -159,6 +171,7 @@ export default function AdminDashboard({ initialDepartments, initialDoctors, ini
         if (type === 'doctors') setDoctors(doctors.filter((d: any) => d.id !== id));
         if (type === 'departments') setDepartments(departments.filter((d: any) => d.id !== id));
         if (type === 'messages') setMessages(messages.filter((m: any) => m.id !== id));
+        if (type === 'news') setNews(news.filter((n: any) => n.id !== id));
       } else {
         const err = await res.json();
         alert(err.error || 'Failed to delete');
@@ -180,9 +193,17 @@ export default function AdminDashboard({ initialDepartments, initialDoctors, ini
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 pt-20 flex">
+    <div className="min-h-screen bg-gray-50 pt-20 flex flex-col md:flex-row relative">
+      {/* Mobile Admin Header */}
+      <div className="md:hidden bg-white border-b border-gray-200 p-4 flex justify-between items-center z-40 sticky top-20 shadow-sm">
+        <h1 className="text-xl font-black text-medical-dark">CMS Admin</h1>
+        <button onClick={() => setIsSidebarOpen(!isSidebarOpen)} className="p-2 text-medical-dark hover:bg-gray-100 rounded-lg">
+           {isSidebarOpen ? <X className="w-6 h-6"/> : <Menu className="w-6 h-6"/>}
+        </button>
+      </div>
+
       {/* Sidebar */}
-      <aside className="w-64 bg-white border-r border-gray-200 hidden md:block relative">
+      <aside className={`w-64 bg-white border-r border-gray-200 fixed md:sticky top-[140px] md:top-20 h-[calc(100vh-140px)] md:h-[calc(100vh-80px)] z-30 transition-transform duration-300 md:translate-x-0 ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full'} flex flex-col`}>
         <div className="p-6">
           <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-6">Management</p>
           <nav className="space-y-2">
@@ -191,6 +212,7 @@ export default function AdminDashboard({ initialDepartments, initialDoctors, ini
               { id: 'messages', label: 'Messages', icon: MessageSquare },
               { id: 'doctors', label: 'Doctors', icon: Users },
               { id: 'departments', label: 'Departments', icon: HeartPulse },
+              { id: 'news', label: 'News & Updates', icon: FileText },
               { id: 'pages', label: 'Page Content', icon: LayoutDashboard },
             ].map((tab) => (
               <button 
@@ -204,7 +226,7 @@ export default function AdminDashboard({ initialDepartments, initialDoctors, ini
             ))}
           </nav>
         </div>
-        <div className="absolute bottom-10 w-full px-6">
+        <div className="mt-auto p-6 border-t border-gray-100">
           <button onClick={handleLogout} className="w-full flex items-center space-x-3 px-4 py-3 text-red-500 hover:bg-red-50 rounded-xl transition-all font-bold text-sm">
             <LogOut className="w-5 h-5" />
             <span>Logout</span>
@@ -216,14 +238,14 @@ export default function AdminDashboard({ initialDepartments, initialDoctors, ini
       <main className="flex-1 p-8">
         <div className="max-w-6xl mx-auto">
           <header className="flex justify-between items-center mb-10">
-             <h1 className="text-3xl font-display font-black text-medical-dark capitalize">{activeTab} CMS</h1>
-             {(activeTab === 'doctors' || activeTab === 'departments') && (
+             <h1 className="text-3xl font-display font-black text-medical-dark capitalize">{activeTab === 'pages' ? 'Page Content' : activeTab} CMS</h1>
+             {(activeTab === 'doctors' || activeTab === 'departments' || activeTab === 'news') && (
                <button 
-                onClick={() => openModal(activeTab === 'doctors' ? 'doctor' : 'department')}
+                onClick={() => openModal(activeTab === 'doctors' ? 'doctor' : activeTab === 'news' ? 'news' : 'department')}
                 className="flex items-center space-x-2 px-6 py-3 premium-gradient text-white rounded-2xl font-bold hover:shadow-xl transition-all"
                >
                  <Plus className="w-5 h-5" />
-                 <span>Add {activeTab === 'doctors' ? 'Doctor' : 'Department'}</span>
+                 <span>Add {activeTab === 'doctors' ? 'Doctor' : activeTab === 'news' ? 'News Post' : 'Department'}</span>
                </button>
              )}
           </header>
@@ -231,7 +253,8 @@ export default function AdminDashboard({ initialDepartments, initialDoctors, ini
           <div className="bg-white rounded-[40px] shadow-sm border border-gray-100 overflow-hidden">
             
             {activeTab === 'appointments' && (
-              <table className="w-full text-left border-collapse">
+              <div className="overflow-x-auto">
+              <table className="w-full text-left border-collapse whitespace-nowrap min-w-[800px]">
                 <thead>
                   <tr className="bg-gray-50 border-b border-gray-100 text-[11px] uppercase tracking-wider text-gray-400">
                     <th className="p-4 pl-6">Patient</th>
@@ -270,10 +293,12 @@ export default function AdminDashboard({ initialDepartments, initialDoctors, ini
                   ))}
                 </tbody>
               </table>
+              </div>
             )}
 
             {activeTab === 'messages' && (
-              <table className="w-full text-left border-collapse">
+              <div className="overflow-x-auto">
+              <table className="w-full text-left border-collapse whitespace-nowrap min-w-[600px]">
                 <thead>
                   <tr className="bg-gray-50 border-b border-gray-100 text-[11px] uppercase tracking-wider text-gray-400">
                     <th className="p-4 pl-6">From</th>
@@ -299,10 +324,12 @@ export default function AdminDashboard({ initialDepartments, initialDoctors, ini
                   ))}
                 </tbody>
               </table>
+              </div>
             )}
 
             {activeTab === 'doctors' && (
-              <table className="w-full text-left border-collapse">
+              <div className="overflow-x-auto">
+              <table className="w-full text-left border-collapse whitespace-nowrap min-w-[700px]">
                 <thead>
                   <tr className="bg-gray-50 border-b border-gray-100 text-[11px] uppercase tracking-wider text-gray-400">
                     <th className="p-4 pl-6">Doctor</th>
@@ -342,10 +369,12 @@ export default function AdminDashboard({ initialDepartments, initialDoctors, ini
                   ))}
                 </tbody>
               </table>
+              </div>
             )}
 
             {activeTab === 'departments' && (
-              <table className="w-full text-left border-collapse">
+              <div className="overflow-x-auto">
+              <table className="w-full text-left border-collapse whitespace-nowrap min-w-[600px]">
                 <thead>
                   <tr className="bg-gray-50 border-b border-gray-100 text-[11px] uppercase tracking-wider text-gray-400">
                     <th className="p-4 pl-6">Title</th>
@@ -379,6 +408,49 @@ export default function AdminDashboard({ initialDepartments, initialDoctors, ini
                   ))}
                 </tbody>
               </table>
+              </div>
+            )}
+
+            {activeTab === 'news' && (
+              <div className="overflow-x-auto">
+              <table className="w-full text-left border-collapse whitespace-nowrap min-w-[700px]">
+                <thead>
+                  <tr className="bg-gray-50 border-b border-gray-100 text-[11px] uppercase tracking-wider text-gray-400">
+                    <th className="p-4 pl-6">News Post</th>
+                    <th className="p-4">Date</th>
+                    <th className="p-4 text-right pr-6">Actions</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-gray-100">
+                  {news.length === 0 && <tr><td colSpan={3} className="p-8 text-center text-gray-400">No news updates added.</td></tr>}
+                  {news.map((n: any) => (
+                    <tr key={n.id} className="hover:bg-gray-50/50 transition-colors">
+                      <td className="p-4 pl-6 flex items-center space-x-4">
+                        <img src={n.image} alt={n.title} className="w-16 h-10 rounded-lg object-cover border border-gray-100 shadow-sm" />
+                        <div>
+                          <p className="font-bold text-medical-dark text-sm max-w-[200px] truncate">{n.title}</p>
+                        </div>
+                      </td>
+                      <td className="p-4 text-sm text-gray-600">{n.date || new Date(n.createdAt).toLocaleDateString()}</td>
+                      <td className="p-4 text-right pr-6 space-x-2">
+                         <button 
+                           onClick={() => openModal('news', n)}
+                           className="p-2 text-gray-400 hover:text-medical-blue transition-colors rounded-lg hover:bg-blue-50 inline-block"
+                          >
+                            <Edit className="w-4 h-4"/>
+                          </button>
+                         <button 
+                           onClick={() => deleteItem('news', n.id)}
+                           className="p-2 text-gray-400 hover:text-red-500 transition-colors rounded-lg hover:bg-red-50 inline-block"
+                          >
+                           <Trash2 className="w-4 h-4"/>
+                          </button>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+              </div>
             )}
 
             {/* ===== PAGE CONTENT CMS ===== */}
@@ -525,7 +597,7 @@ export default function AdminDashboard({ initialDepartments, initialDoctors, ini
             >
               <div className="p-8 border-b border-gray-100 flex justify-between items-center bg-gray-50/50">
                 <h2 className="text-2xl font-black text-medical-dark">
-                  {editingItem ? 'Edit' : 'Add'} {activeTab === 'doctors' ? 'Doctor' : 'Department'}
+                  {editingItem ? 'Edit' : 'Add'} {activeTab === 'doctors' ? 'Doctor' : activeTab === 'news' ? 'News Post' : 'Department'}
                 </h2>
                 <button onClick={() => setIsModalOpen(false)} className="p-2 hover:bg-white rounded-full transition-colors">
                   <X className="w-6 h-6 text-gray-400" />
@@ -623,6 +695,71 @@ export default function AdminDashboard({ initialDepartments, initialDoctors, ini
                         onChange={e => setFormData({ ...formData, bio: e.target.value })}
                         className="w-full p-4 bg-gray-50 rounded-2xl border border-gray-100 focus:outline-none focus:border-medical-blue transition-all resize-none"
                       />
+                    </div>
+                  </>
+                ) : activeTab === 'news' ? (
+                  <>
+                    <div className="space-y-2">
+                      <label className="text-xs font-bold text-gray-400 uppercase tracking-wider">News Title</label>
+                      <input 
+                        required
+                        value={formData.title || ''}
+                        onChange={e => setFormData({ ...formData, title: e.target.value })}
+                        className="w-full p-4 bg-gray-50 rounded-2xl border border-gray-100 focus:outline-none focus:border-medical-blue transition-all"
+                      />
+                    </div>
+
+                    <div className="grid grid-cols-2 gap-6">
+                      <div className="space-y-2">
+                        <label className="text-xs font-bold text-gray-400 uppercase tracking-wider">Date (e.g. Mar 2026)</label>
+                        <input 
+                          value={formData.date || ''}
+                          onChange={e => setFormData({ ...formData, date: e.target.value })}
+                          className="w-full p-4 bg-gray-50 rounded-2xl border border-gray-100 focus:outline-none focus:border-medical-blue transition-all"
+                          placeholder="Leave empty for auto date"
+                        />
+                      </div>
+                    </div>
+
+                    <div className="space-y-2">
+                      <label className="text-xs font-bold text-gray-400 uppercase tracking-wider">Short Description</label>
+                      <textarea 
+                        required
+                        rows={2}
+                        value={formData.description || ''}
+                        onChange={e => setFormData({ ...formData, description: e.target.value })}
+                        className="w-full p-4 bg-gray-50 rounded-2xl border border-gray-100 focus:outline-none focus:border-medical-blue transition-all resize-none"
+                      />
+                    </div>
+
+                    <div className="space-y-2">
+                      <label className="text-xs font-bold text-gray-400 uppercase tracking-wider">Full Content (HTML allowed)</label>
+                      <textarea 
+                        required
+                        rows={6}
+                        value={formData.content || ''}
+                        onChange={e => setFormData({ ...formData, content: e.target.value })}
+                        className="w-full p-4 bg-gray-50 rounded-2xl border border-gray-100 focus:outline-none focus:border-medical-blue transition-all resize-none"
+                      />
+                    </div>
+
+                    <div className="space-y-2">
+                       <label className="text-xs font-bold text-gray-400 uppercase tracking-wider">Featured Image</label>
+                       <div className="flex flex-col space-y-4">
+                        <div className="flex space-x-4">
+                          <input 
+                            value={formData.image || ''}
+                            onChange={e => setFormData({ ...formData, image: e.target.value })}
+                            className="flex-1 p-4 bg-gray-50 rounded-2xl border border-gray-100 focus:outline-none focus:border-medical-blue transition-all"
+                            placeholder="Image URL or Upload below..."
+                          />
+                        </div>
+                        <label className="flex items-center space-x-2 px-6 py-3 bg-white border-2 border-dashed border-gray-200 rounded-2xl cursor-pointer hover:border-medical-blue hover:bg-medical-blue/5 transition-all text-sm font-bold text-gray-500">
+                          <ImageIcon className="w-4 h-4" />
+                          <span>Upload Local Photo</span>
+                          <input type="file" className="hidden" accept="image/*" onChange={handleFileUpload} />
+                        </label>
+                      </div>
                     </div>
                   </>
                 ) : (
