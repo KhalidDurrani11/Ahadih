@@ -20,6 +20,7 @@ export default function AdminDashboard({ initialDepartments, initialDoctors, ini
       heroTitle: 'Advanced Care, Personalized for You.',
       heroSubtitle: 'AHAD International Hospital combines evidence-based medicine, leading specialists, and seamless patient journeys for local and international communities.',
       heroBadge: 'International Standards. Human-Centered Care.',
+      heroBgImage: 'https://images.unsplash.com/photo-1586773860418-d37222d8fce3?auto=format&fit=crop&q=80&w=2200',
     },
     about: {
       title: 'Our Mission & Vision',
@@ -400,6 +401,11 @@ export default function AdminDashboard({ initialDepartments, initialDoctors, ini
                   {editingPageSection === 'home' && (
                     <>
                       <h3 className="font-black text-lg text-medical-dark">🏠 Home Page Content</h3>
+                      <div>
+                        <label className="block text-xs font-bold text-gray-500 mb-1 uppercase">Background Image URL</label>
+                        <input value={pageContent.home.heroBgImage || ''} onChange={e => setPageContent((p: any) => ({ ...p, home: { ...p.home, heroBgImage: e.target.value } }))}
+                          className="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm focus:ring-2 focus:ring-medical-blue outline-none" />
+                      </div>
                       <div>
                         <label className="block text-xs font-bold text-gray-500 mb-1 uppercase">Badge Text</label>
                         <input value={pageContent.home.heroBadge} onChange={e => setPageContent((p: any) => ({ ...p, home: { ...p.home, heroBadge: e.target.value } }))}

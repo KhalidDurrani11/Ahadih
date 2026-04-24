@@ -14,6 +14,7 @@ const DEFAULT_CONTENT = {
     heroTitle: 'Advanced Care, Personalized for You.',
     heroSubtitle: 'AHAD International Hospital combines evidence-based medicine, leading specialists, and seamless patient journeys for local and international communities.',
     heroBadge: 'International Standards. Human-Centered Care.',
+    heroBgImage: 'https://images.unsplash.com/photo-1586773860418-d37222d8fce3?auto=format&fit=crop&q=80&w=2200',
   },
 };
 
@@ -43,7 +44,7 @@ export function HomeClient({ initialDepartments }: HomeClientProps) {
         {/* Background Image / Gradient */}
         <div className="absolute inset-0 z-0">
           <img 
-            src="https://images.unsplash.com/photo-1586773860418-d37222d8fce3?auto=format&fit=crop&q=80&w=2200"
+            src={hero.heroBgImage || "https://images.unsplash.com/photo-1586773860418-d37222d8fce3?auto=format&fit=crop&q=80&w=2200"}
             alt="AHAD hospital exterior"
             className="w-full h-full object-cover scale-105 opacity-70"
             referrerPolicy="no-referrer"
