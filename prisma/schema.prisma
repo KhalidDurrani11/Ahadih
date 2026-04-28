@@ -75,6 +75,57 @@ model News {
   content     String
   image       String
   date        String
+  category    String   @default("General")
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
+}
+
+model TeamMember {
+  id          String   @id @default(uuid())
+  name        String
+  designation String
+  bio         String
+  image       String
+  linkedin    String   @default("")
+  email       String   @default("")
+  twitter     String   @default("")
+  order       Int      @default(0)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model JobVacancy {
+  id           String           @id @default(uuid())
+  title        String
+  department   String
+  location     String
+  description  String
+  requirements String[]
+  active       Boolean          @default(true)
+  applications JobApplication[]
+  createdAt    DateTime         @default(now())
+  updatedAt    DateTime         @updatedAt
+}
+
+model JobApplication {
+  id          String     @id @default(uuid())
+  name        String
+  email       String
+  phone       String
+  coverLetter String
+  cvFile      String     @default("")
+  jobId       String
+  job         JobVacancy @relation(fields: [jobId], references: [id], onDelete: Cascade)
+  createdAt   DateTime   @default(now())
+}
+
+model Certification {
+  id        String   @id @default(uuid())
+  name      String
+  authority String
+  year      String
+  image     String   @default("")
+  order     Int      @default(0)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }

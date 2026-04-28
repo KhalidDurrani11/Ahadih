@@ -11,18 +11,30 @@ export default async function AdminPage() {
     return <AdminLogin />;
   }
 
-  // Fetch data for the dashboard
-  const departments = await prisma.department.findMany({ orderBy: { title: 'asc' } });
-  const doctors = await prisma.doctor.findMany({ include: { department: true }, orderBy: { name: 'asc' } });
-  const appointments = await prisma.appointment.findMany({ include: { doctor: true, department: true }, orderBy: { createdAt: 'desc' } });
-  const messages = await prisma.contactMessage.findMany({ orderBy: { createdAt: 'desc' } });
-  const news = await prisma.news.findMany({ orderBy: { createdAt: 'desc' } });
+  // Fetch all data for the dashboard
+  const [departments, doctors, appointments, messages, news, teamMembers, jobs, applications, certifications] = await Promise.all([
+    prisma.department.findMany({ orderBy: { title: 'asc' } }).catch(() => []),
+    prisma.doctor.findMany({ include: { department: true }, orderBy: { name: 'asc' } }).catch(() => []),
+    prisma.appointment.findMany({ include: { doctor: true, department: true }, orderBy: { createdAt: 'desc' } }).catch(() => []),
+    prisma.contactMessage.findMany({ orderBy: { createdAt: 'desc' } }).catch(() => []),
+    prisma.news.findMany({ orderBy: { createdAt: 'desc' } }).catch(() => []),
+    prisma.teamMember.findMany({ orderBy: { order: 'asc' } }).catch(() => []),
+    prisma.jobVacancy.findMany({ orderBy: { createdAt: 'desc' } }).catch(() => []),
+    prisma.jobApplication.findMany({ include: { job: { select: { title: true } } }, orderBy: { createdAt: 'desc' } }).catch(() => []),
+    prisma.certification.findMany({ orderBy: { order: 'asc' } }).catch(() => []),
+  ]);
 
-  return <AdminDashboard 
-    initialDepartments={departments} 
-    initialDoctors={doctors} 
-    initialAppointments={appointments} 
-    initialMessages={messages} 
-    initialNews={news}
-  />;
+  return (
+    <AdminDashboard
+      initialDepartments={departments}
+      initialDoctors={doctors}
+      initialAppointments={appointments}
+      initialMessages={messages}
+      initialNews={news}
+      initialTeamMembers={teamMembers}
+      initialJobs={jobs}
+      initialApplications={applications}
+      initialCertifications={certifications}
+    />
+  );
 }

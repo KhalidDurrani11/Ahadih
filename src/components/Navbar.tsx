@@ -35,6 +35,7 @@ export function Navbar() {
         { label: 'Our Accreditations', href: '/accreditations' },
         { label: 'Cedars-Sinai Affiliation', href: '/affiliation' },
         { label: 'About the CEO', href: '/ceo' },
+        { label: 'Managing Team', href: '/team' },
         { label: 'News', href: '/news' },
         { label: 'Careers', href: '/careers' },
       ]
