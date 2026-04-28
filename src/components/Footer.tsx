@@ -33,30 +33,6 @@ export function Footer() {
 
   return (
     <footer className="bg-medical-dark text-white">
-      {/* Google Map Strip */}
-      <div className="w-full h-64 relative overflow-hidden">
-        <iframe
-          src={content.mapEmbed}
-          width="100%"
-          height="100%"
-          style={{ border: 0, filter: 'grayscale(0.4) contrast(0.95)' }}
-          allowFullScreen
-          loading="lazy"
-          referrerPolicy="no-referrer-when-downgrade"
-          title="AHAD International Hospital Location"
-          className="absolute inset-0"
-        />
-        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-medical-dark/30 pointer-events-none" />
-        <a
-          href={content.mapLink}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="absolute bottom-4 right-4 flex items-center space-x-2 bg-white text-medical-dark text-xs font-bold px-4 py-2 rounded-full shadow-xl hover:bg-medical-blue hover:text-white transition-all z-10"
-        >
-          <ExternalLink className="w-3 h-3" />
-          <span>View on Google Maps</span>
-        </a>
-      </div>
 
       {/* Main Footer */}
       <div className="pt-16 pb-10">
@@ -132,6 +108,29 @@ export function Footer() {
                   <a href={`mailto:${content.email}`} className="hover:text-white transition-colors">{content.email}</a>
                 </li>
               </ul>
+              {/* Google Map Small */}
+              <div className="mt-6 w-full h-32 relative rounded-xl overflow-hidden border border-white/10 shadow-inner group">
+                <iframe
+                  src={content.mapEmbed}
+                  width="100%"
+                  height="100%"
+                  style={{ border: 0, filter: 'grayscale(0.3) contrast(0.95)' }}
+                  allowFullScreen
+                  loading="lazy"
+                  referrerPolicy="no-referrer-when-downgrade"
+                  title="AHAD Location"
+                  className="absolute inset-0 group-hover:scale-105 transition-transform duration-700"
+                />
+                <a
+                  href={content.mapLink}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="absolute bottom-2 right-2 flex items-center space-x-1 bg-white/90 backdrop-blur-sm text-medical-dark text-[10px] font-bold px-2 py-1 rounded shadow hover:bg-medical-blue hover:text-white transition-all z-10"
+                >
+                  <ExternalLink className="w-3 h-3" />
+                  <span>Directions</span>
+                </a>
+              </div>
             </div>
           </div>
 

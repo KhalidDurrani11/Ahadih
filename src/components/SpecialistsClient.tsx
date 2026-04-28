@@ -1,7 +1,7 @@
 "use client";
 
 import { motion, AnimatePresence } from 'motion/react';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Award, Briefcase, GraduationCap, Star, X, Calendar, Linkedin, Mail, Search, Filter } from 'lucide-react';
 import Link from 'next/link';
 
@@ -13,6 +13,16 @@ export function SpecialistsClient({ initialDoctors }: SpecialistsClientProps) {
   const [selectedDoctor, setSelectedDoctor] = useState<any | null>(null);
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedSpec, setSelectedSpec] = useState('All');
+  const [content, setContent] = useState<any>({
+    title: 'Global Medical Experts', subtitle: "Handpicked specialists from top medical institutions worldwide, dedicated to your well-being."
+  });
+
+  useEffect(() => {
+    fetch('/api/site-content')
+      .then(r => r.json())
+      .then(data => { if (data?.specialists) setContent((prev: any) => ({ ...prev, ...data.specialists })); })
+      .catch(() => {});
+  }, []);
 
   const uniqueSpecializations = ['All', ...Array.from(new Set(initialDoctors.map(doc => doc.specialization)))].sort();
 
@@ -38,7 +48,7 @@ export function SpecialistsClient({ initialDoctors }: SpecialistsClientProps) {
             animate={{ opacity: 1, scale: 1 }}
             className="text-5xl md:text-6xl font-display font-black text-medical-dark mb-6"
           >
-            Global Medical <span className="text-gradient">Experts</span>
+            {content.title}
           </motion.h1>
           <motion.p 
             initial={{ opacity: 0 }}
@@ -46,7 +56,7 @@ export function SpecialistsClient({ initialDoctors }: SpecialistsClientProps) {
             transition={{ delay: 0.2 }}
             className="text-gray-500 font-medium"
           >
-            Handpicked specialists from top medical institutions worldwide, dedicated to your well-being.
+            {content.subtitle}
           </motion.p>
         </header>
 

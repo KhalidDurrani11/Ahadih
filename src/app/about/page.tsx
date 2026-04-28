@@ -2,14 +2,34 @@
 
 import { motion } from 'motion/react';
 import { Award, CheckCircle2, Heart, Shield, Target, Users } from 'lucide-react';
+import { useState, useEffect } from 'react';
 
 export default function AboutPage() {
-  const values = [
+  const [content, setContent] = useState<any>({
+    title: 'Our Mission & Vision',
+    story: 'Founded over two decades ago, AHAD International Hospital has grown from a community center into a trusted regional referral destination.\\n\\nOur journey has been defined by one commitment: the patient. By combining international protocols with compassionate service design, we create a care environment that is both clinically advanced and deeply human.',
+    mission: 'To deliver world-class, compassionate, and evidence-based healthcare to every patient, regardless of their origin or background.',
+    vision: 'To become the most trusted international hospital, renowned for clinical excellence and patient-centered care.',
+    values: 'Excellence|Striving for perfection in every clinical procedure and patient interaction.\\nCompassion|Treating every patient like family with warmth, empathy, and respect.\\nInnovation|Embracing cutting-edge technology to redefine the future of healthcare.\\nTrust|Maintaining the highest ethical standards and transparency in all we do.'
+  });
+
+  useEffect(() => {
+    fetch('/api/site-content')
+      .then(r => r.json())
+      .then(data => { if (data?.about) setContent((prev: any) => ({ ...prev, ...data.about })); })
+      .catch(() => {});
+  }, []);
+  const defaultValues = [
     { title: 'Excellence', desc: 'Striving for perfection in every clinical procedure and patient interaction.', icon: Award },
     { title: 'Compassion', desc: 'Treating every patient like family with warmth, empathy, and respect.', icon: Heart },
     { title: 'Innovation', desc: 'Embracing cutting-edge technology to redefine the future of healthcare.', icon: Target },
     { title: 'Trust', desc: 'Maintaining the highest ethical standards and transparency in all we do.', icon: Shield },
   ];
+  const icons = [Award, Heart, Target, Shield, Users];
+  const values = content.values ? content.values.split('\\n').map((line: string, i: number) => {
+    const [title, desc] = line.split('|');
+    return { title: title || '', desc: desc || '', icon: icons[i % icons.length] };
+  }) : defaultValues;
 
   const timeline = [
     { year: '1998', title: 'The Vision', desc: 'A group of medical pioneers envisioned a hospital that prioritizes wellness over illness.' },
@@ -64,14 +84,11 @@ export default function AboutPage() {
               className="space-y-8"
             >
               <h2 className="text-4xl md:text-5xl font-display font-black text-medical-dark leading-tight">
-                Our Story: From a Small Clinic to a Global Leader
+                {content.title}
               </h2>
-              <p className="text-gray-500 text-lg leading-relaxed">
-                Founded over two decades ago, AHAD International Hospital has grown from a community center into a trusted regional referral destination.
-              </p>
-              <p className="text-gray-500 text-lg leading-relaxed">
-                Our journey has been defined by one commitment: the patient. By combining international protocols with compassionate service design, we create a care environment that is both clinically advanced and deeply human.
-              </p>
+              {content.story.split('\\n\\n').map((para: string, i: number) => (
+                <p key={i} className="text-gray-500 text-lg leading-relaxed">{para}</p>
+              ))}
               
               <div className="grid grid-cols-2 gap-6 pt-8">
                 <div className="flex items-center space-x-3 text-medical-blue font-bold uppercase tracking-widest text-[10px]">
@@ -119,13 +136,22 @@ export default function AboutPage() {
       <section className="py-32 bg-medical-dark text-white relative overflow-hidden">
         <div className="absolute top-0 right-0 w-1/3 h-1/3 bg-medical-blue/20 blur-[120px] rounded-full"></div>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-          <div className="text-center mb-24">
-            <h2 className="text-4xl md:text-5xl font-display font-black mb-6">Our Core Values</h2>
-            <p className="text-medical-light/60 max-w-2xl mx-auto">The principles that guide every decision and action at AHAD International.</p>
+          <div className="text-center mb-24 space-y-6">
+            <h2 className="text-4xl md:text-5xl font-display font-black mb-6">Our Mission & Vision</h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 text-left max-w-4xl mx-auto">
+               <div className="p-8 rounded-3xl bg-white/5 border border-white/10">
+                 <h3 className="text-medical-blue font-bold tracking-widest uppercase text-xs mb-4">Mission</h3>
+                 <p className="text-medical-light/80 text-lg">{content.mission}</p>
+               </div>
+               <div className="p-8 rounded-3xl bg-white/5 border border-white/10">
+                 <h3 className="text-medical-blue font-bold tracking-widest uppercase text-xs mb-4">Vision</h3>
+                 <p className="text-medical-light/80 text-lg">{content.vision}</p>
+               </div>
+            </div>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
-            {values.map((val, i) => (
+            {values.map((val: any, i: number) => (
               <motion.div 
                 key={val.title}
                 initial={{ opacity: 0, y: 30 }}

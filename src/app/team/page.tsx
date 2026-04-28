@@ -22,6 +22,16 @@ interface TeamMember {
 export default function TeamPage() {
   const [members, setMembers] = useState<TeamMember[]>([]);
   const [loading, setLoading] = useState(true);
+  const [content, setContent] = useState<any>({
+    title: 'The Managing Team', subtitle: "The dedicated leaders driving AHAD International Hospital's mission of world-class, compassionate care."
+  });
+
+  useEffect(() => {
+    fetch('/api/site-content')
+      .then(r => r.json())
+      .then(data => { if (data?.team) setContent((prev: any) => ({ ...prev, ...data.team })); })
+      .catch(() => {});
+  }, []);
 
   useEffect(() => {
     fetch('/api/team')
@@ -47,11 +57,11 @@ export default function TeamPage() {
           </motion.p>
           <motion.h1 initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }}
             className="text-5xl md:text-7xl font-display font-black text-white leading-tight mb-6">
-            The Managing<br /><span className="text-medical-light/70">Team</span>
+            {content.title}
           </motion.h1>
           <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.2 }}
             className="text-medical-light/60 max-w-xl mx-auto text-lg">
-            The dedicated leaders driving AHAD International Hospital&apos;s mission of world-class, compassionate care.
+            {content.subtitle}
           </motion.p>
         </div>
       </section>

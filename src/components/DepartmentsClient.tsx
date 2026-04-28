@@ -3,6 +3,7 @@
 import { motion } from 'motion/react';
 import { Activity, Brain, HeartPulse, Scan, Stethoscope, Baby, ArrowRight } from 'lucide-react';
 import Link from 'next/link';
+import { useState, useEffect } from 'react';
 
 interface DepartmentsClientProps {
   initialDepartments: any[];
@@ -18,6 +19,17 @@ const iconMap: Record<string, any> = {
 };
 
 export function DepartmentsClient({ initialDepartments }: DepartmentsClientProps) {
+  const [content, setContent] = useState<any>({
+    title: 'Our Specialist Departments', subtitle: "We offer a full spectrum of medical services powered by advanced technology and led by some of the world's most distinguished medical professionals."
+  });
+
+  useEffect(() => {
+    fetch('/api/site-content')
+      .then(r => r.json())
+      .then(data => { if (data?.departments) setContent((prev: any) => ({ ...prev, ...data.departments })); })
+      .catch(() => {});
+  }, []);
+
   return (
     <div className="pt-32 pb-24 bg-white min-h-screen">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -35,8 +47,7 @@ export function DepartmentsClient({ initialDepartments }: DepartmentsClientProps
             transition={{ delay: 0.1 }}
             className="text-5xl md:text-7xl font-display font-black text-medical-dark mb-8"
           >
-            Our Specialist <br />
-            <span className="text-gradient">Departments</span>
+            {content.title}
           </motion.h1>
           <motion.p 
             initial={{ opacity: 0, y: 20 }}
@@ -44,7 +55,7 @@ export function DepartmentsClient({ initialDepartments }: DepartmentsClientProps
             transition={{ delay: 0.2 }}
             className="text-lg text-gray-500 leading-relaxed max-w-xl"
           >
-            We offer a full spectrum of medical services powered by advanced technology and led by some of the world's most distinguished medical professionals.
+            {content.subtitle}
           </motion.p>
         </header>
 

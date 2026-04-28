@@ -16,6 +16,15 @@ const DEFAULT_CONTENT = {
     heroSubtitle: 'AHAD International Hospital combines evidence-based medicine, leading specialists, and seamless patient journeys for local and international communities.',
     heroBadge: 'International Standards. Human-Centered Care.',
     heroBgImage: 'https://images.unsplash.com/photo-1586773860418-d37222d8fce3?auto=format&fit=crop&q=80&w=2200',
+    statsTitle1: 'Years of Clinical Leadership', statsValue1: '25+',
+    statsTitle2: 'Multidisciplinary Specialists', statsValue2: '150+',
+    statsTitle3: 'Patients Treated Annually', statsValue3: '50k+',
+    statsTitle4: 'Quality & Safety Compliance', statsValue4: '98%',
+    featuredTitle: 'Specialized Care for Every Health Need',
+    featuredSubtitle: 'Explore integrated specialties designed around faster diagnosis, safer treatment pathways, and measurable outcomes.',
+    newsTitle: 'Latest News & Updates',
+    emergencyTitle: 'Emergency Care Available 24/7',
+    emergencySubtitle: 'When every second counts, you can trust AHAD International Hospital. Our emergency trauma team is always ready to save lives.'
   },
 };
 
@@ -25,17 +34,25 @@ export function HomeClient({ initialDepartments, initialNews = [] }: HomeClientP
   useEffect(() => {
     fetch('/api/site-content')
       .then(r => r.json())
-      .then(data => { if (data?.home) setSiteContent(data); })
+      .then(data => { 
+        if (data) {
+          setSiteContent(prev => {
+            const merged = { ...prev };
+            if (data.home) merged.home = { ...prev.home, ...data.home };
+            return merged;
+          });
+        }
+      })
       .catch(() => {});
   }, []);
 
   const hero = siteContent.home;
 
   const stats = [
-    { label: 'Years of Clinical Leadership', value: '25+', icon: Award },
-    { label: 'Multidisciplinary Specialists', value: '150+', icon: Users },
-    { label: 'Patients Treated Annually', value: '50k+', icon: Heart },
-    { label: 'Quality & Safety Compliance', value: '98%', icon: ShieldCheck },
+    { label: hero.statsTitle1 || 'Years of Clinical Leadership', value: hero.statsValue1 || '25+', icon: Award },
+    { label: hero.statsTitle2 || 'Multidisciplinary Specialists', value: hero.statsValue2 || '150+', icon: Users },
+    { label: hero.statsTitle3 || 'Patients Treated Annually', value: hero.statsValue3 || '50k+', icon: Heart },
+    { label: hero.statsTitle4 || 'Quality & Safety Compliance', value: hero.statsValue4 || '98%', icon: ShieldCheck },
   ];
 
   return (
@@ -51,7 +68,7 @@ export function HomeClient({ initialDepartments, initialNews = [] }: HomeClientP
             referrerPolicy="no-referrer"
             onError={(e) => {
               e.currentTarget.onerror = null;
-              e.currentTarget.src = '/fallback-hero.svg';
+              e.currentTarget.src = 'https://images.unsplash.com/photo-1586773860418-d37222d8fce3?auto=format&fit=crop&q=80&w=2200';
             }}
           />
           <div className="absolute inset-0 bg-gradient-to-r from-white via-white/90 to-white/30 dark:from-gray-900 dark:via-gray-900/95 dark:to-gray-900/80"></div>
@@ -204,11 +221,14 @@ export function HomeClient({ initialDepartments, initialNews = [] }: HomeClientP
           <div className="flex flex-col md:flex-row justify-between items-end mb-20 space-y-8 md:space-y-0">
             <div className="max-w-2xl">
               <h2 className="text-4xl md:text-5xl font-display font-black text-medical-dark mb-6 leading-tight">
-                Specialized Care for <br />
-                <span className="text-medical-blue underline decoration-medical-blue/20 decoration-8 underline-offset-4">Every Health Need</span>
+                {hero.featuredTitle ? hero.featuredTitle.split(' ').map((word: string, i: number, arr: string[]) => 
+                  i > arr.length - 3 ? <span key={i} className="text-medical-blue underline decoration-medical-blue/20 decoration-8 underline-offset-4">{word} </span> : word + ' '
+                ) : (
+                  <>Specialized Care for <br /><span className="text-medical-blue underline decoration-medical-blue/20 decoration-8 underline-offset-4">Every Health Need</span></>
+                )}
               </h2>
               <p className="text-lg text-gray-500 leading-relaxed">
-                Explore integrated specialties designed around faster diagnosis, safer treatment pathways, and measurable outcomes.
+                {hero.featuredSubtitle || 'Explore integrated specialties designed around faster diagnosis, safer treatment pathways, and measurable outcomes.'}
               </p>
             </div>
             <Link 
@@ -278,7 +298,11 @@ export function HomeClient({ initialDepartments, initialNews = [] }: HomeClientP
                  Pioneering Moments
                </motion.p>
                <h2 className="text-4xl md:text-5xl font-display font-black text-medical-dark leading-tight">
-                 Latest News <span className="text-gradient">& Updates</span>
+                 {hero.newsTitle ? hero.newsTitle.split(' ').map((word: string, i: number, arr: string[]) => 
+                   i === arr.length - 1 ? <span key={i} className="text-gradient">{word}</span> : word + ' '
+                 ) : (
+                   <>Latest News <span className="text-gradient">& Updates</span></>
+                 )}
                </h2>
              </div>
              <Link 
@@ -363,11 +387,14 @@ export function HomeClient({ initialDepartments, initialNews = [] }: HomeClientP
           <div className="relative z-10 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div>
               <h2 className="text-4xl md:text-5xl font-display font-black text-white mb-8">
-                Emergency Care <br />
-                Available 24/7
+                {hero.emergencyTitle ? hero.emergencyTitle.split(' ').map((word: string, i: number, arr: string[]) => 
+                  i === Math.floor(arr.length / 2) ? <><br key={i}/>{word} </> : word + ' '
+                ) : (
+                  <>Emergency Care <br />Available 24/7</>
+                )}
               </h2>
               <p className="text-white/80 text-lg mb-12 max-w-lg leading-relaxed">
-                When every second counts, you can trust AHAD International Hospital. Our emergency trauma team is always ready to save lives.
+                {hero.emergencySubtitle || 'When every second counts, you can trust AHAD International Hospital. Our emergency trauma team is always ready to save lives.'}
               </p>
               <div className="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4 font-bold text-sm">
                 <a href="tel:+9718002423" className="bg-white text-medical-dark px-10 py-5 rounded-2xl flex items-center justify-center space-x-3 hover:scale-105 transition-all text-xl">

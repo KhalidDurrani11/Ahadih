@@ -65,7 +65,6 @@ export default async function CEOPage() {
                   alt={name}
                   className="w-full h-[420px] object-cover object-top rounded-[40px] shadow-2xl relative z-10"
                   referrerPolicy="no-referrer"
-                  onError={(e) => { (e.currentTarget as HTMLImageElement).src = '/fallback-department.svg'; }}
                 />
                 {/* Floating Badge */}
                 <div className="absolute -bottom-6 -right-6 z-20 bg-white rounded-3xl shadow-2xl p-5 border border-gray-100">

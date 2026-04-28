@@ -48,7 +48,8 @@ export default function CareersPage() {
   }, []);
 
   const title = siteContent?.careers?.title || 'Careers at AHAD';
-  const introText = siteContent?.careers?.text || 'Join our team of dedicated healthcare professionals. We are always looking for passionate individuals who share our commitment to excellence in patient care.';
+  const introText = siteContent?.careers?.subtitle || 'Join our team of dedicated healthcare professionals. We are always looking for passionate individuals who share our commitment to excellence in patient care.';
+  const benefits = siteContent?.careers?.benefits || '';
 
   const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];

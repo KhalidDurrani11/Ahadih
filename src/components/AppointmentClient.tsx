@@ -2,7 +2,7 @@
 
 import { motion } from 'motion/react';
 import { Calendar, CheckCircle2, ChevronRight, Clock, MapPin, Phone, User } from 'lucide-react';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { cn } from '../lib/utils';
 import Link from 'next/link';
 
@@ -23,6 +23,16 @@ export function AppointmentClient({ initialDepartments, initialDoctors }: Appoin
     time: '',
     notes: ''
   });
+  const [content, setContent] = useState<any>({
+    title: 'Book Your Appointment', subtitle: 'Experience hassle-free medical scheduling with AHAD. Select your specialist and preferred time slot in just a few clicks.'
+  });
+
+  useEffect(() => {
+    fetch('/api/site-content')
+      .then(r => r.json())
+      .then(data => { if (data?.appointment) setContent((prev: any) => ({ ...prev, ...data.appointment })); })
+      .catch(() => {});
+  }, []);
 
   const timeSlots = [
     '09:00 AM', '10:00 AM', '11:00 AM', '12:00 PM', 
@@ -69,8 +79,8 @@ export function AppointmentClient({ initialDepartments, initialDoctors }: Appoin
               >
                 Seamless Healthcare
               </motion.p>
-              <h1 className="text-4xl md:text-5xl font-display font-black text-medical-dark mb-6">Book Your Appointment</h1>
-              <p className="text-gray-500 leading-relaxed">Experience hassle-free medical scheduling with AHAD. Select your specialist and preferred time slot in just a few clicks.</p>
+              <h1 className="text-4xl md:text-5xl font-display font-black text-medical-dark mb-6">{content.title}</h1>
+              <p className="text-gray-500 leading-relaxed">{content.subtitle}</p>
             </header>
 
             <div className="space-y-8">

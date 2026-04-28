@@ -19,6 +19,18 @@ interface NewsClientProps {
   initialNews: NewsItem[];
 }
 
+export function NewsClient({ initialNews }: NewsClientProps) {
+  const [content, setContent] = useState<any>({
+    title: 'Latest News & Updates', subtitle: 'Stay at the forefront of healthcare excellence with the latest announcements from AHAD International Hospital.'
+  });
+
+  useEffect(() => {
+    fetch('/api/site-content')
+      .then(r => r.json())
+      .then(data => { if (data?.news) setContent((prev: any) => ({ ...prev, ...data.news })); })
+      .catch(() => {});
+  }, []);
+
 function formatDate(item: NewsItem) {
   const raw = item.date || item.createdAt;
   const d = new Date(raw as string);
@@ -190,7 +202,6 @@ function NewsGrid({ news }: { news: NewsItem[] }) {
   );
 }
 
-export function NewsClient({ initialNews }: NewsClientProps) {
   const hasNews = initialNews.length > 0;
   const featured = initialNews[0];
 
@@ -220,9 +231,11 @@ export function NewsClient({ initialNews }: NewsClientProps) {
             transition={{ delay: 0.1 }}
             className="text-5xl sm:text-6xl md:text-7xl font-display font-black leading-[1.05] mb-6"
           >
-            Latest News
-            <br />
-            <span className="text-gradient">&amp; Updates</span>
+            {content.title ? content.title.split(' ').map((word: string, i: number, arr: string[]) => 
+               i === arr.length - 1 ? <span key={i} className="text-gradient">{word}</span> : word + ' '
+             ) : (
+               <>Latest News<br /><span className="text-gradient">&amp; Updates</span></>
+             )}
           </motion.h1>
           <motion.p
             initial={{ opacity: 0 }}
@@ -230,7 +243,7 @@ export function NewsClient({ initialNews }: NewsClientProps) {
             transition={{ delay: 0.25 }}
             className="text-white/50 text-lg max-w-xl mx-auto"
           >
-            Stay at the forefront of healthcare excellence with the latest announcements from AHAD International Hospital.
+            {content.subtitle}
           </motion.p>
         </div>
 

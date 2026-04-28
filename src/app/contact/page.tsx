@@ -2,9 +2,19 @@
 
 import { motion } from 'motion/react';
 import { Mail, MapPin, Phone, Clock, Send, CheckCircle2 } from 'lucide-react';
-import { useState, FormEvent } from 'react';
+import { useState, FormEvent, useEffect } from 'react';
 
 export default function ContactPage() {
+  const [content, setContent] = useState<any>({
+    title: 'Contact Us', subtitle: "We're Here for You", phone: '+971 800 2423', emergencyPhone: '+971 800 2423', email: 'info@ahadinternationalhospital.com', address: 'Al Zahiyah District, Abu Dhabi, United Arab Emirates'
+  });
+
+  useEffect(() => {
+    fetch('/api/site-content')
+      .then(r => r.json())
+      .then(data => { if (data?.contact) setContent((prev: any) => ({ ...prev, ...data.contact })); })
+      .catch(() => {});
+  }, []);
   const [formStatus, setFormStatus] = useState<'idle' | 'submitting' | 'success'>('idle');
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
@@ -38,9 +48,9 @@ export default function ContactPage() {
   };
 
   const contactInfo = [
-    { title: 'Emergency Contact', content: '+971 800 2423', icon: Phone, color: 'bg-red-50 text-red-500' },
-    { title: 'General Inquiries', content: 'info@ahadinternationalhospital.com', icon: Mail, color: 'bg-blue-50 text-blue-500' },
-    { title: 'Hospital Address', content: 'Al Zahiyah District, Abu Dhabi, United Arab Emirates', icon: MapPin, color: 'bg-green-50 text-green-500' },
+    { title: 'Emergency Contact', content: content.emergencyPhone, icon: Phone, color: 'bg-red-50 text-red-500' },
+    { title: 'General Inquiries', content: content.email, icon: Mail, color: 'bg-blue-50 text-blue-500' },
+    { title: 'Hospital Address', content: content.address, icon: MapPin, color: 'bg-green-50 text-green-500' },
     { title: 'Working Hours', content: 'Emergency 24/7 | Outpatient Clinics 8:00 AM - 8:00 PM', icon: Clock, color: 'bg-purple-50 text-purple-500' },
   ];
 
@@ -53,14 +63,14 @@ export default function ContactPage() {
             animate={{ opacity: 1 }}
             className="text-medical-blue font-bold tracking-widest uppercase text-[10px] mb-4"
           >
-            Get In Touch
+            {content.title}
           </motion.p>
           <motion.h1 
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             className="text-5xl md:text-7xl font-display font-black text-medical-dark mb-8"
           >
-            We're Here for <span className="text-gradient">You</span>
+            {content.subtitle}
           </motion.h1>
         </header>
 

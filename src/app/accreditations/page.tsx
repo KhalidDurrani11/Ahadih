@@ -39,7 +39,7 @@ export default function AccreditationsPage() {
   }, []);
 
   const title = siteContent?.accreditations?.title || 'Certifications & Accreditations';
-  const introText = siteContent?.accreditations?.text || 'We are proud to be accredited by leading international healthcare organizations, ensuring our commitment to the highest quality of patient care and safety.';
+  const introText = siteContent?.accreditations?.subtitle || 'We are proud to be accredited by leading international healthcare organizations, ensuring our commitment to the highest quality of patient care and safety.';
 
   return (
     <div className="min-h-screen bg-white">
