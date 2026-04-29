@@ -14,7 +14,7 @@ export default async function HomePage() {
   });
 
   const testimonials = await prisma.testimonial.findMany({
-    where: { isActive: true },
+    where: { active: true },
     orderBy: { createdAt: 'desc' }
   });
 
