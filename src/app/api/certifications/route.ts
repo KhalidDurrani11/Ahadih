@@ -14,10 +14,10 @@ export async function GET() {
 
 export async function POST(req: Request) {
   try {
-    const data = await req.json();
+    const { id, createdAt, updatedAt, ...data } = await req.json();
     const cert = await prisma.certification.create({ data });
     return NextResponse.json(cert);
-  } catch {
-    return NextResponse.json({ error: 'Failed to create certification' }, { status: 500 });
+  } catch (error: any) {
+    return NextResponse.json({ error: error.message || 'Failed to create certification' }, { status: 500 });
   }
 }

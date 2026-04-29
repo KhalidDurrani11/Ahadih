@@ -21,8 +21,9 @@ export async function PUT(req: Request, props: { params: Promise<{ id: string }>
       data: updateData,
     });
     return NextResponse.json(news);
-  } catch {
-    return NextResponse.json({ error: 'Failed to update news' }, { status: 500 });
+  } catch (error: any) {
+    console.error("NEWS PUT ERROR:", error);
+    return NextResponse.json({ error: `Prisma Error: ${error?.message || error}` }, { status: 500 });
   }
 }
 

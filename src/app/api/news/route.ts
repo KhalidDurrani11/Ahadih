@@ -18,6 +18,7 @@ export async function POST(req: Request) {
     const news = await prisma.news.create({ data });
     return NextResponse.json(news);
   } catch (error: any) {
-    return NextResponse.json({ error: error.message || 'Failed to create news' }, { status: 500 });
+    console.error("NEWS POST ERROR:", error);
+    return NextResponse.json({ error: `Prisma Error: ${error?.message || error}` }, { status: 500 });
   }
 }

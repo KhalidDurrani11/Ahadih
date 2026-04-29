@@ -24,7 +24,25 @@ export function TeamTab({ initialData }: { initialData: TeamMember[] }) {
 
   const handleFile = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
-    if (file) { const r = new FileReader(); r.onloadend = () => setForm((f: any) => ({ ...f, image: r.result })); r.readAsDataURL(file); }
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        const img = new Image();
+        img.onload = () => {
+          const canvas = document.createElement('canvas');
+          let { width, height } = img;
+          const MAX = 800;
+          if (width > height) { if (width > MAX) { height *= MAX / width; width = MAX; } }
+          else { if (height > MAX) { width *= MAX / height; height = MAX; } }
+          canvas.width = width; canvas.height = height;
+          const ctx = canvas.getContext('2d');
+          ctx?.drawImage(img, 0, 0, width, height);
+          setForm((f: any) => ({ ...f, image: canvas.toDataURL('image/jpeg', 0.8) }));
+        };
+        img.src = reader.result as string;
+      };
+      reader.readAsDataURL(file);
+    }
   };
 
   const save = async (e: React.FormEvent) => {
@@ -36,6 +54,15 @@ export function TeamTab({ initialData }: { initialData: TeamMember[] }) {
       const saved = await res.json();
       setMembers(editing ? members.map(m => m.id === saved.id ? saved : m) : [saved, ...members]);
       setOpen(false);
+    } else {
+      let errMessage = 'Failed to save member';
+      try {
+        const errData = await res.json();
+        if (errData.error) errMessage = errData.error;
+      } catch {
+        if (res.status === 413) errMessage = 'Image too large. Please upload a smaller image.';
+      }
+      alert(errMessage);
     }
     setLoading(false);
   };

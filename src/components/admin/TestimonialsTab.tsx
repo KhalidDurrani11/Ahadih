@@ -98,7 +98,27 @@ export function TestimonialsTab({ initialData }: { initialData: Testimonial[] })
                     <span>Upload Media</span>
                     <input type="file" className="hidden" accept="image/*,video/mp4" onChange={(e) => {
                       const file = e.target.files?.[0];
-                      if (file) { const r = new FileReader(); r.onloadend = () => setForm({...form, image: r.result}); r.readAsDataURL(file); }
+                      if (file && file.type.startsWith('image/')) {
+                        const r = new FileReader();
+                        r.onloadend = () => {
+                          const img = new Image();
+                          img.onload = () => {
+                            const canvas = document.createElement('canvas');
+                            let { width, height } = img;
+                            const MAX = 400;
+                            if (width > height) { if (width > MAX) { height *= MAX / width; width = MAX; } }
+                            else { if (height > MAX) { width *= MAX / height; height = MAX; } }
+                            canvas.width = width; canvas.height = height;
+                            const ctx = canvas.getContext('2d');
+                            ctx?.drawImage(img, 0, 0, width, height);
+                            setForm({...form, image: canvas.toDataURL('image/jpeg', 0.8)});
+                          };
+                          img.src = r.result as string;
+                        };
+                        r.readAsDataURL(file);
+                      } else if (file) {
+                        const r = new FileReader(); r.onloadend = () => setForm({...form, image: r.result}); r.readAsDataURL(file);
+                      }
                     }} />
                   </label>
                 </div>
