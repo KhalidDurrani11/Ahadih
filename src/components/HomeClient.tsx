@@ -448,24 +448,24 @@ export function HomeClient({ initialDepartments, initialNews = [], initialTestim
                         ))}
                       </div>
                       <p className="text-white/80 text-lg md:text-xl font-medium leading-relaxed italic line-clamp-6">
-                        "{testimonial.content}"
+                        "{testimonial.review || testimonial.content}"
                       </p>
                     </div>
 
                     <div className="relative z-10 flex items-center space-x-4 mt-auto pt-6 border-t border-white/10">
-                      {testimonial.mediaUrl ? (
+                      {testimonial.image ? (
                         <img 
-                          src={testimonial.mediaUrl} 
-                          alt={testimonial.name} 
+                          src={testimonial.image} 
+                          alt={testimonial.patientName} 
                           className="w-16 h-16 rounded-full object-cover ring-4 ring-white/10"
                         />
                       ) : (
                         <div className="w-16 h-16 rounded-full bg-gradient-to-br from-medical-blue to-blue-600 flex items-center justify-center text-white text-xl font-bold ring-4 ring-white/10">
-                          {testimonial.name.charAt(0)}
+                          {(testimonial.patientName || 'A').charAt(0)}
                         </div>
                       )}
                       <div>
-                        <h4 className="text-white font-bold text-lg">{testimonial.name}</h4>
+                        <h4 className="text-white font-bold text-lg">{testimonial.patientName}</h4>
                         <p className="text-white/50 text-sm uppercase tracking-widest">{testimonial.role || 'Patient'}</p>
                       </div>
                     </div>
