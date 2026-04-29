@@ -8,6 +8,7 @@ import { useState, useEffect } from 'react';
 interface HomeClientProps {
   initialDepartments: any[];
   initialNews?: any[];
+  initialTestimonials?: any[];
 }
 
 const DEFAULT_CONTENT = {
@@ -43,7 +44,7 @@ const DEFAULT_CONTENT = {
   } as Record<string, string>,
 };
 
-export function HomeClient({ initialDepartments, initialNews = [] }: HomeClientProps) {
+export function HomeClient({ initialDepartments, initialNews = [], initialTestimonials = [] }: HomeClientProps) {
   const [siteContent, setSiteContent] = useState(DEFAULT_CONTENT);
 
   useEffect(() => {
@@ -399,6 +400,82 @@ export function HomeClient({ initialDepartments, initialNews = [] }: HomeClientP
            </div>
         </div>
       </section>
+
+      {/* Creative Testimonials Section */}
+      {initialTestimonials.length > 0 && (
+        <section className="py-32 bg-medical-dark relative overflow-hidden">
+          <div className="absolute inset-0 opacity-10 pointer-events-none">
+            <div className="absolute -top-40 -right-40 w-96 h-96 bg-medical-blue rounded-full blur-[150px]"></div>
+            <div className="absolute -bottom-40 -left-40 w-96 h-96 bg-white rounded-full blur-[150px]"></div>
+          </div>
+          
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div className="flex flex-col items-center text-center mb-16">
+              <motion.div 
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                className="inline-flex items-center space-x-2 px-4 py-2 rounded-full bg-white/5 border border-white/10 text-white/80 text-sm font-semibold mb-6"
+              >
+                <Star className="w-4 h-4 fill-yellow-400 text-yellow-400" />
+                <span className="uppercase tracking-widest text-xs">Patient Stories</span>
+              </motion.div>
+              <h2 className="text-4xl md:text-5xl font-display font-black text-white mb-6">
+                Hear From Our <span className="text-gradient">Patients</span>
+              </h2>
+            </div>
+
+            <div className="flex overflow-x-auto pb-12 pt-4 snap-x snap-mandatory hide-scrollbar space-x-8">
+              {initialTestimonials.map((testimonial, i) => (
+                <motion.div 
+                  key={testimonial.id}
+                  initial={{ opacity: 0, scale: 0.9 }}
+                  whileInView={{ opacity: 1, scale: 1 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: i * 0.1 }}
+                  className="shrink-0 w-[350px] md:w-[450px] snap-center relative group"
+                >
+                  <div className="absolute inset-0 bg-gradient-to-br from-white/10 to-white/5 rounded-[32px] transform group-hover:-translate-y-2 group-hover:-translate-x-2 transition-transform duration-500"></div>
+                  <div className="absolute inset-0 bg-medical-blue/20 rounded-[32px] transform translate-y-4 translate-x-4 group-hover:translate-y-2 group-hover:translate-x-2 transition-transform duration-500 -z-10"></div>
+                  
+                  <div className="relative h-full bg-white/5 backdrop-blur-xl border border-white/10 p-8 md:p-10 rounded-[32px] flex flex-col justify-between overflow-hidden">
+                    <div className="absolute -right-6 -top-6 text-[120px] text-white/5 font-serif leading-none">"</div>
+                    
+                    <div className="relative z-10 mb-8">
+                      <div className="flex text-yellow-400 mb-6 space-x-1">
+                        {[...Array(testimonial.rating || 5)].map((_, idx) => (
+                          <Star key={idx} className="w-5 h-5 fill-current" />
+                        ))}
+                      </div>
+                      <p className="text-white/80 text-lg md:text-xl font-medium leading-relaxed italic line-clamp-6">
+                        "{testimonial.content}"
+                      </p>
+                    </div>
+
+                    <div className="relative z-10 flex items-center space-x-4 mt-auto pt-6 border-t border-white/10">
+                      {testimonial.mediaUrl ? (
+                        <img 
+                          src={testimonial.mediaUrl} 
+                          alt={testimonial.name} 
+                          className="w-16 h-16 rounded-full object-cover ring-4 ring-white/10"
+                        />
+                      ) : (
+                        <div className="w-16 h-16 rounded-full bg-gradient-to-br from-medical-blue to-blue-600 flex items-center justify-center text-white text-xl font-bold ring-4 ring-white/10">
+                          {testimonial.name.charAt(0)}
+                        </div>
+                      )}
+                      <div>
+                        <h4 className="text-white font-bold text-lg">{testimonial.name}</h4>
+                        <p className="text-white/50 text-sm uppercase tracking-widest">{testimonial.role || 'Patient'}</p>
+                      </div>
+                    </div>
+                  </div>
+                </motion.div>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
 
       {/* Emergency CTA */}
       <section className="py-24 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

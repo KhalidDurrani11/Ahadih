@@ -13,5 +13,10 @@ export default async function HomePage() {
     orderBy: { createdAt: 'desc' }
   });
 
-  return <HomeClient initialDepartments={departments} initialNews={news} />;
+  const testimonials = await prisma.testimonial.findMany({
+    where: { isActive: true },
+    orderBy: { createdAt: 'desc' }
+  });
+
+  return <HomeClient initialDepartments={departments} initialNews={news} initialTestimonials={testimonials} />;
 }
