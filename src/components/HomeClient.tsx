@@ -16,16 +16,31 @@ const DEFAULT_CONTENT = {
     heroSubtitle: 'AHAD International Hospital combines evidence-based medicine, leading specialists, and seamless patient journeys for local and international communities.',
     heroBadge: 'International Standards. Human-Centered Care.',
     heroBgImage: 'https://images.unsplash.com/photo-1586773860418-d37222d8fce3?auto=format&fit=crop&q=80&w=2200',
+    heroWatermarkLogo: '/ahadd-logo_2.jpeg',
+    heroBtn1Text: 'Book Appointment',
+    heroBtn2Text: 'Explore Departments',
+    floating1Title: 'Health Track', floating1Subtitle: 'Live Monitoring',
+    floating2Title: '98.5% Satisfaction', floating2Subtitle: 'Live Rating', floating2Text: '+10k',
     statsTitle1: 'Years of Clinical Leadership', statsValue1: '25+',
     statsTitle2: 'Multidisciplinary Specialists', statsValue2: '150+',
     statsTitle3: 'Patients Treated Annually', statsValue3: '50k+',
     statsTitle4: 'Quality & Safety Compliance', statsValue4: '98%',
     featuredTitle: 'Specialized Care for Every Health Need',
     featuredSubtitle: 'Explore integrated specialties designed around faster diagnosis, safer treatment pathways, and measurable outcomes.',
+    featuredBtnText: 'View All Departments',
+    featuredLearnMoreText: 'Learn More',
+    newsPreTitle: 'Pioneering Moments',
     newsTitle: 'Latest News & Updates',
+    newsBtnText: 'View All News',
+    newsEmptyText: 'No news updates available.',
     emergencyTitle: 'Emergency Care Available 24/7',
-    emergencySubtitle: 'When every second counts, you can trust AHAD International Hospital. Our emergency trauma team is always ready to save lives.'
-  },
+    emergencySubtitle: 'When every second counts, you can trust AHAD International Hospital. Our emergency trauma team is always ready to save lives.',
+    emergencyBtnText: 'Call Emergency Now',
+    emergencyItem1Label: 'Ambulance 24/7', emergencyItem1Desc: 'Fast Response',
+    emergencyItem2Label: 'Pharmacy Support', emergencyItem2Desc: '24h Open',
+    emergencyItem3Label: 'ICU / Trauma', emergencyItem3Desc: 'Critical Care',
+    emergencyItem4Label: 'Blood Bank', emergencyItem4Desc: 'All Groups',
+  } as Record<string, string>,
 };
 
 export function HomeClient({ initialDepartments, initialNews = [] }: HomeClientProps) {
@@ -75,7 +90,7 @@ export function HomeClient({ initialDepartments, initialNews = [] }: HomeClientP
           
           {/* Premium Watermark Logo */}
           <div className="absolute top-1/2 right-[-5%] -translate-y-1/2 opacity-5 pointer-events-none mix-blend-multiply dark:invert dark:mix-blend-screen w-[600px] h-[600px] md:w-[800px] md:h-[800px]">
-             <img src="/ahadd-logo_2.jpeg" className="w-full h-full object-contain" alt="" />
+             <img src={hero.heroWatermarkLogo || "/ahadd-logo_2.jpeg"} className="w-full h-full object-contain" alt="" />
           </div>
           
           <div className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-white dark:from-gray-900 to-transparent"></div>
@@ -90,7 +105,7 @@ export function HomeClient({ initialDepartments, initialNews = [] }: HomeClientP
               className="inline-flex items-center space-x-2 px-4 py-2 rounded-full bg-medical-blue/10 border border-medical-blue/20 text-medical-blue text-sm font-semibold mb-8"
             >
               <Star className="w-4 h-4 fill-medical-blue" />
-              <span className="uppercase tracking-widest text-xs">{hero.heroBadge}</span>
+              <span className="uppercase tracking-widest text-xs">{hero.heroBadge || 'International Standards. Human-Centered Care.'}</span>
             </motion.div>
             
             <motion.h1 
@@ -127,14 +142,14 @@ export function HomeClient({ initialDepartments, initialNews = [] }: HomeClientP
                 href="/appointment"
                 className="w-full sm:w-auto px-10 py-5 premium-gradient text-white rounded-2xl font-bold flex items-center justify-center space-x-2 group hover:shadow-2xl hover:shadow-medical-blue/40 transition-all hover:-translate-y-1"
               >
-                <span>Book Appointment</span>
+                <span>{hero.heroBtn1Text || 'Book Appointment'}</span>
                 <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
               </Link>
               <Link 
                 href="/departments"
                 className="w-full sm:w-auto px-10 py-5 bg-white border border-gray-200 text-medical-dark rounded-2xl font-bold hover:bg-gray-50 transition-all flex justify-center text-center items-center"
               >
-                Explore Departments
+                {hero.heroBtn2Text || 'Explore Departments'}
               </Link>
             </motion.div>
           </div>
@@ -151,8 +166,8 @@ export function HomeClient({ initialDepartments, initialNews = [] }: HomeClientP
               <Activity className="text-red-500 w-6 h-6" />
             </div>
             <div>
-              <p className="text-xs font-bold text-gray-400 uppercase tracking-wider">Live Monitoring</p>
-              <h4 className="text-lg font-bold">Health Track</h4>
+              <p className="text-xs font-bold text-gray-400 uppercase tracking-wider">{hero.floating1Subtitle || 'Live Monitoring'}</p>
+              <h4 className="text-lg font-bold">{hero.floating1Title || 'Health Track'}</h4>
             </div>
           </div>
           <div className="h-16 flex items-end justify-between space-x-1">
@@ -178,15 +193,15 @@ export function HomeClient({ initialDepartments, initialNews = [] }: HomeClientP
               <Star className="text-medical-blue w-6 h-6 fill-medical-blue" />
             </div>
             <div>
-              <p className="text-[10px] font-bold text-gray-400 uppercase tracking-wider">Live Rating</p>
-              <h4 className="text-lg font-bold">98.5% Satisfaction</h4>
+              <p className="text-[10px] font-bold text-gray-400 uppercase tracking-wider">{hero.floating2Subtitle || 'Live Rating'}</p>
+              <h4 className="text-lg font-bold">{hero.floating2Title || '98.5% Satisfaction'}</h4>
             </div>
           </div>
           <div className="flex -space-x-3 overflow-hidden">
              {[...Array(5)].map((_, i) => (
                 <img key={i} className="inline-block h-10 w-10 rounded-full ring-2 ring-white object-cover" src={`https://i.pravatar.cc/100?img=${i + 10}`} alt=""/>
              ))}
-             <div className="h-10 w-10 rounded-full ring-2 ring-white bg-gray-50 flex items-center justify-center text-[10px] font-bold text-gray-500">+10k</div>
+             <div className="h-10 w-10 rounded-full ring-2 ring-white bg-gray-50 flex items-center justify-center text-[10px] font-bold text-gray-500">{hero.floating2Text || '+10k'}</div>
           </div>
         </motion.div>
       </section>
@@ -235,7 +250,7 @@ export function HomeClient({ initialDepartments, initialNews = [] }: HomeClientP
               href="/departments"
               className="flex items-center space-x-3 text-medical-blue font-bold px-8 py-4 border-2 border-medical-blue/10 rounded-2xl hover:bg-medical-blue/10 transition-all uppercase tracking-widest text-xs"
             >
-              <span>View All Departments</span>
+              <span>{hero.featuredBtnText || 'View All Departments'}</span>
               <ArrowRight className="w-4 h-4" />
             </Link>
           </div>
@@ -274,7 +289,7 @@ export function HomeClient({ initialDepartments, initialNews = [] }: HomeClientP
                     href="/departments"
                     className="text-medical-blue text-xs uppercase tracking-widest font-black inline-flex items-center group/btn py-2"
                   >
-                    <span>Learn More</span>
+                    <span>{hero.featuredLearnMoreText || 'Learn More'}</span>
                     <ArrowRight className="w-4 h-4 ml-2 group-hover/btn:translate-x-1 transition-transform" />
                   </Link>
                 </div>
@@ -295,7 +310,7 @@ export function HomeClient({ initialDepartments, initialNews = [] }: HomeClientP
                  viewport={{ once: true }}
                  className="text-medical-blue font-bold tracking-[0.3em] uppercase text-[10px] mb-4"
                >
-                 Pioneering Moments
+                 {hero.newsPreTitle || 'Pioneering Moments'}
                </motion.p>
                <h2 className="text-4xl md:text-5xl font-display font-black text-medical-dark leading-tight">
                  {hero.newsTitle ? hero.newsTitle.split(' ').map((word: string, i: number, arr: string[]) => 
@@ -309,7 +324,7 @@ export function HomeClient({ initialDepartments, initialNews = [] }: HomeClientP
                 href="/news"
                 className="mt-6 md:mt-0 flex items-center space-x-2 text-sm font-bold text-gray-500 hover:text-medical-blue transition-colors group/btn"
              >
-                <span>View All News</span>
+                <span>{hero.newsBtnText || 'View All News'}</span>
                 <div className="p-2 rounded-full bg-gray-50 group-hover/btn:bg-medical-blue/10 transition-colors">
                   <ArrowRight className="w-4 h-4 text-medical-blue group-hover/btn:translate-x-1 transition-transform" />
                 </div>
@@ -320,7 +335,7 @@ export function HomeClient({ initialDepartments, initialNews = [] }: HomeClientP
            <div className="relative pt-12 pb-24 px-4 w-full flex justify-center">
               <div className="flex flex-col md:flex-row items-center justify-center md:-space-x-12 space-y-8 md:space-y-0 relative z-10 w-full max-w-6xl">
                  {initialNews.length === 0 ? (
-                    <div className="w-full text-center py-10 text-gray-400">No news updates available.</div>
+                    <div className="w-full text-center py-10 text-gray-400">{hero.newsEmptyText || 'No news updates available.'}</div>
                  ) : initialNews.map((newsItem, index) => {
                     const rotations = ['md:-rotate-6', 'md:rotate-3', 'md:-rotate-2', 'md:rotate-6', 'md:-rotate-3'];
                     const zIndexes = ['z-10', 'z-20', 'z-30', 'z-20', 'z-10']; // Center ones higher
@@ -399,17 +414,17 @@ export function HomeClient({ initialDepartments, initialNews = [] }: HomeClientP
               <div className="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4 font-bold text-sm">
                 <a href="tel:+9718002423" className="bg-white text-medical-dark px-10 py-5 rounded-2xl flex items-center justify-center space-x-3 hover:scale-105 transition-all text-xl">
                   <Phone className="w-6 h-6" />
-                  <span>Call Emergency Now</span>
+                  <span>{hero.emergencyBtnText || 'Call Emergency Now'}</span>
                 </a>
               </div>
             </div>
             <div className="hidden lg:flex justify-end pr-8">
               <div className="grid grid-cols-2 gap-6">
                 {[
-                  { label: "Ambulance 24/7", icon: Activity, desc: "Fast Response" },
-                  { label: "Pharmacy Support", icon: ShieldCheck, desc: "24h Open" },
-                  { label: "ICU / Trauma", icon: Heart, desc: "Critical Care" },
-                  { label: "Blood Bank", icon: Activity, desc: "All Groups" }
+                  { label: hero.emergencyItem1Label || "Ambulance 24/7", icon: Activity, desc: hero.emergencyItem1Desc || "Fast Response" },
+                  { label: hero.emergencyItem2Label || "Pharmacy Support", icon: ShieldCheck, desc: hero.emergencyItem2Desc || "24h Open" },
+                  { label: hero.emergencyItem3Label || "ICU / Trauma", icon: Heart, desc: hero.emergencyItem3Desc || "Critical Care" },
+                  { label: hero.emergencyItem4Label || "Blood Bank", icon: Activity, desc: hero.emergencyItem4Desc || "All Groups" }
                 ].map((item, idx) => (
                   <motion.div 
                     key={idx}

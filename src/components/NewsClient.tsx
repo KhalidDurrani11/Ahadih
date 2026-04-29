@@ -21,7 +21,14 @@ interface NewsClientProps {
 
 export function NewsClient({ initialNews }: NewsClientProps) {
   const [content, setContent] = useState<any>({
-    title: 'Latest News & Updates', subtitle: 'Stay at the forefront of healthcare excellence with the latest announcements from AHAD International Hospital.'
+    title: 'Latest News & Updates',
+    subtitle: 'Stay at the forefront of healthcare excellence with the latest announcements from AHAD International Hospital.',
+    heroPreTitle: 'Pioneering Moments',
+    allArticlesTitle: 'All Articles',
+    dragToBrowseText: '← Drag to browse →',
+    noNewsTitle: 'No news updates yet.',
+    noNewsDesc: 'Check back soon for exciting announcements.',
+    readFullStoryText: 'Read full story',
   });
 
   useEffect(() => {
@@ -130,7 +137,7 @@ function CardDeck({ news }: { news: NewsItem[] }) {
                     animate={{ opacity: 1, y: 0 }}
                     className="flex items-center space-x-2 text-white/70 text-xs font-bold uppercase tracking-wider"
                   >
-                    <span>Read full story</span>
+                    <span>{content.readFullStoryText || 'Read full story'}</span>
                     <ArrowRight className="w-4 h-4" />
                   </motion.div>
                 )}
@@ -223,7 +230,7 @@ function NewsGrid({ news }: { news: NewsItem[] }) {
             animate={{ opacity: 1, y: 0 }}
             className="text-medical-blue font-black tracking-[0.4em] uppercase text-[10px] mb-6"
           >
-            Pioneering Moments
+            {content.heroPreTitle}
           </motion.p>
           <motion.h1
             initial={{ opacity: 0, y: 20 }}
@@ -252,8 +259,8 @@ function NewsGrid({ news }: { news: NewsItem[] }) {
           {!hasNews ? (
             <div className="text-center text-white/40 py-20">
               <Clock className="w-16 h-16 mx-auto mb-4 opacity-30" />
-              <p className="text-xl font-bold">No news updates yet.</p>
-              <p className="text-sm mt-2">Check back soon for exciting announcements.</p>
+              <p className="text-xl font-bold">{content.noNewsTitle}</p>
+              <p className="text-sm mt-2">{content.noNewsDesc}</p>
             </div>
           ) : (
             <>
@@ -264,7 +271,7 @@ function NewsGrid({ news }: { news: NewsItem[] }) {
                 transition={{ delay: 1 }}
                 className="mt-6 text-white/30 text-sm font-medium tracking-wide flex items-center space-x-2"
               >
-                <span>← Drag to browse →</span>
+                <span>{content.dragToBrowseText}</span>
               </motion.p>
             </>
           )}
@@ -284,7 +291,7 @@ function NewsGrid({ news }: { news: NewsItem[] }) {
                 viewport={{ once: true }}
                 className="text-sm font-black uppercase tracking-[0.4em] text-white/40 whitespace-nowrap"
               >
-                All Articles
+                {content.allArticlesTitle}
               </motion.h2>
               <div className="flex-1 h-px bg-white/10" />
             </div>

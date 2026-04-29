@@ -31,19 +31,26 @@ export default function AboutPage() {
     return { title: title || '', desc: desc || '', icon: icons[i % icons.length] };
   }) : defaultValues;
 
-  const timeline = [
+  const defaultTimeline = [
     { year: '1998', title: 'The Vision', desc: 'A group of medical pioneers envisioned a hospital that prioritizes wellness over illness.' },
     { year: '2005', title: 'Global Reach', desc: 'Established our international referral and research collaboration network.' },
     { year: '2012', title: 'Digital Health Center', desc: 'Pioneered robotic surgery and AI-driven diagnostics in the region.' },
     { year: '2024', title: 'Smart Hospital v2', desc: 'Fully integrated cloud-based patient management and remote care units.' },
   ];
 
+  const timeline = content.timeline
+    ? content.timeline.split('\n').filter(Boolean).map((line: string) => {
+        const [year, title, desc] = line.split('|');
+        return { year: year?.trim() || '', title: title?.trim() || '', desc: desc?.trim() || '' };
+      })
+    : defaultTimeline;
+
   return (
     <div className="pt-20 bg-white">
       {/* Cinematic Intro */}
       <section className="relative h-[60vh] flex items-center justify-center overflow-hidden">
         <img 
-          src="https://images.unsplash.com/photo-1586773860418-d37222d8fce3?auto=format&fit=crop&q=80&w=2200"
+          src={content.heroBgImage || "https://images.unsplash.com/photo-1586773860418-d37222d8fce3?auto=format&fit=crop&q=80&w=2200"}
           alt="Modern Architecture" 
           className="absolute inset-0 w-full h-full object-cover opacity-55"
           referrerPolicy="no-referrer"
@@ -60,15 +67,22 @@ export default function AboutPage() {
             animate={{ opacity: 1 }}
             className="text-medical-blue font-bold tracking-[0.4em] uppercase text-xs mb-6"
           >
-            Our Legacy of Care
+            {content.heroBadge || 'Our Legacy of Care'}
           </motion.p>
           <motion.h1 
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
-            className="text-6xl md:text-8xl font-display font-black text-medical-dark leading-tight"
+            className="text-6xl md:text-8xl font-display font-black text-medical-dark leading-tight whitespace-pre-wrap"
           >
-            Healing Hearts, <br />
-            <span className="text-gradient underline decoration-medical-blue/10 decoration-8 underline-offset-4">Transforming Lives.</span>
+            {content.heroTitle ? content.heroTitle.split('\\n').map((line: string, i: number, arr: string[]) => 
+              <span key={i}>
+                {i === arr.length - 1 ? <span className="text-gradient underline decoration-medical-blue/10 decoration-8 underline-offset-4">{line}</span> : line}
+                {i < arr.length - 1 && <br />}
+              </span>
+            ) : (
+              <>Healing Hearts, <br />
+              <span className="text-gradient underline decoration-medical-blue/10 decoration-8 underline-offset-4">Transforming Lives.</span></>
+            )}
           </motion.h1>
         </div>
       </section>
@@ -84,7 +98,7 @@ export default function AboutPage() {
               className="space-y-8"
             >
               <h2 className="text-4xl md:text-5xl font-display font-black text-medical-dark leading-tight">
-                {content.title}
+                {content.storyTitle || 'Our Mission & Vision'}
               </h2>
               {content.story.split('\\n\\n').map((para: string, i: number) => (
                 <p key={i} className="text-gray-500 text-lg leading-relaxed">{para}</p>
@@ -93,11 +107,11 @@ export default function AboutPage() {
               <div className="grid grid-cols-2 gap-6 pt-8">
                 <div className="flex items-center space-x-3 text-medical-blue font-bold uppercase tracking-widest text-[10px]">
                   <CheckCircle2 className="w-5 h-5" />
-                  <span>JCI Accredited</span>
+                  <span>{content.storyBadge1 || 'JCI Accredited'}</span>
                 </div>
                 <div className="flex items-center space-x-3 text-medical-blue font-bold uppercase tracking-widest text-[10px]">
                   <CheckCircle2 className="w-5 h-5" />
-                  <span>ISO 9001 Certified</span>
+                  <span>{content.storyBadge2 || 'ISO 9001 Certified'}</span>
                 </div>
               </div>
             </motion.div>
@@ -110,7 +124,7 @@ export default function AboutPage() {
             >
               <div className="aspect-square rounded-[80px] overflow-hidden rotate-3 shadow-2xl relative z-10">
                 <img 
-                  src="https://images.unsplash.com/photo-1559839734-2b71f1eac89?auto=format&fit=crop&q=80&w=1200" 
+                  src={content.storyImage || "https://images.unsplash.com/photo-1559839734-2b71f1eac89?auto=format&fit=crop&q=80&w=1200"} 
                   alt="Expert Medical Team at AHAD" 
                   className="w-full h-full object-cover"
                   referrerPolicy="no-referrer"
@@ -124,8 +138,8 @@ export default function AboutPage() {
               
               {/* Floating Stat Blob */}
               <div className="absolute -bottom-10 -left-10 glass p-10 rounded-[40px] shadow-2xl z-20">
-                <h4 className="text-5xl font-display font-black text-medical-blue mb-1">98%</h4>
-                <p className="text-xs font-bold text-gray-400 uppercase tracking-widest">Patient Satisfaction</p>
+                <h4 className="text-5xl font-display font-black text-medical-blue mb-1">{content.storyStatValue || '98%'}</h4>
+                <p className="text-xs font-bold text-gray-400 uppercase tracking-widest">{content.storyStatLabel || 'Patient Satisfaction'}</p>
               </div>
             </motion.div>
           </div>
@@ -137,7 +151,7 @@ export default function AboutPage() {
         <div className="absolute top-0 right-0 w-1/3 h-1/3 bg-medical-blue/20 blur-[120px] rounded-full"></div>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="text-center mb-24 space-y-6">
-            <h2 className="text-4xl md:text-5xl font-display font-black mb-6">Our Mission & Vision</h2>
+            <h2 className="text-4xl md:text-5xl font-display font-black mb-6">{content.title || 'Our Mission & Vision'}</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8 text-left max-w-4xl mx-auto">
                <div className="p-8 rounded-3xl bg-white/5 border border-white/10">
                  <h3 className="text-medical-blue font-bold tracking-widest uppercase text-xs mb-4">Mission</h3>
@@ -175,7 +189,7 @@ export default function AboutPage() {
       <section className="py-32 bg-gray-50/50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
            <div className="text-center mb-20">
-             <h2 className="text-4xl font-display font-black text-medical-dark mb-4 tracking-tight">Our Timeline</h2>
+             <h2 className="text-4xl font-display font-black text-medical-dark mb-4 tracking-tight">{content.timelineTitle || 'Our Timeline'}</h2>
              <div className="w-20 h-1.5 premium-gradient mx-auto rounded-full"></div>
            </div>
 
@@ -184,7 +198,7 @@ export default function AboutPage() {
              <div className="hidden md:block absolute left-1/2 top-0 bottom-0 w-px bg-gray-200 -translate-x-1/2"></div>
              
              <div className="space-y-16">
-               {timeline.map((item, i) => (
+               {timeline.map((item: { year: string; title: string; desc: string }, i: number) => (
                  <motion.div 
                    key={item.year}
                    initial={{ opacity: 0, x: i % 2 === 0 ? -50 : 50 }}

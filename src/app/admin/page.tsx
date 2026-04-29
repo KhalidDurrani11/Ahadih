@@ -12,7 +12,7 @@ export default async function AdminPage() {
   }
 
   // Fetch all data for the dashboard
-  const [departments, doctors, appointments, messages, news, teamMembers, jobs, applications, certifications] = await Promise.all([
+  const [departments, doctors, appointments, messages, news, teamMembers, jobs, applications, certifications, testimonials] = await Promise.all([
     prisma.department.findMany({ orderBy: { title: 'asc' } }).catch(() => []),
     prisma.doctor.findMany({ include: { department: true }, orderBy: { name: 'asc' } }).catch(() => []),
     prisma.appointment.findMany({ include: { doctor: true, department: true }, orderBy: { createdAt: 'desc' } }).catch(() => []),
@@ -22,6 +22,7 @@ export default async function AdminPage() {
     prisma.jobVacancy.findMany({ orderBy: { createdAt: 'desc' } }).catch(() => []),
     prisma.jobApplication.findMany({ include: { job: { select: { title: true } } }, orderBy: { createdAt: 'desc' } }).catch(() => []),
     prisma.certification.findMany({ orderBy: { order: 'asc' } }).catch(() => []),
+    prisma.testimonial.findMany({ orderBy: { order: 'asc' } }).catch(() => []),
   ]);
 
   return (
@@ -35,6 +36,7 @@ export default async function AdminPage() {
       initialJobs={jobs}
       initialApplications={applications}
       initialCertifications={certifications}
+      initialTestimonials={testimonials}
     />
   );
 }

@@ -49,7 +49,7 @@ export default function CareersPage() {
 
   const title = siteContent?.careers?.title || 'Careers at AHAD';
   const introText = siteContent?.careers?.subtitle || 'Join our team of dedicated healthcare professionals. We are always looking for passionate individuals who share our commitment to excellence in patient care.';
-  const benefits = siteContent?.careers?.benefits || '';
+  const careersData = siteContent?.careers || {};
 
   const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -90,7 +90,7 @@ export default function CareersPage() {
         <div className="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-white to-transparent z-10" />
 
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-16 pb-28 text-center">
-          <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="text-medical-light/50 font-black tracking-[0.4em] uppercase text-[10px] mb-6">Join Our Mission</motion.p>
+          <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="text-medical-light/50 font-black tracking-[0.4em] uppercase text-[10px] mb-6">{careersData.heroPreTitle || 'Join Our Mission'}</motion.p>
           <motion.h1 initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }}
             className="text-5xl md:text-7xl font-display font-black text-white mb-6">{title}</motion.h1>
           <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.2 }}
@@ -101,8 +101,8 @@ export default function CareersPage() {
       {/* Job Listings */}
       <section className="py-20 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-14">
-          <h2 className="text-3xl font-display font-black text-medical-dark mb-3">Open Positions</h2>
-          <p className="text-gray-500">{jobs.length > 0 ? `${jobs.length} position${jobs.length !== 1 ? 's' : ''} available` : 'Checking for openings...'}</p>
+          <h2 className="text-3xl font-display font-black text-medical-dark mb-3">{careersData.positionsTitle || 'Open Positions'}</h2>
+          <p className="text-gray-500">{jobs.length > 0 ? `${jobs.length} position${jobs.length !== 1 ? 's' : ''} available` : careersData.positionsLoading || 'Checking for openings...'}</p>
         </div>
 
         {loading ? (
@@ -114,10 +114,10 @@ export default function CareersPage() {
             <div className="w-20 h-20 bg-medical-blue/10 rounded-full flex items-center justify-center mx-auto mb-6">
               <Briefcase className="w-9 h-9 text-medical-blue" />
             </div>
-            <h3 className="text-2xl font-display font-black text-medical-dark mb-3">No Current Openings</h3>
-            <p className="text-gray-500 mb-8 max-w-md mx-auto">We don&apos;t have any vacancies right now, but we&apos;d love to hear from you. Send us your CV and we&apos;ll keep it on file.</p>
-            <a href="mailto:careers@ahadih.com" className="inline-block px-10 py-4 premium-gradient text-white rounded-2xl font-bold shadow-xl shadow-medical-blue/20 hover:-translate-y-1 transition-transform">
-              Submit Your CV
+            <h3 className="text-2xl font-display font-black text-medical-dark mb-3">{careersData.noPositionsTitle || 'No Current Openings'}</h3>
+            <p className="text-gray-500 mb-8 max-w-md mx-auto">{careersData.noPositionsDesc || "We don't have any vacancies right now, but we'd love to hear from you. Send us your CV and we'll keep it on file."}</p>
+            <a href={`mailto:${careersData.submitCvEmail || 'careers@ahadih.com'}`} className="inline-block px-10 py-4 premium-gradient text-white rounded-2xl font-bold shadow-xl shadow-medical-blue/20 hover:-translate-y-1 transition-transform">
+              {careersData.submitCvBtnText || 'Submit Your CV'}
             </a>
           </div>
         ) : (

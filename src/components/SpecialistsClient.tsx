@@ -41,7 +41,7 @@ export function SpecialistsClient({ initialDoctors }: SpecialistsClientProps) {
             animate={{ opacity: 1 }}
             className="text-medical-blue font-bold tracking-[0.3em] uppercase text-[10px] mb-4"
           >
-            Meet Our World-Class Team
+            {content.heroPreTitle || 'Meet Our World-Class Team'}
           </motion.p>
           <motion.h1 
             initial={{ opacity: 0, scale: 0.9 }}
@@ -67,7 +67,7 @@ export function SpecialistsClient({ initialDoctors }: SpecialistsClientProps) {
               <Search className="absolute left-6 top-1/2 -translate-y-1/2 text-gray-400 w-5 h-5" />
               <input 
                 type="text" 
-                placeholder="Search doctors by name..."
+                placeholder={content.searchPlaceholder || "Search doctors by name..."}
                 value={searchQuery}
                 onChange={e => setSearchQuery(e.target.value)}
                 className="w-full pl-14 pr-6 py-4 rounded-[20px] border border-gray-200 focus:outline-none focus:ring-2 focus:ring-medical-blue focus:border-transparent shadow-sm dark:bg-gray-800 dark:border-gray-700 text-medical-dark dark:text-white transition-all placeholder:text-gray-400"
@@ -105,9 +105,9 @@ export function SpecialistsClient({ initialDoctors }: SpecialistsClientProps) {
             <div className="w-20 h-20 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-6">
               <Search className="w-10 h-10 text-gray-400" />
             </div>
-            <h3 className="text-2xl font-bold text-medical-dark mb-2">No Specialists Found</h3>
-            <p className="text-gray-500">We couldn't find any doctors matching your current filters.</p>
-            <button onClick={() => {setSearchQuery(''); setSelectedSpec('All');}} className="mt-6 text-medical-blue font-bold hover:underline">Clear all filters</button>
+            <h3 className="text-2xl font-bold text-medical-dark mb-2">{content.noSpecialistsTitle || 'No Specialists Found'}</h3>
+            <p className="text-gray-500">{content.noSpecialistsDesc || "We couldn't find any doctors matching your current filters."}</p>
+            <button onClick={() => {setSearchQuery(''); setSelectedSpec('All');}} className="mt-6 text-medical-blue font-bold hover:underline">{content.clearFiltersText || 'Clear all filters'}</button>
           </div>
         )}
 
@@ -148,15 +148,15 @@ export function SpecialistsClient({ initialDoctors }: SpecialistsClientProps) {
               <div className="space-y-4">
                 <div className="flex items-center text-sm text-gray-400 font-medium">
                   <Briefcase className="w-4 h-4 mr-2 text-medical-blue" />
-                  <span>{doc.experience} Years of Clinical Practice</span>
+                  <span>{doc.experience} {content.clinicalPracticeLabel || 'Years of Clinical Practice'}</span>
                 </div>
                 <div className="flex items-center text-sm text-gray-400 font-medium">
                   <GraduationCap className="w-4 h-4 mr-2 text-medical-blue" />
-                  <span>{doc.specialization} specialist</span>
+                  <span>{doc.specialization} {content.specialistLabel || 'specialist'}</span>
                 </div>
                 
                 <div className="pt-6 border-t border-gray-100 flex justify-between items-center">
-                  <span className="text-[10px] font-black uppercase text-medical-blue tracking-widest">View Portfolio</span>
+                  <span className="text-[10px] font-black uppercase text-medical-blue tracking-widest">{content.viewPortfolioLabel || 'View Portfolio'}</span>
                   <div className="flex space-x-2">
                     <div className="w-8 h-8 rounded-full bg-gray-50 flex items-center justify-center group-hover:bg-medical-blue/10 transition-colors">
                       <Linkedin className="w-3 h-3 text-gray-400 group-hover:text-medical-blue" />
@@ -217,14 +217,14 @@ export function SpecialistsClient({ initialDoctors }: SpecialistsClientProps) {
               <div className="md:w-3/5 p-8 md:p-14 overflow-y-auto custom-scrollbar">
                 <div className="grid grid-cols-2 gap-8 mb-12">
                   <div className="space-y-2">
-                    <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Experience</p>
+                    <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">{content.modalExperienceLabel || 'Experience'}</p>
                     <div className="flex items-center text-medical-blue font-bold text-xl">
                       <Briefcase className="w-5 h-5 mr-2" />
                       <span>{selectedDoctor.experience}+ Years</span>
                     </div>
                   </div>
                   <div className="space-y-2">
-                    <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Qualifications</p>
+                    <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">{content.modalQualificationsLabel || 'Qualifications'}</p>
                     <div className="flex items-center text-medical-blue font-bold text-xl">
                       <GraduationCap className="w-5 h-5 mr-2" />
                       <span>{selectedDoctor.qualifications}</span>
@@ -233,14 +233,14 @@ export function SpecialistsClient({ initialDoctors }: SpecialistsClientProps) {
                 </div>
 
                 <div className="mb-12">
-                  <h4 className="font-display font-black text-xl mb-4 text-medical-dark">Professional Biography</h4>
+                  <h4 className="font-display font-black text-xl mb-4 text-medical-dark">{content.modalBioLabel || 'Professional Biography'}</h4>
                   <p className="text-gray-500 leading-relaxed text-sm lg:text-base">
                     {selectedDoctor.bio}
                   </p>
                 </div>
 
                 <div className="mb-12">
-                  <h4 className="font-display font-black text-xl mb-6 text-medical-dark">Awards & Achievements</h4>
+                  <h4 className="font-display font-black text-xl mb-6 text-medical-dark">{content.modalAwardsLabel || 'Awards & Achievements'}</h4>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     {selectedDoctor.achievements.map((achievement: string, i: number) => (
                       <div key={i} className="flex items-center p-4 bg-gray-50 rounded-2xl border border-gray-100">
@@ -253,7 +253,7 @@ export function SpecialistsClient({ initialDoctors }: SpecialistsClientProps) {
 
                 <Link href="/appointment" onClick={() => setSelectedDoctor(null)} className="w-full md:w-auto px-10 py-5 premium-gradient text-white rounded-2xl font-bold flex items-center justify-center space-x-3 hover:shadow-2xl hover:shadow-medical-blue/30 transition-all hover:-translate-y-1">
                   <Calendar className="w-5 h-5" />
-                  <span>Schedule Consultation</span>
+                  <span>{content.modalScheduleBtnText || 'Schedule Consultation'}</span>
              </Link>
               </div>
             </motion.div>
