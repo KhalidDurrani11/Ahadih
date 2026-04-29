@@ -77,14 +77,10 @@ export function HomeClient({ initialDepartments, initialNews = [] }: HomeClientP
         {/* Background Image / Gradient */}
         <div className="absolute inset-0 z-0">
           <img 
-            src={hero.heroBgImage || "https://images.unsplash.com/photo-1586773860418-d37222d8fce3?auto=format&fit=crop&q=80&w=2200"}
+            src="https://images.unsplash.com/photo-1586773860418-d37222d8fce3?auto=format&fit=crop&q=80&w=2200"
             alt="AHAD hospital exterior"
             className="w-full h-full object-cover scale-105 opacity-70"
             referrerPolicy="no-referrer"
-            onError={(e) => {
-              e.currentTarget.onerror = null;
-              e.currentTarget.src = 'https://images.unsplash.com/photo-1586773860418-d37222d8fce3?auto=format&fit=crop&q=80&w=2200';
-            }}
           />
           <div className="absolute inset-0 bg-gradient-to-r from-white via-white/90 to-white/30 dark:from-gray-900 dark:via-gray-900/95 dark:to-gray-900/80"></div>
           
@@ -207,23 +203,33 @@ export function HomeClient({ initialDepartments, initialNews = [] }: HomeClientP
       </section>
 
       {/* Trust Indicators */}
-      <section className="py-24 bg-white relative overflow-hidden">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-12">
+      <section className="py-24 bg-medical-dark relative overflow-hidden">
+        <div className="absolute inset-0 opacity-10 pointer-events-none">
+          <div className="absolute top-0 right-0 w-96 h-96 bg-medical-blue rounded-full blur-[120px]"></div>
+          <div className="absolute bottom-0 left-0 w-96 h-96 bg-white rounded-full blur-[120px]"></div>
+        </div>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
             {stats.map((stat, i) => (
               <motion.div 
                 key={stat.label}
-                initial={{ opacity: 0, scale: 0.9 }}
-                whileInView={{ opacity: 1, scale: 1 }}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: i * 0.1 }}
-                className="text-center group"
+                className="relative group p-8 rounded-[32px] overflow-hidden shadow-2xl"
               >
-                <div className="w-16 h-16 mx-auto mb-6 rounded-2xl bg-medical-blue/5 flex items-center justify-center text-medical-blue group-hover:bg-medical-blue group-hover:text-white transition-all shadow-xl shadow-medical-blue/5 group-hover:shadow-medical-blue/20">
-                  <stat.icon className="w-8 h-8" />
+                <div className="absolute inset-0 bg-gradient-to-br from-white/10 to-white/5 border border-white/10 rounded-[32px] backdrop-blur-sm group-hover:bg-medical-blue/20 transition-colors duration-500"></div>
+                <div className="absolute -bottom-10 -right-5 text-[120px] font-black text-white/5 group-hover:text-white/10 transition-colors duration-500 pointer-events-none font-display">
+                  {stat.value.replace(/\D/g, '')}
                 </div>
-                <h3 className="text-4xl font-display font-black mb-2">{stat.value}</h3>
-                <p className="text-gray-400 font-medium text-sm tracking-wide uppercase">{stat.label}</p>
+                <div className="relative z-10">
+                  <div className="w-16 h-16 mb-8 rounded-2xl bg-white/10 flex items-center justify-center text-white border border-white/20 group-hover:scale-110 transition-transform shadow-lg">
+                    <stat.icon className="w-8 h-8" />
+                  </div>
+                  <h3 className="text-4xl md:text-5xl font-display font-black text-white mb-3 tracking-tight">{stat.value}</h3>
+                  <p className="text-white/70 font-medium text-xs tracking-widest uppercase leading-snug">{stat.label}</p>
+                </div>
               </motion.div>
             ))}
           </div>
