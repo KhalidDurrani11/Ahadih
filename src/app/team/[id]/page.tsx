@@ -45,27 +45,7 @@ export default async function TeamMemberPage(props: { params: Promise<{ id: stri
                   </div>
                 )}
 
-                {/* Social */}
-                <div className="relative z-10 flex justify-center space-x-3 mt-6">
-                  {member!.linkedin && (
-                    <a href={member!.linkedin} target="_blank" rel="noopener noreferrer"
-                      className="w-11 h-11 bg-gray-50 border border-gray-200 rounded-full flex items-center justify-center text-gray-500 hover:bg-medical-blue hover:text-white hover:border-medical-blue transition-all">
-                      <Linkedin className="w-4 h-4" />
-                    </a>
-                  )}
-                  {member!.twitter && (
-                    <a href={member!.twitter} target="_blank" rel="noopener noreferrer"
-                      className="w-11 h-11 bg-gray-50 border border-gray-200 rounded-full flex items-center justify-center text-gray-500 hover:bg-medical-blue hover:text-white hover:border-medical-blue transition-all">
-                      <Twitter className="w-4 h-4" />
-                    </a>
-                  )}
-                  {member!.email && (
-                    <a href={`mailto:${member!.email}`}
-                      className="w-11 h-11 bg-gray-50 border border-gray-200 rounded-full flex items-center justify-center text-gray-500 hover:bg-medical-blue hover:text-white hover:border-medical-blue transition-all">
-                      <Mail className="w-4 h-4" />
-                    </a>
-                  )}
-                </div>
+
               </div>
             </div>
 
@@ -74,7 +54,7 @@ export default async function TeamMemberPage(props: { params: Promise<{ id: stri
               <div>
                 <p className="text-medical-blue font-black text-xs uppercase tracking-[0.3em] mb-3">Leadership Profile</p>
                 <h1 className="text-4xl md:text-5xl font-display font-black text-medical-dark mb-3">{member!.name}</h1>
-                <p className="text-medical-blue font-bold text-sm uppercase tracking-widest">{member!.designation}</p>
+                <p className="text-medical-blue font-bold text-sm uppercase tracking-widest">{member!.designation}{member!.department ? ` • ${member!.department}` : ''}</p>
               </div>
 
               <div className="h-px bg-gray-100" />
@@ -88,15 +68,15 @@ export default async function TeamMemberPage(props: { params: Promise<{ id: stri
                 </div>
               </div>
 
-              {member!.email && (
+              {member!.experience && (
                 <div className="bg-gray-50 rounded-3xl p-8">
                   <div className="flex items-center space-x-4">
                     <div className="w-12 h-12 bg-medical-blue/10 rounded-2xl flex items-center justify-center">
-                      <Mail className="w-5 h-5 text-medical-blue" />
+                      <GraduationCap className="w-5 h-5 text-medical-blue" />
                     </div>
                     <div>
-                      <p className="text-xs font-black uppercase tracking-widest text-gray-400 mb-1">Contact Directly</p>
-                      <a href={`mailto:${member!.email}`} className="text-medical-blue font-bold hover:underline">{member!.email}</a>
+                      <p className="text-xs font-black uppercase tracking-widest text-gray-400 mb-1">Experience</p>
+                      <p className="text-medical-blue font-bold text-lg">{member!.experience} Years</p>
                     </div>
                   </div>
                 </div>
