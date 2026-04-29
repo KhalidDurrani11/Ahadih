@@ -1,15 +1,20 @@
 "use client";
 
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import {
   LayoutDashboard, Users, HeartPulse, LogOut, Plus, Trash2, Edit,
-  Calendar, MessageSquare, CheckCircle, XCircle, Save, X, Image as ImageIcon, Menu, FileText
+  Calendar, MessageSquare, CheckCircle, XCircle, Save, X, Image as ImageIcon, Menu, FileText,
+  Users2, Award, Briefcase, Star, Download
 } from 'lucide-react';
-import { useRouter } from 'next/navigation';
+import { PageContentTab } from './PageContentTab';
+import { TeamTab } from './TeamTab';
+import { JobsTab } from './JobsTab';
+import { CertificationsTab } from './CertificationsTab';
+import { TestimonialsTab } from './TestimonialsTab';
 
-export default function AdminDashboard({ initialDepartments, initialDoctors, initialAppointments, initialMessages, initialNews }: any) {
-  const [activeTab, setActiveTab] = useState<'doctors' | 'departments' | 'appointments' | 'messages' | 'pages' | 'news'>('appointments');
+export default function AdminDashboard({ initialDepartments, initialDoctors, initialAppointments, initialMessages, initialNews, initialTeamMembers, initialJobs, initialApplications, initialCertifications, initialTestimonials }: any) {
+  const [activeTab, setActiveTab] = useState<'doctors'|'departments'|'appointments'|'messages'|'pages'|'news'|'team'|'jobs'|'certifications'|'testimonials'>('appointments');
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [doctors, setDoctors] = useState(initialDoctors || []);
   const [departments, setDepartments] = useState(initialDepartments || []);
@@ -17,67 +22,38 @@ export default function AdminDashboard({ initialDepartments, initialDoctors, ini
   const [messages, setMessages] = useState(initialMessages || []);
   const [news, setNews] = useState(initialNews || []);
 
+  const [achievementInput, setAchievementInput] = useState('');
+
+  const exportCSV = (data: any[], filename: string, cols: {key: string; label: string}[]) => {
+    const header = cols.map(c => c.label).join(',');
+    const rows = data.map(row => cols.map(c => `"${String(row[c.key] ?? '').replace(/"/g, '""')}"`).join(','));
+    const blob = new Blob([[header, ...rows].join('\n')], { type: 'text/csv' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a'); a.href = url; a.download = filename; a.click();
+    URL.revokeObjectURL(url);
+  };
+
   const [pageContent, setPageContent] = useState<any>({
-    home: {
-      heroTitle: 'Advanced Care, Personalized for You.',
-      heroSubtitle: 'AHAD International Hospital combines evidence-based medicine, leading specialists, and seamless patient journeys for local and international communities.',
-      heroBadge: 'International Standards. Human-Centered Care.',
-      heroBgImage: 'https://images.unsplash.com/photo-1586773860418-d37222d8fce3?auto=format&fit=crop&q=80&w=2200',
-    },
-    about: {
-      title: 'Our Mission & Vision',
-      mission: 'To deliver world-class, compassionate, and evidence-based healthcare to every patient, regardless of their origin or background.',
-      vision: 'To become the most trusted international hospital, renowned for clinical excellence and patient-centered care.',
-    },
-    contact: {
-      phone: '+971 800 2423',
-      email: 'info@ahadih.com',
-      address: 'AHAD International Hospital, UAE',
-      emergencyPhone: '+971 800 2423',
-    },
-    seo: {
-      siteTitle: 'AHAD International Hospital',
-      siteDescription: 'AHAD International Hospital delivers world-class tertiary care, leading specialists, and evidence-based medicine for local and international patients.',
-      keywords: 'AHAD International Hospital, hospital UAE, specialist doctors, international hospital',
-    }
+    home: { heroTitle: 'Advanced Care, Personalized for You.', heroSubtitle: '', heroBadge: '', heroBgImage: '' },
+    about: { title: 'Our Mission & Vision', mission: '', vision: '' },
+    contact: { phone: '+971 800 2423', emergencyPhone: '+971 800 2423', email: 'info@ahadih.com', address: 'AHAD International Hospital, UAE' },
+    seo: { siteTitle: 'AHAD International Hospital', siteDescription: '', keywords: '' },
   });
   const [pageSaving, setPageSaving] = useState(false);
   const [pageSaved, setPageSaved] = useState(false);
   const [pageSaveError, setPageSaveError] = useState(false);
-  const [editingPageSection, setEditingPageSection] = useState<'home' | 'about' | 'contact' | 'seo'>('home');
-
-  // Load site content from DB on mount
-  useEffect(() => {
-    fetch('/api/site-content')
-      .then(r => r.json())
-      .then(data => { if (data && data.home) setPageContent(data); })
-      .catch(() => { });
-  }, []);
+  const [editingPageSection, setEditingPageSection] = useState<'home'|'about'|'contact'|'seo'>('home');
 
   const savePageContent = async () => {
-    setPageSaving(true);
-    setPageSaved(false);
-    setPageSaveError(false);
+    setPageSaving(true); setPageSaved(false); setPageSaveError(false);
     try {
-      const res = await fetch('/api/site-content', {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(pageContent),
-      });
-      if (res.ok) {
-        setPageSaved(true);
-        setTimeout(() => setPageSaved(false), 3000);
-      } else {
-        setPageSaveError(true);
-        setTimeout(() => setPageSaveError(false), 3000);
-      }
-    } catch {
-      setPageSaveError(true);
-      setTimeout(() => setPageSaveError(false), 3000);
-    } finally {
-      setPageSaving(false);
-    }
+      const res = await fetch('/api/site-content', { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(pageContent) });
+      if (res.ok) { setPageSaved(true); setTimeout(() => setPageSaved(false), 3000); }
+      else { setPageSaveError(true); setTimeout(() => setPageSaveError(false), 3000); }
+    } catch { setPageSaveError(true); setTimeout(() => setPageSaveError(false), 3000); }
+    finally { setPageSaving(false); }
   };
+
 
   // Modal State
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -95,24 +71,18 @@ export default function AdminDashboard({ initialDepartments, initialDoctors, ini
   const openModal = (type: 'doctor' | 'department' | 'news', item: any = null) => {
     if (item) {
       setEditingItem({ ...item });
-      setFormData({ ...item });
+      setFormData({ ...item, achievements: item.achievements || [] });
     } else {
       setEditingItem(null);
       if (type === 'doctor') {
-        setFormData({
-          name: '', role: 'Specialist', specialization: '', qualifications: '',
-          experience: 5, bio: '', image: '', departmentId: departments[0]?.id || ''
-        });
+        setFormData({ name: '', role: 'Specialist', specialization: '', qualifications: '', experience: 5, bio: '', image: '', departmentId: departments[0]?.id || '', achievements: [] });
       } else if (type === 'news') {
-        setFormData({
-          title: '', description: '', content: '', image: '', date: ''
-        });
+        setFormData({ title: '', description: '', content: '', image: '', date: '' });
       } else {
-        setFormData({
-          title: '', description: '', icon: 'HeartPulse', image: ''
-        });
+        setFormData({ title: '', description: '', icon: 'HeartPulse', image: '' });
       }
     }
+    setAchievementInput('');
     setIsModalOpen(true);
   };
 
@@ -206,20 +176,33 @@ export default function AdminDashboard({ initialDepartments, initialDoctors, ini
           <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-6">Management</p>
           <nav className="space-y-2">
             {[
-              { id: 'appointments', label: 'Appointments', icon: Calendar },
-              { id: 'messages', label: 'Messages', icon: MessageSquare },
-              { id: 'doctors', label: 'Doctors', icon: Users },
-              { id: 'departments', label: 'Departments', icon: HeartPulse },
-              { id: 'news', label: 'News & Updates', icon: FileText },
+              { id: 'appointments', label: 'Appointments', icon: Calendar, count: appointments.length },
+              { id: 'messages', label: 'Messages', icon: MessageSquare, count: messages.length },
+              { id: 'doctors', label: 'Doctors', icon: Users, count: doctors.length },
+              { id: 'departments', label: 'Departments', icon: HeartPulse, count: departments.length },
+              { id: 'news', label: 'News & Updates', icon: FileText, count: news.length },
+              { id: 'team', label: 'Managing Team', icon: Users2, count: initialTeamMembers?.length ?? 0 },
+              { id: 'jobs', label: 'Careers & Jobs', icon: Briefcase, count: initialJobs?.length ?? 0 },
+              { id: 'certifications', label: 'Certifications', icon: Award, count: initialCertifications?.length ?? 0 },
+              { id: 'testimonials', label: 'Testimonials', icon: Star, count: initialTestimonials?.length ?? 0 },
               { id: 'pages', label: 'Page Content', icon: LayoutDashboard },
             ].map((tab) => (
               <button
                 key={tab.id}
-                onClick={() => setActiveTab(tab.id as any)}
-                className={`w-full flex items-center space-x-3 px-4 py-3 rounded-xl transition-all font-medium ${activeTab === tab.id ? 'bg-medical-blue text-white shadow-lg shadow-medical-blue/20' : 'text-gray-500 hover:bg-gray-50'}`}
+                onClick={() => { setActiveTab(tab.id as any); setIsSidebarOpen(false); }}
+                className={`w-full flex items-center justify-between px-4 py-3 rounded-xl transition-all font-medium ${
+                  activeTab === tab.id ? 'bg-medical-blue text-white shadow-lg shadow-medical-blue/20' : 'text-gray-500 hover:bg-gray-50'
+                }`}
               >
-                <tab.icon className="w-5 h-5" />
-                <span>{tab.label}</span>
+                <div className="flex items-center space-x-3">
+                  <tab.icon className="w-5 h-5" />
+                  <span className="text-sm">{tab.label}</span>
+                </div>
+                {'count' in tab && tab.count !== undefined && (
+                  <span className={`text-[10px] font-black px-2 py-0.5 rounded-full ${
+                    activeTab === tab.id ? 'bg-white/20 text-white' : 'bg-gray-100 text-gray-400'
+                  }`}>{tab.count}</span>
+                )}
               </button>
             ))}
           </nav>
@@ -237,15 +220,31 @@ export default function AdminDashboard({ initialDepartments, initialDoctors, ini
         <div className="max-w-6xl mx-auto">
           <header className="flex justify-between items-center mb-10">
             <h1 className="text-3xl font-display font-black text-medical-dark capitalize">{activeTab === 'pages' ? 'Page Content' : activeTab} CMS</h1>
-            {(activeTab === 'doctors' || activeTab === 'departments' || activeTab === 'news') && (
-              <button
-                onClick={() => openModal(activeTab === 'doctors' ? 'doctor' : activeTab === 'news' ? 'news' : 'department')}
-                className="flex items-center space-x-2 px-6 py-3 premium-gradient text-white rounded-2xl font-bold hover:shadow-xl transition-all"
-              >
-                <Plus className="w-5 h-5" />
-                <span>Add {activeTab === 'doctors' ? 'Doctor' : activeTab === 'news' ? 'News Post' : 'Department'}</span>
-              </button>
-            )}
+            <div className="flex items-center space-x-3">
+              {activeTab === 'appointments' && (
+                <button onClick={() => exportCSV(appointments, 'appointments.csv', [
+                  {key:'patientName',label:'Patient'},{key:'phone',label:'Phone'},{key:'date',label:'Date'},{key:'time',label:'Time'},{key:'status',label:'Status'}
+                ])} className="flex items-center space-x-2 px-4 py-2.5 bg-white border border-gray-200 rounded-xl text-sm font-bold text-gray-600 hover:bg-gray-50">
+                  <Download className="w-4 h-4"/><span>Export CSV</span>
+                </button>
+              )}
+              {activeTab === 'messages' && (
+                <button onClick={() => exportCSV(messages, 'messages.csv', [
+                  {key:'name',label:'Name'},{key:'email',label:'Email'},{key:'subject',label:'Subject'},{key:'message',label:'Message'}
+                ])} className="flex items-center space-x-2 px-4 py-2.5 bg-white border border-gray-200 rounded-xl text-sm font-bold text-gray-600 hover:bg-gray-50">
+                  <Download className="w-4 h-4"/><span>Export CSV</span>
+                </button>
+              )}
+              {(activeTab === 'doctors' || activeTab === 'departments' || activeTab === 'news') && (
+                <button
+                  onClick={() => openModal(activeTab === 'doctors' ? 'doctor' : activeTab === 'news' ? 'news' : 'department')}
+                  className="flex items-center space-x-2 px-6 py-3 premium-gradient text-white rounded-2xl font-bold hover:shadow-xl transition-all"
+                >
+                  <Plus className="w-5 h-5" />
+                  <span>Add {activeTab === 'doctors' ? 'Doctor' : activeTab === 'news' ? 'News Post' : 'Department'}</span>
+                </button>
+              )}
+            </div>
           </header>
 
           <div className="bg-white rounded-[40px] shadow-sm border border-gray-100 overflow-hidden">
@@ -453,127 +452,42 @@ export default function AdminDashboard({ initialDepartments, initialDoctors, ini
             {/* ===== PAGE CONTENT CMS ===== */}
             {activeTab === 'pages' && (
               <div className="p-8">
-                <div className="mb-6 flex flex-wrap gap-2">
-                  {(['home', 'about', 'contact', 'seo'] as const).map(section => (
-                    <button
-                      key={section}
-                      onClick={() => setEditingPageSection(section)}
-                      className={`px-5 py-2 rounded-full text-sm font-bold capitalize transition-all ${editingPageSection === section ? 'premium-gradient text-white shadow-lg' : 'bg-gray-100 text-gray-500 hover:bg-gray-200'}`}
-                    >
-                      {section === 'seo' ? 'SEO Settings' : `${section} Page`}
-                    </button>
-                  ))}
-                </div>
-
-                <div className="bg-gray-50 rounded-2xl p-6 space-y-4">
-                  {/* Home Section */}
-                  {editingPageSection === 'home' && (
-                    <>
-                      <h3 className="font-black text-lg text-medical-dark">🏠 Home Page Content</h3>
-                      <div>
-                        <label className="block text-xs font-bold text-gray-500 mb-1 uppercase">Background Image URL</label>
-                        <input value={pageContent.home.heroBgImage || ''} onChange={e => setPageContent((p: any) => ({ ...p, home: { ...p.home, heroBgImage: e.target.value } }))}
-                          className="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm focus:ring-2 focus:ring-medical-blue outline-none" />
-                      </div>
-                      <div>
-                        <label className="block text-xs font-bold text-gray-500 mb-1 uppercase">Badge Text</label>
-                        <input value={pageContent.home.heroBadge} onChange={e => setPageContent((p: any) => ({ ...p, home: { ...p.home, heroBadge: e.target.value } }))}
-                          className="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm focus:ring-2 focus:ring-medical-blue outline-none" />
-                      </div>
-                      <div>
-                        <label className="block text-xs font-bold text-gray-500 mb-1 uppercase">Hero Title</label>
-                        <textarea rows={2} value={pageContent.home.heroTitle} onChange={e => setPageContent((p: any) => ({ ...p, home: { ...p.home, heroTitle: e.target.value } }))}
-                          className="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm focus:ring-2 focus:ring-medical-blue outline-none resize-none" />
-                      </div>
-                      <div>
-                        <label className="block text-xs font-bold text-gray-500 mb-1 uppercase">Hero Subtitle</label>
-                        <textarea rows={3} value={pageContent.home.heroSubtitle} onChange={e => setPageContent((p: any) => ({ ...p, home: { ...p.home, heroSubtitle: e.target.value } }))}
-                          className="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm focus:ring-2 focus:ring-medical-blue outline-none resize-none" />
-                      </div>
-                    </>
-                  )}
-
-                  {/* About Section */}
-                  {editingPageSection === 'about' && (
-                    <>
-                      <h3 className="font-black text-lg text-medical-dark">ℹ️ About Page Content</h3>
-                      <div>
-                        <label className="block text-xs font-bold text-gray-500 mb-1 uppercase">Section Title</label>
-                        <input value={pageContent.about.title} onChange={e => setPageContent((p: any) => ({ ...p, about: { ...p.about, title: e.target.value } }))}
-                          className="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm focus:ring-2 focus:ring-medical-blue outline-none" />
-                      </div>
-                      <div>
-                        <label className="block text-xs font-bold text-gray-500 mb-1 uppercase">Mission Statement</label>
-                        <textarea rows={3} value={pageContent.about.mission} onChange={e => setPageContent((p: any) => ({ ...p, about: { ...p.about, mission: e.target.value } }))}
-                          className="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm focus:ring-2 focus:ring-medical-blue outline-none resize-none" />
-                      </div>
-                      <div>
-                        <label className="block text-xs font-bold text-gray-500 mb-1 uppercase">Vision Statement</label>
-                        <textarea rows={3} value={pageContent.about.vision} onChange={e => setPageContent((p: any) => ({ ...p, about: { ...p.about, vision: e.target.value } }))}
-                          className="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm focus:ring-2 focus:ring-medical-blue outline-none resize-none" />
-                      </div>
-                    </>
-                  )}
-
-                  {/* Contact Section */}
-                  {editingPageSection === 'contact' && (
-                    <>
-                      <h3 className="font-black text-lg text-medical-dark">📞 Contact Page Details</h3>
-                      {[
-                        { key: 'phone', label: 'Main Phone' },
-                        { key: 'emergencyPhone', label: 'Emergency Phone' },
-                        { key: 'email', label: 'Email Address' },
-                        { key: 'address', label: 'Hospital Address' },
-                      ].map(({ key, label }) => (
-                        <div key={key}>
-                          <label className="block text-xs font-bold text-gray-500 mb-1 uppercase">{label}</label>
-                          <input value={(pageContent.contact as any)[key]} onChange={e => setPageContent((p: any) => ({ ...p, contact: { ...p.contact, [key]: e.target.value } }))}
-                            className="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm focus:ring-2 focus:ring-medical-blue outline-none" />
-                        </div>
-                      ))}
-                    </>
-                  )}
-
-                  {/* SEO Section */}
-                  {editingPageSection === 'seo' && (
-                    <>
-                      <h3 className="font-black text-lg text-medical-dark">🔍 SEO & Meta Tags</h3>
-                      <div>
-                        <label className="block text-xs font-bold text-gray-500 mb-1 uppercase">Site Title</label>
-                        <input value={pageContent.seo.siteTitle} onChange={e => setPageContent((p: any) => ({ ...p, seo: { ...p.seo, siteTitle: e.target.value } }))}
-                          className="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm focus:ring-2 focus:ring-medical-blue outline-none" />
-                      </div>
-                      <div>
-                        <label className="block text-xs font-bold text-gray-500 mb-1 uppercase">Meta Description</label>
-                        <textarea rows={3} value={pageContent.seo.siteDescription} onChange={e => setPageContent((p: any) => ({ ...p, seo: { ...p.seo, siteDescription: e.target.value } }))}
-                          className="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm focus:ring-2 focus:ring-medical-blue outline-none resize-none" />
-                      </div>
-                      <div>
-                        <label className="block text-xs font-bold text-gray-500 mb-1 uppercase">Keywords (comma-separated)</label>
-                        <input value={pageContent.seo.keywords} onChange={e => setPageContent((p: any) => ({ ...p, seo: { ...p.seo, keywords: e.target.value } }))}
-                          className="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm focus:ring-2 focus:ring-medical-blue outline-none" />
-                      </div>
-                    </>
-                  )}
-
-                  <div className="flex items-center space-x-3 pt-2">
-                    <button
-                      onClick={savePageContent}
-                      disabled={pageSaving}
-                      className="flex items-center space-x-2 px-8 py-3 premium-gradient text-white rounded-2xl font-bold hover:shadow-xl transition-all disabled:opacity-70"
-                    >
-                      <Save className="w-4 h-4" />
-                      <span>{pageSaving ? 'Saving...' : 'Save Changes'}</span>
-                    </button>
-                    {pageSaved && <span className="text-green-500 font-bold text-sm flex items-center gap-1"><CheckCircle className="w-4 h-4" /> Saved to database!</span>}
-                    {pageSaveError && <span className="text-red-500 font-bold text-sm flex items-center gap-1"><XCircle className="w-4 h-4" /> Save failed. Try again.</span>}
-                  </div>
-                </div>
+                <PageContentTab />
               </div>
             )}
+
+            {/* ===== TEAM TAB ===== */}
+            {activeTab === 'team' && (
+              <div className="p-8">
+                <TeamTab initialData={initialTeamMembers || []} />
+              </div>
+            )}
+
+            {/* ===== JOBS TAB ===== */}
+            {activeTab === 'jobs' && (
+              <div className="p-8">
+                <JobsTab initialJobs={initialJobs || []} initialApplications={initialApplications || []} />
+              </div>
+            )}
+
+            {/* ===== CERTIFICATIONS TAB ===== */}
+            {activeTab === 'certifications' && (
+              <div className="p-8">
+                <CertificationsTab initialData={initialCertifications || []} />
+              </div>
+            )}
+
+            {/* ===== TESTIMONIALS TAB ===== */}
+            {activeTab === 'testimonials' && (
+              <div className="p-8">
+                <TestimonialsTab initialData={initialTestimonials || []} />
+              </div>
+            )}
+
           </div>
         </div>
       </main>
+
 
       {/* CRUD Modal */}
       <AnimatePresence>
