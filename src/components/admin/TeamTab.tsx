@@ -4,10 +4,10 @@ import { Trash2, Edit, Plus, Image as ImageIcon, Save } from 'lucide-react';
 
 interface TeamMember {
   id: string; name: string; designation: string; bio: string;
-  image: string; linkedin: string; email: string; twitter: string; order: number;
+  image: string; experience: string; department: string; order: number;
 }
 
-const EMPTY: Omit<TeamMember, 'id'> = { name: '', designation: '', bio: '', image: '', linkedin: '', email: '', twitter: '', order: 0 };
+const EMPTY: Omit<TeamMember, 'id'> = { name: '', designation: '', bio: '', image: '', experience: '', department: '', order: 0 };
 
 export function TeamTab({ initialData }: { initialData: TeamMember[] }) {
   const [members, setMembers] = useState(initialData);
@@ -61,7 +61,7 @@ export function TeamTab({ initialData }: { initialData: TeamMember[] }) {
             <img src={m.image || '/fallback-department.svg'} alt={m.name} className="w-14 h-14 rounded-xl object-cover shrink-0 border border-gray-200" onError={(e) => { (e.currentTarget as HTMLImageElement).src = '/fallback-department.svg'; }} />
             <div className="flex-1 min-w-0">
               <p className="font-bold text-medical-dark text-sm truncate">{m.name}</p>
-              <p className="text-xs text-medical-blue font-bold truncate">{m.designation}</p>
+              <p className="text-xs text-medical-blue font-bold truncate">{m.designation}{m.department ? ` • ${m.department}` : ''}</p>
               <p className="text-xs text-gray-400 mt-1 line-clamp-2">{m.bio}</p>
             </div>
             <div className="flex space-x-1 shrink-0">
@@ -86,10 +86,12 @@ export function TeamTab({ initialData }: { initialData: TeamMember[] }) {
                     <input required value={form[k] || ''} onChange={e => setForm((f: any) => ({ ...f, [k]: e.target.value }))} className="w-full p-3 bg-gray-50 rounded-xl border border-gray-100 text-sm focus:outline-none focus:border-medical-blue" /></div>
                 ))}
               </div>
-              {[['linkedin', 'LinkedIn URL'], ['twitter', 'Twitter URL'], ['email', 'Email']].map(([k, l]) => (
-                <div key={k}><label className="text-xs font-bold text-gray-400 uppercase tracking-wider block mb-1">{l}</label>
-                  <input value={form[k] || ''} onChange={e => setForm((f: any) => ({ ...f, [k]: e.target.value }))} className="w-full p-3 bg-gray-50 rounded-xl border border-gray-100 text-sm focus:outline-none focus:border-medical-blue" /></div>
-              ))}
+              <div className="grid grid-cols-2 gap-4">
+                {[['experience', 'Years of Experience'], ['department', 'Department (e.g. IT, Finance)']].map(([k, l]) => (
+                  <div key={k}><label className="text-xs font-bold text-gray-400 uppercase tracking-wider block mb-1">{l}</label>
+                    <input value={form[k] || ''} onChange={e => setForm((f: any) => ({ ...f, [k]: e.target.value }))} className="w-full p-3 bg-gray-50 rounded-xl border border-gray-100 text-sm focus:outline-none focus:border-medical-blue" /></div>
+                ))}
+              </div>
               <div><label className="text-xs font-bold text-gray-400 uppercase tracking-wider block mb-1">Bio</label>
                 <textarea rows={3} value={form.bio || ''} onChange={e => setForm((f: any) => ({ ...f, bio: e.target.value }))} className="w-full p-3 bg-gray-50 rounded-xl border border-gray-100 text-sm focus:outline-none focus:border-medical-blue resize-none" /></div>
               <div><label className="text-xs font-bold text-gray-400 uppercase tracking-wider block mb-1">Photo URL</label>

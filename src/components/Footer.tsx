@@ -50,17 +50,7 @@ export function Footer() {
               <p className="text-medical-light/60 text-sm leading-relaxed max-w-xs">
                 {content.description}
               </p>
-              <div className="flex space-x-4">
-                <a href={content.twitter} target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-full border border-white/10 flex items-center justify-center hover:bg-white hover:text-medical-dark transition-all">
-                  <Twitter className="w-4 h-4" />
-                </a>
-                <a href={content.instagram} target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-full border border-white/10 flex items-center justify-center hover:bg-white hover:text-medical-dark transition-all">
-                  <Instagram className="w-4 h-4" />
-                </a>
-                <a href={content.linkedin} target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-full border border-white/10 flex items-center justify-center hover:bg-white hover:text-medical-dark transition-all">
-                  <Linkedin className="w-4 h-4" />
-                </a>
-              </div>
+
             </div>
 
             {/* Quick Links */}

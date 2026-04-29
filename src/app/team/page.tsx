@@ -16,6 +16,8 @@ interface TeamMember {
   linkedin?: string;
   email?: string;
   twitter?: string;
+  experience?: string;
+  department?: string;
   order: number;
 }
 
@@ -136,7 +138,7 @@ export default function TeamPage() {
                   {/* Info */}
                   <div className="p-7">
                     <h3 className="text-xl font-display font-black text-medical-dark mb-1 group-hover:text-medical-blue transition-colors">{member.name}</h3>
-                    <p className="text-medical-blue text-xs font-bold uppercase tracking-widest mb-4">{member.designation}</p>
+                    <p className="text-medical-blue text-xs font-bold uppercase tracking-widest mb-4">{member.designation}{member.department ? ` • ${member.department}` : ''}</p>
                     <p className="text-gray-500 text-sm leading-relaxed line-clamp-3">{member.bio}</p>
                   </div>
                 </Link>

@@ -91,8 +91,18 @@ export function TestimonialsTab({ initialData }: { initialData: Testimonial[] })
                 <input required value={form.patientName} onChange={e => setForm({...form, patientName: e.target.value})} className="w-full p-3 bg-gray-50 rounded-xl border border-gray-100 focus:outline-none focus:border-medical-blue text-sm" /></div>
               <div><label className="block text-xs font-bold text-gray-400 uppercase mb-1">Role / Title</label>
                 <input value={form.role} onChange={e => setForm({...form, role: e.target.value})} className="w-full p-3 bg-gray-50 rounded-xl border border-gray-100 focus:outline-none focus:border-medical-blue text-sm" placeholder="e.g. Patient, Cardiology" /></div>
-              <div><label className="block text-xs font-bold text-gray-400 uppercase mb-1">Photo URL</label>
-                <input value={form.image} onChange={e => setForm({...form, image: e.target.value})} className="w-full p-3 bg-gray-50 rounded-xl border border-gray-100 focus:outline-none focus:border-medical-blue text-sm" placeholder="https://..." /></div>
+              <div><label className="block text-xs font-bold text-gray-400 uppercase mb-1">Photo / Video URL (or Upload)</label>
+                <div className="flex flex-col space-y-2">
+                  <input value={form.image} onChange={e => setForm({...form, image: e.target.value})} className="w-full p-3 bg-gray-50 rounded-xl border border-gray-100 focus:outline-none focus:border-medical-blue text-sm" placeholder="https://..." />
+                  <label className="flex items-center space-x-2 px-4 py-2 bg-white border-2 border-dashed border-gray-200 rounded-xl cursor-pointer hover:border-medical-blue text-xs font-bold text-gray-400 w-fit">
+                    <span>Upload Media</span>
+                    <input type="file" className="hidden" accept="image/*,video/mp4" onChange={(e) => {
+                      const file = e.target.files?.[0];
+                      if (file) { const r = new FileReader(); r.onloadend = () => setForm({...form, image: r.result}); r.readAsDataURL(file); }
+                    }} />
+                  </label>
+                </div>
+              </div>
               <div><label className="block text-xs font-bold text-gray-400 uppercase mb-1">Review *</label>
                 <textarea required rows={3} value={form.review} onChange={e => setForm({...form, review: e.target.value})} className="w-full p-3 bg-gray-50 rounded-xl border border-gray-100 focus:outline-none focus:border-medical-blue text-sm resize-none" /></div>
               <div className="grid grid-cols-2 gap-4">

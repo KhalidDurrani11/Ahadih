@@ -86,9 +86,8 @@ model TeamMember {
   designation String
   bio         String
   image       String
-  linkedin    String   @default("")
-  email       String   @default("")
-  twitter     String   @default("")
+  experience  String   @default("")
+  department  String   @default("")
   order       Int      @default(0)
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt

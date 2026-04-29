@@ -50,7 +50,6 @@ export default function ContactPage() {
   const contactInfo = [
     { title: 'Emergency Contact', content: content.emergencyPhone, icon: Phone, color: 'bg-red-50 text-red-500' },
     { title: 'General Inquiries', content: content.email, icon: Mail, color: 'bg-blue-50 text-blue-500' },
-    { title: 'Hospital Address', content: content.address, icon: MapPin, color: 'bg-green-50 text-green-500' },
     { title: 'Working Hours', content: 'Emergency 24/7 | Outpatient Clinics 8:00 AM - 8:00 PM', icon: Clock, color: 'bg-purple-50 text-purple-500' },
   ];
 
@@ -95,28 +94,7 @@ export default function ContactPage() {
               ))}
             </div>
 
-            {/* Map Placeholder */}
-            <a href="https://maps.google.com/?q=Abu+Dhabi+Hospital" target="_blank" rel="noreferrer" className="block rounded-[40px] overflow-hidden opacity-90 hover:opacity-100 transition-all duration-700 border border-gray-100 shadow-2xl relative h-80 group">
-               <img 
-                src="https://images.unsplash.com/photo-1571772996211-2f02c9727629?auto=format&fit=crop&q=80&w=1400"
-                alt="Abu Dhabi city map view"
-                className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-[20s] linear"
-                referrerPolicy="no-referrer"
-                onError={(e) => {
-                  e.currentTarget.onerror = null;
-                  e.currentTarget.src = '/fallback-map.svg';
-                }}
-               />
-               <div className="absolute inset-x-0 bottom-0 p-8 glass text-medical-dark flex items-center justify-between">
-                 <div className="flex items-center space-x-3">
-                    <MapPin className="text-medical-blue" />
-                    <span className="font-bold text-sm tracking-tight">Open AHAD location in Google Maps</span>
-                 </div>
-                 <div className="w-10 h-10 rounded-full bg-medical-blue text-white flex items-center justify-center">
-                    <Send className="w-4 h-4" />
-                 </div>
-               </div>
-            </a>
+
           </div>
 
           {/* Contact Form */}

@@ -8,6 +8,7 @@ import { useState, useEffect } from 'react';
 interface HomeClientProps {
   initialDepartments: any[];
   initialNews?: any[];
+  initialTestimonials?: any[];
 }
 
 const DEFAULT_CONTENT = {
@@ -43,7 +44,7 @@ const DEFAULT_CONTENT = {
   } as Record<string, string>,
 };
 
-export function HomeClient({ initialDepartments, initialNews = [] }: HomeClientProps) {
+export function HomeClient({ initialDepartments, initialNews = [], initialTestimonials = [] }: HomeClientProps) {
   const [siteContent, setSiteContent] = useState(DEFAULT_CONTENT);
 
   useEffect(() => {
@@ -206,24 +207,34 @@ export function HomeClient({ initialDepartments, initialNews = [] }: HomeClientP
         </motion.div>
       </section>
 
-      {/* Trust Indicators */}
-      <section className="py-24 bg-white relative overflow-hidden">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-12">
+      {/* Redesigned Trust Indicators */}
+      <section className="py-24 bg-medical-dark relative overflow-hidden">
+        <div className="absolute inset-0 opacity-10 pointer-events-none">
+          <div className="absolute top-0 right-0 w-96 h-96 bg-medical-blue rounded-full blur-[120px]"></div>
+          <div className="absolute bottom-0 left-0 w-96 h-96 bg-white rounded-full blur-[120px]"></div>
+        </div>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
             {stats.map((stat, i) => (
               <motion.div 
                 key={stat.label}
-                initial={{ opacity: 0, scale: 0.9 }}
-                whileInView={{ opacity: 1, scale: 1 }}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: i * 0.1 }}
-                className="text-center group"
+                className="relative group p-8 rounded-[32px] overflow-hidden shadow-2xl"
               >
-                <div className="w-16 h-16 mx-auto mb-6 rounded-2xl bg-medical-blue/5 flex items-center justify-center text-medical-blue group-hover:bg-medical-blue group-hover:text-white transition-all shadow-xl shadow-medical-blue/5 group-hover:shadow-medical-blue/20">
-                  <stat.icon className="w-8 h-8" />
+                <div className="absolute inset-0 bg-gradient-to-br from-white/10 to-white/5 border border-white/10 rounded-[32px] backdrop-blur-sm group-hover:bg-medical-blue/20 transition-colors duration-500"></div>
+                <div className="absolute -bottom-10 -right-5 text-[120px] font-black text-white/5 group-hover:text-white/10 transition-colors duration-500 pointer-events-none font-display">
+                  {stat.value.replace(/\D/g, '')}
                 </div>
-                <h3 className="text-4xl font-display font-black mb-2">{stat.value}</h3>
-                <p className="text-gray-400 font-medium text-sm tracking-wide uppercase">{stat.label}</p>
+                <div className="relative z-10">
+                  <div className="w-16 h-16 mb-8 rounded-2xl bg-white/10 flex items-center justify-center text-white border border-white/20 group-hover:scale-110 transition-transform shadow-lg">
+                    <stat.icon className="w-8 h-8" />
+                  </div>
+                  <h3 className="text-4xl md:text-5xl font-display font-black text-white mb-3 tracking-tight">{stat.value}</h3>
+                  <p className="text-white/70 font-medium text-xs tracking-widest uppercase leading-snug">{stat.label}</p>
+                </div>
               </motion.div>
             ))}
           </div>
@@ -393,6 +404,45 @@ export function HomeClient({ initialDepartments, initialNews = [] }: HomeClientP
            </div>
         </div>
       </section>
+
+      {/* Patient Testimonials */}
+      {initialTestimonials.length > 0 && (
+        <section className="py-32 bg-medical-blue/5 overflow-hidden relative">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="text-center max-w-3xl mx-auto mb-16">
+              <motion.p initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} className="text-medical-blue font-bold tracking-[0.3em] uppercase text-[10px] mb-4">Patient Stories</motion.p>
+              <h2 className="text-4xl md:text-5xl font-display font-black text-medical-dark mb-6">Hear from Our Patients</h2>
+            </div>
+            <div className="flex overflow-x-auto snap-x snap-mandatory gap-6 pb-8 -mx-4 px-4 sm:mx-0 sm:px-0 scrollbar-hide">
+              {initialTestimonials.map((t, idx) => (
+                <div key={t.id} className="min-w-[300px] sm:min-w-[400px] w-full max-w-md snap-center shrink-0 bg-white p-8 rounded-[32px] shadow-xl shadow-gray-200/50 border border-gray-100 flex flex-col justify-between">
+                  <div>
+                    <div className="flex text-yellow-400 mb-6">
+                      {Array.from({length: 5}).map((_, i) => <Star key={i} className={`w-5 h-5 ${i < t.rating ? 'fill-yellow-400' : 'text-gray-200 fill-gray-200'}`} />)}
+                    </div>
+                    <p className="text-gray-600 text-lg italic mb-8 leading-relaxed">&ldquo;{t.review}&rdquo;</p>
+                  </div>
+                  <div className="flex items-center gap-4">
+                    {t.image ? (
+                      t.image.includes('video') || t.image.endsWith('.mp4') || t.image.startsWith('data:video') ? (
+                        <video src={t.image} className="w-14 h-14 rounded-full object-cover" muted autoPlay loop playsInline />
+                      ) : (
+                        <img src={t.image} alt={t.patientName} className="w-14 h-14 rounded-full object-cover" />
+                      )
+                    ) : (
+                      <div className="w-14 h-14 rounded-full bg-medical-blue/10 flex items-center justify-center text-medical-blue font-bold text-xl">{t.patientName.charAt(0)}</div>
+                    )}
+                    <div>
+                      <h4 className="font-bold text-medical-dark">{t.patientName}</h4>
+                      {t.role && <p className="text-sm text-gray-500">{t.role}</p>}
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
 
       {/* Emergency CTA */}
       <section className="py-24 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

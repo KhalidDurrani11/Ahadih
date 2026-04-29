@@ -45,13 +45,13 @@ export async function generateMetadata(): Promise<Metadata> {
         siteName: seo.siteTitle || 'AHAD International Hospital',
         title,
         description,
-        images: [{ url: '/ahadd-logo_2.jpeg', width: 1200, height: 630, alt: 'AHAD International Hospital' }],
+        images: [{ url: 'https://ahadih.vercel.app/ahadd-logo_2.jpeg', width: 1200, height: 630, alt: 'AHAD International Hospital' }],
       },
       twitter: {
         card: 'summary_large_image',
         title,
         description,
-        images: ['/ahadd-logo_2.jpeg'],
+        images: ['https://ahadih.vercel.app/ahadd-logo_2.jpeg'],
       },
       robots: {
         index: true,

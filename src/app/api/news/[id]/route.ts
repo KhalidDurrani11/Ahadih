@@ -15,10 +15,10 @@ export async function GET(_req: Request, props: { params: Promise<{ id: string }
 export async function PUT(req: Request, props: { params: Promise<{ id: string }> }) {
   try {
     const params = await props.params;
-    const data = await req.json();
+    const { id, createdAt, updatedAt, ...updateData } = await req.json();
     const news = await prisma.news.update({
       where: { id: params.id },
-      data,
+      data: updateData,
     });
     return NextResponse.json(news);
   } catch {
