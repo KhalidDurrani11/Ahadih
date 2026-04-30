@@ -78,18 +78,12 @@ export function Navbar() {
                   <Link
                     href={item.href !== '#' ? item.href : item.subItems![0].href}
                     className={cn(
-                      "text-sm font-medium transition-all hover:text-medical-blue relative flex items-center gap-1 py-4",
-                      isActive ? "text-medical-blue" : "text-gray-500 dark:text-gray-300"
+                      "text-sm font-semibold transition-all relative flex items-center gap-1 px-4 py-2 rounded-full",
+                      isActive ? "bg-medical-blue/10 text-medical-blue" : "text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-medical-dark"
                     )}
                   >
                     {item.label}
-                    {item.subItems && <ChevronDown className="w-4 h-4" />}
-                    {isActive && (
-                      <motion.div
-                        layoutId="navUnderline"
-                        className="absolute bottom-2 left-0 right-0 h-0.5 bg-medical-blue rounded-full"
-                      />
-                    )}
+                    {item.subItems && <ChevronDown className="w-4 h-4 ml-0.5" />}
                   </Link>
                   
                   {item.subItems && (

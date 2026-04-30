@@ -28,7 +28,7 @@ export function DepartmentsClient({ initialDepartments }: DepartmentsClientProps
   const content = { ...DEFAULT_CONTENT, ...(globalContent?.departments || {}) };
 
   return (
-    <div className="pt-24 pb-24 bg-gray-50/50 min-h-screen relative overflow-hidden">
+    <div className="pt-24 pb-24 bg-slate-50 min-h-screen relative overflow-hidden">
       {/* Background Ornaments */}
       <div className="absolute top-0 right-0 w-[800px] h-[800px] bg-medical-blue/5 rounded-full blur-[120px] -translate-y-1/2 translate-x-1/3 pointer-events-none" />
       <div className="absolute bottom-0 left-0 w-[600px] h-[600px] bg-medical-accent/5 rounded-full blur-[100px] translate-y-1/3 -translate-x-1/3 pointer-events-none" />
@@ -76,7 +76,7 @@ export function DepartmentsClient({ initialDepartments }: DepartmentsClientProps
                 {/* Glowing border effect */}
                 <div className="absolute inset-0 bg-gradient-to-br from-medical-blue to-medical-accent rounded-[40px] blur-xl opacity-0 group-hover:opacity-20 transition-opacity duration-700 pointer-events-none" />
                 
-                <div className="relative h-full bg-white border border-gray-100 rounded-[40px] p-8 sm:p-10 shadow-2xl shadow-gray-200/40 group-hover:border-medical-blue/20 transition-all duration-500 overflow-hidden flex flex-col hover:-translate-y-2">
+                <div className="relative h-full bg-white border border-gray-200 rounded-[40px] p-8 sm:p-10 shadow-2xl shadow-gray-200/60 group-hover:border-medical-blue/30 transition-all duration-500 overflow-hidden flex flex-col hover:-translate-y-2">
                   
                   {/* Decorative background image blend */}
                   <div className="absolute top-0 right-0 w-full h-48 opacity-[0.03] group-hover:opacity-10 transition-opacity duration-700 pointer-events-none mix-blend-luminosity">

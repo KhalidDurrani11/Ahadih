@@ -51,8 +51,11 @@ export default function ContactPage() {
   ];
 
   return (
-    <div className="pt-32 pb-24 bg-white min-h-screen">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div className="pt-32 pb-24 bg-slate-50 min-h-screen relative">
+      {/* Decorative Background Glows */}
+      <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-medical-blue/5 rounded-full blur-[100px] -translate-y-1/2 translate-x-1/3 pointer-events-none" />
+
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <header className="mb-20">
           <motion.p 
             initial={{ opacity: 0 }}
@@ -80,12 +83,12 @@ export default function ContactPage() {
                   initial={{ opacity: 0, scale: 0.95 }}
                   animate={{ opacity: 1, scale: 1 }}
                   transition={{ delay: i * 0.1 }}
-                  className="p-8 rounded-[32px] bg-gray-50 border border-gray-100 hover:shadow-xl transition-all group"
+                  className="p-8 rounded-[32px] bg-white border border-gray-200 shadow-xl shadow-gray-200/60 hover:border-medical-blue/30 hover:-translate-y-1 transition-all duration-300 group"
                 >
-                  <div className={`w-12 h-12 rounded-xl flex items-center justify-center mb-6 ${info.color} group-hover:scale-110 transition-transform`}>
+                  <div className={`w-14 h-14 rounded-2xl flex items-center justify-center mb-6 ${info.color} group-hover:scale-110 transition-transform shadow-sm`}>
                     <info.icon className="w-6 h-6" />
                   </div>
-                  <h4 className="font-display font-bold text-lg mb-2">{info.title}</h4>
+                  <h4 className="font-display font-bold text-lg mb-2 text-medical-dark">{info.title}</h4>
                   <p className="text-gray-500 text-sm leading-relaxed break-all">{info.content}</p>
                 </motion.div>
               ))}
