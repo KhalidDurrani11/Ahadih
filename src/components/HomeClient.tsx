@@ -391,89 +391,120 @@ export function HomeClient({ initialDepartments, initialNews = [], initialTestim
         </div>
       </section>
 
-      {/* Creative Testimonials Section */}
+      {/* Premium Testimonials Section */}
       {initialTestimonials.length > 0 && (
-        <section className="py-32 bg-medical-dark relative overflow-hidden">
-          <div className="absolute inset-0 opacity-10 pointer-events-none">
-            <div className="absolute -top-40 -right-40 w-96 h-96 bg-medical-blue rounded-full blur-[150px]"></div>
-            <div className="absolute -bottom-40 -left-40 w-96 h-96 bg-white rounded-full blur-[150px]"></div>
+        <section className="py-24 bg-medical-dark relative overflow-hidden">
+          {/* Animated Background Elements */}
+          <div className="absolute inset-0 opacity-20 pointer-events-none">
+            <motion.div 
+              animate={{ 
+                scale: [1, 1.2, 1],
+                opacity: [0.3, 0.5, 0.3],
+                x: [0, 50, 0],
+                y: [0, 30, 0]
+              }}
+              transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
+              className="absolute top-0 right-0 w-[500px] h-[500px] bg-medical-blue rounded-full blur-[120px]"
+            />
+            <motion.div 
+              animate={{ 
+                scale: [1.2, 1, 1.2],
+                opacity: [0.2, 0.4, 0.2],
+                x: [0, -40, 0],
+                y: [0, -60, 0]
+              }}
+              transition={{ duration: 12, repeat: Infinity, ease: "easeInOut" }}
+              className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-white rounded-full blur-[100px]"
+            />
           </div>
           
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-            <div className="flex flex-col items-center text-center mb-16 px-4">
+            <div className="flex flex-col items-center text-center mb-12 px-4">
               <motion.div 
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
+                initial={{ opacity: 0, scale: 0.9 }}
+                whileInView={{ opacity: 1, scale: 1 }}
                 viewport={{ once: true }}
-                className="inline-flex items-center space-x-2 px-4 py-2 rounded-full bg-white/5 border border-white/10 text-white/80 text-sm font-semibold mb-6"
+                className="inline-flex items-center space-x-2 px-4 py-1.5 rounded-full bg-white/5 border border-white/10 text-white/80 text-[10px] font-bold uppercase tracking-[0.2em] mb-6"
               >
-                <Star className="w-4 h-4 fill-yellow-400 text-yellow-400" />
-                <span className="uppercase tracking-widest text-xs">Patient Stories</span>
+                <div className="w-1.5 h-1.5 rounded-full bg-medical-blue animate-pulse" />
+                <span>Patient Stories</span>
               </motion.div>
-              <h2 className="text-4xl md:text-5xl font-display font-black text-white mb-6">
-                Hear From Our <span className="text-gradient">Patients</span>
+              <h2 className="text-3xl md:text-5xl font-display font-black text-white mb-4">
+                Trusted by <span className="text-gradient">Thousands</span>
               </h2>
+              <p className="text-white/50 text-sm max-w-lg mx-auto leading-relaxed">
+                Experience world-class healthcare through the eyes of our patients. Their journeys, our commitment.
+              </p>
             </div>
           </div>
 
-          {/* Full-width Marquee Container with Fading Edges */}
-          <div className="relative w-full overflow-hidden pb-12 pt-4 group/marquee">
-            {/* Gradient Masks */}
-            <div className="absolute inset-y-0 left-0 w-32 bg-gradient-to-r from-medical-dark to-transparent z-20 pointer-events-none" />
-            <div className="absolute inset-y-0 right-0 w-32 bg-gradient-to-l from-medical-dark to-transparent z-20 pointer-events-none" />
+          {/* Compact Marquee Container */}
+          <div className="relative w-full overflow-hidden pb-8 pt-4 group/marquee">
+            {/* Gradient Masks for smooth edges */}
+            <div className="absolute inset-y-0 left-0 w-24 md:w-64 bg-gradient-to-r from-medical-dark via-medical-dark/80 to-transparent z-20 pointer-events-none" />
+            <div className="absolute inset-y-0 right-0 w-24 md:w-64 bg-gradient-to-l from-medical-dark via-medical-dark/80 to-transparent z-20 pointer-events-none" />
 
             <motion.div
               animate={{ x: ["0%", "-50%"] }}
               transition={{
                 repeat: Infinity,
                 ease: "linear",
-                duration: 60,
+                duration: 40,
               }}
-              className="flex space-x-8 w-max hover:[animation-play-state:paused]"
+              className="flex space-x-6 w-max hover:[animation-play-state:paused]"
             >
-              {/* We render the list twice to create a seamless infinite loop */}
               {[...initialTestimonials, ...initialTestimonials].map((testimonial, i) => (
-                <div 
+                <motion.div 
                   key={`${testimonial.id}-${i}`}
-                  className="shrink-0 w-[350px] md:w-[500px] relative group px-4"
+                  whileHover={{ y: -5, scale: 1.02 }}
+                  className="shrink-0 w-[280px] md:w-[340px] relative group"
                 >
-                  <div className="absolute inset-0 bg-gradient-to-br from-white/10 to-white/5 rounded-[32px] transform group-hover:-translate-y-2 group-hover:-translate-x-2 transition-transform duration-500"></div>
-                  <div className="absolute inset-0 bg-medical-blue/20 rounded-[32px] transform translate-y-4 translate-x-4 group-hover:translate-y-2 group-hover:translate-x-2 transition-transform duration-500 -z-10"></div>
+                  {/* Glow Effect on Hover */}
+                  <div className="absolute -inset-0.5 bg-gradient-to-r from-medical-blue to-blue-400 rounded-[24px] opacity-0 group-hover:opacity-30 blur-md transition duration-500"></div>
                   
-                  <div className="relative h-full bg-white/5 backdrop-blur-xl border border-white/10 p-8 md:p-10 rounded-[32px] flex flex-col justify-between overflow-hidden shadow-2xl">
-                    <div className="absolute -right-6 -top-6 text-[120px] text-white/5 font-serif leading-none">"</div>
-                    
-                    <div className="relative z-10 mb-8">
-                      <div className="flex text-yellow-400 mb-6 space-x-1">
-                        {[...Array(testimonial.rating || 5)].map((_, idx) => (
-                          <Star key={idx} className="w-5 h-5 fill-current" />
-                        ))}
-                      </div>
-                      <p className="text-white/80 text-lg md:text-xl font-medium leading-relaxed italic line-clamp-6">
-                        "{testimonial.review || testimonial.content}"
-                      </p>
+                  <div className="relative h-full bg-white/5 backdrop-blur-xl border border-white/10 p-6 md:p-8 rounded-[24px] flex flex-col overflow-hidden shadow-xl transition-all duration-500 group-hover:bg-white/[0.08] group-hover:border-white/20">
+                    {/* Unique Quote Mark */}
+                    <div className="absolute -right-2 -top-2 w-16 h-16 opacity-5 group-hover:opacity-10 transition-opacity">
+                      <svg viewBox="0 0 24 24" fill="currentColor" className="text-white">
+                        <path d="M14.017 21L14.017 18C14.017 16.8954 14.9124 16 16.017 16H19.017C19.5693 16 20.017 15.5523 20.017 15V9C20.017 8.44772 19.5693 8 19.017 8H15.017C14.4647 8 14.017 7.55228 14.017 7V5C14.017 4.44772 14.4647 4 15.017 4H19.017C21.2261 4 23.017 5.79086 23.017 8V15C23.017 18.3137 20.3307 21 17.017 21H14.017ZM1.017 21L1.017 18C1.017 16.8954 1.91241 16 3.017 16H6.017C6.56928 16 7.017 15.5523 7.017 15V9C7.017 8.44772 6.56928 8 6.017 8H2.017C1.46472 8 1.017 7.55228 1.017 7V5C1.017 4.44772 1.46472 4 2.017 4H6.017C8.22614 4 10.017 5.79086 10.017 8V15C10.017 18.3137 7.33065 21 4.017 21H1.017Z" />
+                      </svg>
                     </div>
 
-                    <div className="relative z-10 flex items-center space-x-4 mt-auto pt-6 border-t border-white/10">
-                      {testimonial.image ? (
-                        <img 
-                          src={testimonial.image} 
-                          alt={testimonial.patientName} 
-                          className="w-16 h-16 rounded-full object-cover ring-4 ring-white/10"
-                          referrerPolicy="no-referrer"
-                        />
-                      ) : (
-                        <div className="w-16 h-16 rounded-full bg-gradient-to-br from-medical-blue to-blue-600 flex items-center justify-center text-white text-xl font-bold ring-4 ring-white/10">
-                          {(testimonial.patientName || 'A').charAt(0)}
+                    <div className="flex text-yellow-400 mb-4 space-x-0.5">
+                      {[...Array(testimonial.rating || 5)].map((_, idx) => (
+                        <Star key={idx} className="w-3.5 h-3.5 fill-current" />
+                      ))}
+                    </div>
+
+                    <p className="text-white/80 text-sm md:text-base font-medium leading-relaxed italic mb-8 line-clamp-5">
+                      "{testimonial.review || testimonial.content}"
+                    </p>
+
+                    <div className="flex items-center space-x-3 mt-auto">
+                      <div className="relative">
+                        {testimonial.image ? (
+                          <img 
+                            src={testimonial.image} 
+                            alt={testimonial.patientName} 
+                            className="w-10 h-10 rounded-full object-cover ring-2 ring-white/10 group-hover:ring-medical-blue/50 transition-all"
+                            referrerPolicy="no-referrer"
+                          />
+                        ) : (
+                          <div className="w-10 h-10 rounded-full bg-gradient-to-br from-medical-blue to-blue-600 flex items-center justify-center text-white text-xs font-bold ring-2 ring-white/10">
+                            {(testimonial.patientName || 'A').charAt(0)}
+                          </div>
+                        )}
+                        <div className="absolute -bottom-1 -right-1 w-4 h-4 bg-medical-blue rounded-full flex items-center justify-center border-2 border-medical-dark">
+                          <ShieldCheck className="w-2.5 h-2.5 text-white" />
                         </div>
-                      )}
+                      </div>
                       <div>
-                        <h4 className="text-white font-bold text-lg">{testimonial.patientName}</h4>
-                        <p className="text-white/50 text-sm uppercase tracking-widest">{testimonial.role || 'Patient'}</p>
+                        <h4 className="text-white font-bold text-sm">{testimonial.patientName}</h4>
+                        <p className="text-white/40 text-[10px] uppercase tracking-wider">{testimonial.role || 'Verified Patient'}</p>
                       </div>
                     </div>
                   </div>
-                </div>
+                </motion.div>
               ))}
             </motion.div>
           </div>
