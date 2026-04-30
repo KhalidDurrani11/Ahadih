@@ -400,7 +400,7 @@ export function HomeClient({ initialDepartments, initialNews = [], initialTestim
           </div>
           
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-            <div className="flex flex-col items-center text-center mb-16">
+            <div className="flex flex-col items-center text-center mb-16 px-4">
               <motion.div 
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
@@ -414,64 +414,69 @@ export function HomeClient({ initialDepartments, initialNews = [], initialTestim
                 Hear From Our <span className="text-gradient">Patients</span>
               </h2>
             </div>
+          </div>
 
-            {/* Marquee Container */}
-            <div className="relative w-full overflow-hidden pb-12 pt-4">
-              <motion.div
-                animate={{ x: ["0%", "-50%"] }}
-                transition={{
-                  repeat: Infinity,
-                  ease: "linear",
-                  duration: 40,
-                }}
-                className="flex space-x-8 w-max"
-              >
-                {/* We render the list twice to create a seamless infinite loop */}
-                {[...initialTestimonials, ...initialTestimonials].map((testimonial, i) => (
-                  <div 
-                    key={`${testimonial.id}-${i}`}
-                    className="shrink-0 w-[350px] md:w-[450px] relative group"
-                  >
-                    <div className="absolute inset-0 bg-gradient-to-br from-white/10 to-white/5 rounded-[32px] transform group-hover:-translate-y-2 group-hover:-translate-x-2 transition-transform duration-500"></div>
-                    <div className="absolute inset-0 bg-medical-blue/20 rounded-[32px] transform translate-y-4 translate-x-4 group-hover:translate-y-2 group-hover:translate-x-2 transition-transform duration-500 -z-10"></div>
+          {/* Full-width Marquee Container with Fading Edges */}
+          <div className="relative w-full overflow-hidden pb-12 pt-4 group/marquee">
+            {/* Gradient Masks */}
+            <div className="absolute inset-y-0 left-0 w-32 bg-gradient-to-r from-medical-dark to-transparent z-20 pointer-events-none" />
+            <div className="absolute inset-y-0 right-0 w-32 bg-gradient-to-l from-medical-dark to-transparent z-20 pointer-events-none" />
+
+            <motion.div
+              animate={{ x: ["0%", "-50%"] }}
+              transition={{
+                repeat: Infinity,
+                ease: "linear",
+                duration: 60,
+              }}
+              className="flex space-x-8 w-max hover:[animation-play-state:paused]"
+            >
+              {/* We render the list twice to create a seamless infinite loop */}
+              {[...initialTestimonials, ...initialTestimonials].map((testimonial, i) => (
+                <div 
+                  key={`${testimonial.id}-${i}`}
+                  className="shrink-0 w-[350px] md:w-[500px] relative group px-4"
+                >
+                  <div className="absolute inset-0 bg-gradient-to-br from-white/10 to-white/5 rounded-[32px] transform group-hover:-translate-y-2 group-hover:-translate-x-2 transition-transform duration-500"></div>
+                  <div className="absolute inset-0 bg-medical-blue/20 rounded-[32px] transform translate-y-4 translate-x-4 group-hover:translate-y-2 group-hover:translate-x-2 transition-transform duration-500 -z-10"></div>
+                  
+                  <div className="relative h-full bg-white/5 backdrop-blur-xl border border-white/10 p-8 md:p-10 rounded-[32px] flex flex-col justify-between overflow-hidden shadow-2xl">
+                    <div className="absolute -right-6 -top-6 text-[120px] text-white/5 font-serif leading-none">"</div>
                     
-                    <div className="relative h-full bg-white/5 backdrop-blur-xl border border-white/10 p-8 md:p-10 rounded-[32px] flex flex-col justify-between overflow-hidden">
-                      <div className="absolute -right-6 -top-6 text-[120px] text-white/5 font-serif leading-none">"</div>
-                      
-                      <div className="relative z-10 mb-8">
-                        <div className="flex text-yellow-400 mb-6 space-x-1">
-                          {[...Array(testimonial.rating || 5)].map((_, idx) => (
-                            <Star key={idx} className="w-5 h-5 fill-current" />
-                          ))}
-                        </div>
-                        <p className="text-white/80 text-lg md:text-xl font-medium leading-relaxed italic line-clamp-6">
-                          "{testimonial.review || testimonial.content}"
-                        </p>
+                    <div className="relative z-10 mb-8">
+                      <div className="flex text-yellow-400 mb-6 space-x-1">
+                        {[...Array(testimonial.rating || 5)].map((_, idx) => (
+                          <Star key={idx} className="w-5 h-5 fill-current" />
+                        ))}
                       </div>
+                      <p className="text-white/80 text-lg md:text-xl font-medium leading-relaxed italic line-clamp-6">
+                        "{testimonial.review || testimonial.content}"
+                      </p>
+                    </div>
 
-                      <div className="relative z-10 flex items-center space-x-4 mt-auto pt-6 border-t border-white/10">
-                        {testimonial.image ? (
-                          <img 
-                            src={testimonial.image} 
-                            alt={testimonial.patientName} 
-                            className="w-16 h-16 rounded-full object-cover ring-4 ring-white/10"
-                            referrerPolicy="no-referrer"
-                          />
-                        ) : (
-                          <div className="w-16 h-16 rounded-full bg-gradient-to-br from-medical-blue to-blue-600 flex items-center justify-center text-white text-xl font-bold ring-4 ring-white/10">
-                            {(testimonial.patientName || 'A').charAt(0)}
-                          </div>
-                        )}
-                        <div>
-                          <h4 className="text-white font-bold text-lg">{testimonial.patientName}</h4>
-                          <p className="text-white/50 text-sm uppercase tracking-widest">{testimonial.role || 'Patient'}</p>
+                    <div className="relative z-10 flex items-center space-x-4 mt-auto pt-6 border-t border-white/10">
+                      {testimonial.image ? (
+                        <img 
+                          src={testimonial.image} 
+                          alt={testimonial.patientName} 
+                          className="w-16 h-16 rounded-full object-cover ring-4 ring-white/10"
+                          referrerPolicy="no-referrer"
+                        />
+                      ) : (
+                        <div className="w-16 h-16 rounded-full bg-gradient-to-br from-medical-blue to-blue-600 flex items-center justify-center text-white text-xl font-bold ring-4 ring-white/10">
+                          {(testimonial.patientName || 'A').charAt(0)}
                         </div>
+                      )}
+                      <div>
+                        <h4 className="text-white font-bold text-lg">{testimonial.patientName}</h4>
+                        <p className="text-white/50 text-sm uppercase tracking-widest">{testimonial.role || 'Patient'}</p>
                       </div>
                     </div>
                   </div>
-                ))}
-              </motion.div>
-            </div>
+                </div>
+              ))}
+            </motion.div>
+          </div>
           </div>
         </section>
       )}
