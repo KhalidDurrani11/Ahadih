@@ -132,22 +132,22 @@ export default function ContactPage() {
                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                      <div className="space-y-2">
                        <label className="text-[10px] font-bold text-gray-400 uppercase tracking-widest pl-2">Full Name</label>
-                       <input required name="name" type="text" placeholder="John Doe" className="w-full px-6 py-4 bg-gray-50 border border-gray-100 rounded-2xl focus:ring-2 focus:ring-medical-blue focus:border-transparent outline-none transition-all placeholder:text-gray-300" />
+                       <input required name="name" type="text" placeholder="John Doe" className="premium-input placeholder:text-gray-400" />
                      </div>
                      <div className="space-y-2">
                        <label className="text-[10px] font-bold text-gray-400 uppercase tracking-widest pl-2">Email Address</label>
-                       <input required name="email" type="email" placeholder="john@example.com" className="w-full px-6 py-4 bg-gray-50 border border-gray-100 rounded-2xl focus:ring-2 focus:ring-medical-blue focus:border-transparent outline-none transition-all placeholder:text-gray-300" />
+                       <input required name="email" type="email" placeholder="john@example.com" className="premium-input placeholder:text-gray-400" />
                      </div>
                    </div>
 
                    <div className="space-y-2">
                      <label className="text-[10px] font-bold text-gray-400 uppercase tracking-widest pl-2">Subject</label>
-                     <input required name="subject" type="text" placeholder="General Inquiry" className="w-full px-6 py-4 bg-gray-50 border border-gray-100 rounded-2xl focus:ring-2 focus:ring-medical-blue focus:border-transparent outline-none transition-all placeholder:text-gray-300" />
+                     <input required name="subject" type="text" placeholder="General Inquiry" className="premium-input placeholder:text-gray-400" />
                    </div>
 
                    <div className="space-y-2">
                      <label className="text-[10px] font-bold text-gray-400 uppercase tracking-widest pl-2">Message</label>
-                     <textarea required name="message" rows={5} placeholder="How can we help you?" className="w-full px-6 py-4 bg-gray-50 border border-gray-100 rounded-2xl focus:ring-2 focus:ring-medical-blue focus:border-transparent outline-none transition-all placeholder:text-gray-300 resize-none"></textarea>
+                     <textarea required name="message" rows={5} placeholder="How can we help you?" className="premium-input placeholder:text-gray-400 resize-none"></textarea>
                    </div>
 
                    <button 

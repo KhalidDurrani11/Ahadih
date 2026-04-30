@@ -51,7 +51,7 @@ export function Navbar() {
       className={cn(
         "fixed top-0 left-0 right-0 z-50 transition-all duration-300",
         isScrolled
-          ? "bg-white/95 dark:bg-gray-900/95 backdrop-blur-xl shadow-md border-b border-gray-100 dark:border-gray-800"
+          ? "bg-white/80 dark:bg-gray-900/80 backdrop-blur-2xl shadow-lg shadow-medical-blue/5 border-b border-medical-blue/10 dark:border-gray-800"
           : "bg-transparent"
       )}
     >
@@ -78,21 +78,21 @@ export function Navbar() {
                   <Link
                     href={item.href !== '#' ? item.href : item.subItems![0].href}
                     className={cn(
-                      "text-sm font-semibold transition-all relative flex items-center gap-1 px-4 py-2 rounded-full",
-                      isActive ? "bg-medical-blue/10 text-medical-blue" : "text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-medical-dark"
+                      "text-sm font-semibold transition-all duration-300 relative flex items-center gap-1 px-4 py-2 rounded-full",
+                      isActive ? "bg-medical-blue/10 text-medical-blue shadow-inner" : "text-gray-600 dark:text-gray-300 hover:bg-medical-blue/5 dark:hover:bg-gray-800 hover:text-medical-blue"
                     )}
                   >
                     {item.label}
-                    {item.subItems && <ChevronDown className="w-4 h-4 ml-0.5" />}
+                    {item.subItems && <ChevronDown className="w-4 h-4 ml-0.5 group-hover:rotate-180 transition-transform duration-300" />}
                   </Link>
                   
                   {item.subItems && (
-                    <div className="absolute top-[80%] left-0 w-64 bg-white dark:bg-gray-900 rounded-2xl shadow-xl border border-gray-100 dark:border-gray-800 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all translate-y-2 group-hover:translate-y-0 z-50 overflow-hidden py-2">
+                    <div className="absolute top-[80%] left-0 w-64 bg-white/95 dark:bg-gray-900/95 backdrop-blur-xl rounded-2xl shadow-2xl shadow-medical-blue/10 border border-medical-blue/10 dark:border-gray-800 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 translate-y-4 group-hover:translate-y-0 z-50 overflow-hidden py-2">
                       {item.subItems.map((subItem: any) => (
                         <Link 
                            key={subItem.href} 
                            href={subItem.href}
-                           className="block px-6 py-3 text-sm text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 hover:text-medical-blue transition-colors font-medium"
+                           className="block px-6 py-3 text-sm text-gray-600 dark:text-gray-300 hover:bg-medical-blue/5 dark:hover:bg-gray-800 hover:text-medical-blue transition-all duration-300 font-medium hover:pl-8"
                         >
                            {subItem.label}
                         </Link>
@@ -106,7 +106,7 @@ export function Navbar() {
             {/* Theme toggle pill */}
             <button
               onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
-              className="relative w-16 h-8 flex items-center bg-gray-200/80 dark:bg-gray-700/80 rounded-full p-1 cursor-pointer border border-gray-300 dark:border-gray-600 overflow-hidden"
+              className="relative w-16 h-8 flex items-center bg-gray-100/80 dark:bg-gray-800/80 rounded-full p-1 cursor-pointer border border-gray-200 dark:border-gray-700 overflow-hidden shadow-inner transition-colors hover:border-medical-blue/30"
               aria-label="Toggle Dark Mode"
             >
               {mounted && (
@@ -114,7 +114,7 @@ export function Navbar() {
                   <div className="absolute left-2"><Sun className="w-3.5 h-3.5 text-yellow-500/60" /></div>
                   <div className="absolute right-2"><Moon className="w-3.5 h-3.5 text-indigo-400/60" /></div>
                   <motion.div
-                    className="w-6 h-6 bg-white dark:bg-indigo-900 rounded-full shadow flex items-center justify-center z-10"
+                    className="w-6 h-6 bg-white dark:bg-indigo-900 rounded-full shadow-md flex items-center justify-center z-10"
                     initial={false}
                     animate={{ x: theme === 'dark' ? 32 : 0, rotate: theme === 'dark' ? 360 : 0 }}
                     transition={{ type: "spring", stiffness: 500, damping: 30 }}
@@ -127,7 +127,7 @@ export function Navbar() {
 
             <Link
               href="/appointment"
-              className="px-6 py-2.5 premium-gradient text-white rounded-full text-sm font-semibold shadow-xl shadow-medical-blue/20 hover:scale-105 active:scale-95 transition-all"
+              className="px-6 py-2.5 premium-gradient text-white rounded-full text-sm font-semibold shadow-lg shadow-medical-blue/20 hover:shadow-2xl hover:shadow-medical-blue/40 hover:-translate-y-0.5 active:translate-y-0 transition-all duration-300"
             >
               Book Appointment
             </Link>

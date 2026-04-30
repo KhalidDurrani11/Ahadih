@@ -190,20 +190,20 @@ export default function AdminDashboard({ initialDepartments, initialDoctors, ini
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 pt-20 flex flex-col md:flex-row relative">
+    <div className="min-h-screen bg-slate-50 pt-20 flex flex-col md:flex-row relative">
       {/* Mobile Admin Header */}
-      <div className="md:hidden bg-white border-b border-gray-200 p-4 flex justify-between items-center z-40 sticky top-20 shadow-sm">
+      <div className="md:hidden bg-white/80 backdrop-blur-xl border-b border-medical-blue/10 p-4 flex justify-between items-center z-40 sticky top-20 shadow-md shadow-medical-blue/5">
         <h1 className="text-xl font-black text-medical-dark">CMS Admin</h1>
-        <button onClick={() => setIsSidebarOpen(!isSidebarOpen)} className="p-2 text-medical-dark hover:bg-gray-100 rounded-lg">
+        <button onClick={() => setIsSidebarOpen(!isSidebarOpen)} className="p-2 text-medical-dark hover:bg-medical-blue/5 rounded-xl transition-colors">
           {isSidebarOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
         </button>
       </div>
 
       {/* Sidebar */}
-      <aside className={`w-64 bg-white border-r border-gray-200 fixed md:sticky top-[140px] md:top-20 h-[calc(100vh-140px)] md:h-[calc(100vh-80px)] z-30 transition-transform duration-300 md:translate-x-0 ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full'} flex flex-col`}>
+      <aside className={`w-64 bg-white/90 backdrop-blur-xl border-r border-medical-blue/10 fixed md:sticky top-[140px] md:top-20 h-[calc(100vh-140px)] md:h-[calc(100vh-80px)] z-30 transition-transform duration-300 md:translate-x-0 ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full'} flex flex-col shadow-xl shadow-medical-blue/5`}>
         <div className="p-6">
-          <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-6">Management</p>
-          <nav className="space-y-2">
+          <p className="text-[10px] font-bold text-medical-blue/50 uppercase tracking-widest mb-6 pl-1">Management</p>
+          <nav className="space-y-1.5">
             {[
               { id: 'appointments', label: 'Appointments', icon: Calendar, count: appointments.length },
               { id: 'messages', label: 'Messages', icon: MessageSquare, count: messages.length },
@@ -219,55 +219,60 @@ export default function AdminDashboard({ initialDepartments, initialDoctors, ini
               <button
                 key={tab.id}
                 onClick={() => { setActiveTab(tab.id as any); setIsSidebarOpen(false); }}
-                className={`w-full flex items-center justify-between px-4 py-3 rounded-xl transition-all font-medium ${
-                  activeTab === tab.id ? 'bg-medical-blue text-white shadow-lg shadow-medical-blue/20' : 'text-gray-500 hover:bg-gray-50'
+                className={`w-full flex items-center justify-between px-4 py-3 rounded-2xl transition-all duration-300 font-medium group ${
+                  activeTab === tab.id
+                    ? 'bg-medical-blue text-white shadow-lg shadow-medical-blue/30'
+                    : 'text-gray-500 hover:bg-medical-blue/5 hover:text-medical-dark'
                 }`}
               >
                 <div className="flex items-center space-x-3">
-                  <tab.icon className="w-5 h-5" />
+                  <tab.icon className={`w-5 h-5 transition-transform duration-300 ${ activeTab === tab.id ? '' : 'group-hover:scale-110'}`} />
                   <span className="text-sm">{tab.label}</span>
                 </div>
                 {'count' in tab && tab.count !== undefined && (
                   <span className={`text-[10px] font-black px-2 py-0.5 rounded-full ${
-                    activeTab === tab.id ? 'bg-white/20 text-white' : 'bg-gray-100 text-gray-400'
+                    activeTab === tab.id ? 'bg-white/20 text-white' : 'bg-medical-blue/5 text-medical-blue/60'
                   }`}>{tab.count}</span>
                 )}
               </button>
             ))}
           </nav>
         </div>
-        <div className="mt-auto p-6 border-t border-gray-100">
-          <button onClick={handleLogout} className="w-full flex items-center space-x-3 px-4 py-3 text-red-500 hover:bg-red-50 rounded-xl transition-all font-bold text-sm">
-            <LogOut className="w-5 h-5" />
+        <div className="mt-auto p-6 border-t border-medical-blue/5">
+          <button onClick={handleLogout} className="w-full flex items-center space-x-3 px-4 py-3 text-red-500 hover:bg-red-50 rounded-2xl transition-all duration-300 font-bold text-sm group">
+            <LogOut className="w-5 h-5 group-hover:scale-110 transition-transform" />
             <span>Logout</span>
           </button>
         </div>
       </aside>
 
       {/* Main Content */}
-      <main className="flex-1 p-8">
+      <main className="flex-1 p-6 md:p-8">
         <div className="max-w-6xl mx-auto">
-          <header className="flex justify-between items-center mb-10">
-            <h1 className="text-3xl font-display font-black text-medical-dark capitalize">{activeTab === 'pages' ? 'Page Content' : activeTab} CMS</h1>
+          <header className="flex justify-between items-center mb-8">
+            <div>
+              <p className="text-[10px] font-bold text-medical-blue/60 uppercase tracking-widest mb-1">Admin Panel</p>
+              <h1 className="text-3xl font-display font-black text-medical-dark capitalize">{activeTab === 'pages' ? 'Page Content' : activeTab} CMS</h1>
+            </div>
             <div className="flex items-center space-x-3">
               {activeTab === 'appointments' && (
                 <button onClick={() => exportCSV(appointments, 'appointments.csv', [
                   {key:'patientName',label:'Patient'},{key:'phone',label:'Phone'},{key:'date',label:'Date'},{key:'time',label:'Time'},{key:'status',label:'Status'}
-                ])} className="flex items-center space-x-2 px-4 py-2.5 bg-white border border-gray-200 rounded-xl text-sm font-bold text-gray-600 hover:bg-gray-50">
+                ])} className="flex items-center space-x-2 px-4 py-2.5 bg-white border border-gray-200 rounded-xl text-sm font-bold text-gray-600 hover:bg-medical-blue/5 hover:border-medical-blue/20 hover:text-medical-blue transition-all duration-300">
                   <Download className="w-4 h-4"/><span>Export CSV</span>
                 </button>
               )}
               {activeTab === 'messages' && (
                 <button onClick={() => exportCSV(messages, 'messages.csv', [
                   {key:'name',label:'Name'},{key:'email',label:'Email'},{key:'subject',label:'Subject'},{key:'message',label:'Message'}
-                ])} className="flex items-center space-x-2 px-4 py-2.5 bg-white border border-gray-200 rounded-xl text-sm font-bold text-gray-600 hover:bg-gray-50">
+                ])} className="flex items-center space-x-2 px-4 py-2.5 bg-white border border-gray-200 rounded-xl text-sm font-bold text-gray-600 hover:bg-medical-blue/5 hover:border-medical-blue/20 hover:text-medical-blue transition-all duration-300">
                   <Download className="w-4 h-4"/><span>Export CSV</span>
                 </button>
               )}
               {(activeTab === 'doctors' || activeTab === 'departments' || activeTab === 'news') && (
                 <button
                   onClick={() => openModal(activeTab === 'doctors' ? 'doctor' : activeTab === 'news' ? 'news' : 'department')}
-                  className="flex items-center space-x-2 px-6 py-3 premium-gradient text-white rounded-2xl font-bold hover:shadow-xl transition-all"
+                  className="flex items-center space-x-2 px-6 py-3 premium-gradient text-white rounded-2xl font-bold hover:shadow-xl hover:shadow-medical-blue/30 hover:-translate-y-0.5 transition-all duration-300"
                 >
                   <Plus className="w-5 h-5" />
                   <span>Add {activeTab === 'doctors' ? 'Doctor' : activeTab === 'news' ? 'News Post' : 'Department'}</span>
@@ -276,13 +281,13 @@ export default function AdminDashboard({ initialDepartments, initialDoctors, ini
             </div>
           </header>
 
-          <div className="bg-white rounded-[40px] shadow-sm border border-gray-100 overflow-hidden">
+          <div className="bg-white rounded-[40px] shadow-xl shadow-medical-blue/5 border border-medical-blue/8 overflow-hidden">
 
             {activeTab === 'appointments' && (
               <div className="overflow-x-auto">
                 <table className="w-full text-left border-collapse whitespace-nowrap min-w-[800px]">
                   <thead>
-                    <tr className="bg-gray-50 border-b border-gray-100 text-[11px] uppercase tracking-wider text-gray-400">
+                    <tr className="bg-medical-blue/[0.03] border-b border-medical-blue/8 text-[11px] uppercase tracking-wider text-medical-blue/50">
                       <th className="p-4 pl-6">Patient</th>
                       <th className="p-4">Contact</th>
                       <th className="p-4">Schedule</th>
@@ -291,10 +296,10 @@ export default function AdminDashboard({ initialDepartments, initialDoctors, ini
                       <th className="p-4 text-right pr-6">Manage</th>
                     </tr>
                   </thead>
-                  <tbody className="divide-y divide-gray-100">
+                  <tbody>
                     {appointments.length === 0 && <tr><td colSpan={6} className="p-8 text-center text-gray-400">No appointments yet.</td></tr>}
                     {appointments.map((app: any) => (
-                      <tr key={app.id} className="hover:bg-gray-50/50 transition-colors">
+                      <tr key={app.id} className="admin-table-row">
                         <td className="p-4 pl-6 font-bold text-sm text-medical-dark">{app.patientName}</td>
                         <td className="p-4 text-sm text-gray-500">{app.phone}</td>
                         <td className="p-4 text-sm text-gray-500">{app.date} <br /> {app.time}</td>
@@ -325,17 +330,17 @@ export default function AdminDashboard({ initialDepartments, initialDoctors, ini
               <div className="overflow-x-auto">
                 <table className="w-full text-left border-collapse whitespace-nowrap min-w-[600px]">
                   <thead>
-                    <tr className="bg-gray-50 border-b border-gray-100 text-[11px] uppercase tracking-wider text-gray-400">
+                    <tr className="bg-medical-blue/[0.03] border-b border-medical-blue/8 text-[11px] uppercase tracking-wider text-medical-blue/50">
                       <th className="p-4 pl-6">From</th>
                       <th className="p-4">Subject</th>
                       <th className="p-4">Message</th>
                       <th className="p-4 text-right pr-6">Action</th>
                     </tr>
                   </thead>
-                  <tbody className="divide-y divide-gray-100">
+                  <tbody>
                     {messages.length === 0 && <tr><td colSpan={4} className="p-8 text-center text-gray-400">No messages yet.</td></tr>}
                     {messages.map((msg: any) => (
-                      <tr key={msg.id} className="hover:bg-gray-50/50 transition-colors">
+                      <tr key={msg.id} className="admin-table-row">
                         <td className="p-4 pl-6 text-sm">
                           <p className="font-bold text-medical-dark">{msg.name}</p>
                           <p className="text-gray-400 text-xs">{msg.email}</p>
@@ -356,17 +361,17 @@ export default function AdminDashboard({ initialDepartments, initialDoctors, ini
               <div className="overflow-x-auto">
                 <table className="w-full text-left border-collapse whitespace-nowrap min-w-[700px]">
                   <thead>
-                    <tr className="bg-gray-50 border-b border-gray-100 text-[11px] uppercase tracking-wider text-gray-400">
+                    <tr className="bg-medical-blue/[0.03] border-b border-medical-blue/8 text-[11px] uppercase tracking-wider text-medical-blue/50">
                       <th className="p-4 pl-6">Doctor</th>
                       <th className="p-4">Specialization</th>
                       <th className="p-4">Experience</th>
                       <th className="p-4 text-right pr-6">Actions</th>
                     </tr>
                   </thead>
-                  <tbody className="divide-y divide-gray-100">
+                  <tbody>
                     {doctors.length === 0 && <tr><td colSpan={4} className="p-8 text-center text-gray-400">No doctors added.</td></tr>}
                     {doctors.map((doc: any) => (
-                      <tr key={doc.id} className="hover:bg-gray-50/50 transition-colors">
+                      <tr key={doc.id} className="admin-table-row">
                         <td className="p-4 pl-6 flex items-center space-x-4">
                           <img src={doc.image} alt={doc.name} className="w-10 h-10 rounded-full object-cover border border-gray-100 shadow-sm" />
                           <div>
@@ -401,16 +406,16 @@ export default function AdminDashboard({ initialDepartments, initialDoctors, ini
               <div className="overflow-x-auto">
                 <table className="w-full text-left border-collapse whitespace-nowrap min-w-[600px]">
                   <thead>
-                    <tr className="bg-gray-50 border-b border-gray-100 text-[11px] uppercase tracking-wider text-gray-400">
+                    <tr className="bg-medical-blue/[0.03] border-b border-medical-blue/8 text-[11px] uppercase tracking-wider text-medical-blue/50">
                       <th className="p-4 pl-6">Title</th>
                       <th className="p-4">Description</th>
                       <th className="p-4 text-right pr-6">Actions</th>
                     </tr>
                   </thead>
-                  <tbody className="divide-y divide-gray-100">
+                  <tbody>
                     {departments.length === 0 && <tr><td colSpan={3} className="p-8 text-center text-gray-400">No departments added.</td></tr>}
                     {departments.map((dept: any) => (
-                      <tr key={dept.id} className="hover:bg-gray-50/50 transition-colors">
+                      <tr key={dept.id} className="admin-table-row">
                         <td className="p-4 pl-6">
                           <p className="font-bold text-medical-dark text-sm">{dept.title}</p>
                         </td>
@@ -440,16 +445,16 @@ export default function AdminDashboard({ initialDepartments, initialDoctors, ini
               <div className="overflow-x-auto">
                 <table className="w-full text-left border-collapse whitespace-nowrap min-w-[700px]">
                   <thead>
-                    <tr className="bg-gray-50 border-b border-gray-100 text-[11px] uppercase tracking-wider text-gray-400">
+                    <tr className="bg-medical-blue/[0.03] border-b border-medical-blue/8 text-[11px] uppercase tracking-wider text-medical-blue/50">
                       <th className="p-4 pl-6">News Post</th>
                       <th className="p-4">Date</th>
                       <th className="p-4 text-right pr-6">Actions</th>
                     </tr>
                   </thead>
-                  <tbody className="divide-y divide-gray-100">
+                  <tbody>
                     {news.length === 0 && <tr><td colSpan={3} className="p-8 text-center text-gray-400">No news updates added.</td></tr>}
                     {news.map((n: any) => (
-                      <tr key={n.id} className="hover:bg-gray-50/50 transition-colors">
+                      <tr key={n.id} className="admin-table-row">
                         <td className="p-4 pl-6 flex items-center space-x-4">
                           <img src={n.image} alt={n.title} className="w-16 h-10 rounded-lg object-cover border border-gray-100 shadow-sm" />
                           <div>
@@ -533,13 +538,13 @@ export default function AdminDashboard({ initialDepartments, initialDoctors, ini
               initial={{ opacity: 0, scale: 0.9, y: 20 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.9, y: 20 }}
-              className="relative bg-white rounded-[40px] shadow-2xl w-full max-w-2xl overflow-hidden"
+              className="relative bg-white rounded-[40px] shadow-2xl shadow-medical-blue/20 w-full max-w-2xl overflow-hidden border border-medical-blue/10"
             >
-              <div className="p-8 border-b border-gray-100 flex justify-between items-center bg-gray-50/50">
+              <div className="p-8 border-b border-medical-blue/8 flex justify-between items-center bg-medical-blue/[0.02]">
                 <h2 className="text-2xl font-black text-medical-dark">
                   {editingItem ? 'Edit' : 'Add'} {activeTab === 'doctors' ? 'Doctor' : activeTab === 'news' ? 'News Post' : 'Department'}
                 </h2>
-                <button onClick={() => setIsModalOpen(false)} className="p-2 hover:bg-white rounded-full transition-colors">
+                <button onClick={() => setIsModalOpen(false)} className="p-2 hover:bg-medical-blue/5 rounded-full transition-colors">
                   <X className="w-6 h-6 text-gray-400" />
                 </button>
               </div>
@@ -554,7 +559,7 @@ export default function AdminDashboard({ initialDepartments, initialDoctors, ini
                           required
                           value={formData.name || ''}
                           onChange={e => setFormData({ ...formData, name: e.target.value })}
-                          className="w-full p-4 bg-gray-50 rounded-2xl border border-gray-100 focus:outline-none focus:border-medical-blue transition-all"
+                          className="premium-input"
                         />
                       </div>
                       <div className="space-y-2">
@@ -563,7 +568,7 @@ export default function AdminDashboard({ initialDepartments, initialDoctors, ini
                           required
                           value={formData.specialization || ''}
                           onChange={e => setFormData({ ...formData, specialization: e.target.value })}
-                          className="w-full p-4 bg-gray-50 rounded-2xl border border-gray-100 focus:outline-none focus:border-medical-blue transition-all"
+                          className="premium-input"
                         />
                       </div>
                     </div>
@@ -575,7 +580,7 @@ export default function AdminDashboard({ initialDepartments, initialDoctors, ini
                           required
                           value={formData.departmentId || ''}
                           onChange={e => setFormData({ ...formData, departmentId: e.target.value })}
-                          className="w-full p-4 bg-gray-50 rounded-2xl border border-gray-100 focus:outline-none focus:border-medical-blue transition-all appearance-none"
+                          className="premium-input appearance-none"
                         >
                           {departments.map((d: any) => (
                             <option key={d.id} value={d.id}>{d.title}</option>
@@ -588,7 +593,7 @@ export default function AdminDashboard({ initialDepartments, initialDoctors, ini
                           type="number"
                           value={formData.experience || 0}
                           onChange={e => setFormData({ ...formData, experience: Number(e.target.value) })}
-                          className="w-full p-4 bg-gray-50 rounded-2xl border border-gray-100 focus:outline-none focus:border-medical-blue transition-all"
+                          className="premium-input"
                         />
                       </div>
                     </div>
@@ -598,7 +603,7 @@ export default function AdminDashboard({ initialDepartments, initialDoctors, ini
                       <input
                         value={formData.qualifications || ''}
                         onChange={e => setFormData({ ...formData, qualifications: e.target.value })}
-                        className="w-full p-4 bg-gray-50 rounded-2xl border border-gray-100 focus:outline-none focus:border-medical-blue transition-all"
+                        className="premium-input"
                         placeholder="MBBS, MD, FRCP..."
                       />
                     </div>
@@ -610,7 +615,7 @@ export default function AdminDashboard({ initialDepartments, initialDoctors, ini
                           <input
                             value={formData.image || ''}
                             onChange={e => setFormData({ ...formData, image: e.target.value })}
-                            className="flex-1 p-4 bg-gray-50 rounded-2xl border border-gray-100 focus:outline-none focus:border-medical-blue transition-all"
+                            className="flex-1 premium-input"
                             placeholder="Image URL or Upload below..."
                           />
                           {formData.image && (
@@ -633,7 +638,7 @@ export default function AdminDashboard({ initialDepartments, initialDoctors, ini
                         rows={4}
                         value={formData.bio || ''}
                         onChange={e => setFormData({ ...formData, bio: e.target.value })}
-                        className="w-full p-4 bg-gray-50 rounded-2xl border border-gray-100 focus:outline-none focus:border-medical-blue transition-all resize-none"
+                        className="premium-input resize-none"
                       />
                     </div>
                   </>
@@ -645,7 +650,7 @@ export default function AdminDashboard({ initialDepartments, initialDoctors, ini
                         required
                         value={formData.title || ''}
                         onChange={e => setFormData({ ...formData, title: e.target.value })}
-                        className="w-full p-4 bg-gray-50 rounded-2xl border border-gray-100 focus:outline-none focus:border-medical-blue transition-all"
+                        className="premium-input"
                       />
                     </div>
 
@@ -655,7 +660,7 @@ export default function AdminDashboard({ initialDepartments, initialDoctors, ini
                         <input
                           value={formData.date || ''}
                           onChange={e => setFormData({ ...formData, date: e.target.value })}
-                          className="w-full p-4 bg-gray-50 rounded-2xl border border-gray-100 focus:outline-none focus:border-medical-blue transition-all"
+                          className="premium-input"
                           placeholder="Leave empty for auto date"
                         />
                       </div>
@@ -668,7 +673,7 @@ export default function AdminDashboard({ initialDepartments, initialDoctors, ini
                         rows={2}
                         value={formData.description || ''}
                         onChange={e => setFormData({ ...formData, description: e.target.value })}
-                        className="w-full p-4 bg-gray-50 rounded-2xl border border-gray-100 focus:outline-none focus:border-medical-blue transition-all resize-none"
+                        className="premium-input resize-none"
                       />
                     </div>
 
@@ -679,7 +684,7 @@ export default function AdminDashboard({ initialDepartments, initialDoctors, ini
                         rows={6}
                         value={formData.content || ''}
                         onChange={e => setFormData({ ...formData, content: e.target.value })}
-                        className="w-full p-4 bg-gray-50 rounded-2xl border border-gray-100 focus:outline-none focus:border-medical-blue transition-all resize-none"
+                        className="premium-input resize-none"
                       />
                     </div>
 
@@ -690,7 +695,7 @@ export default function AdminDashboard({ initialDepartments, initialDoctors, ini
                           <input
                             value={formData.image || ''}
                             onChange={e => setFormData({ ...formData, image: e.target.value })}
-                            className="flex-1 p-4 bg-gray-50 rounded-2xl border border-gray-100 focus:outline-none focus:border-medical-blue transition-all"
+                            className="flex-1 premium-input"
                             placeholder="Image URL or Upload below..."
                           />
                         </div>
@@ -710,7 +715,7 @@ export default function AdminDashboard({ initialDepartments, initialDoctors, ini
                         required
                         value={formData.title || ''}
                         onChange={e => setFormData({ ...formData, title: e.target.value })}
-                        className="w-full p-4 bg-gray-50 rounded-2xl border border-gray-100 focus:outline-none focus:border-medical-blue transition-all"
+                        className="premium-input"
                         placeholder="e.g. Cardiology"
                       />
                     </div>
@@ -722,7 +727,7 @@ export default function AdminDashboard({ initialDepartments, initialDoctors, ini
                         rows={3}
                         value={formData.description || ''}
                         onChange={e => setFormData({ ...formData, description: e.target.value })}
-                        className="w-full p-4 bg-gray-50 rounded-2xl border border-gray-100 focus:outline-none focus:border-medical-blue transition-all resize-none"
+                        className="premium-input resize-none"
                       />
                     </div>
 
@@ -732,7 +737,7 @@ export default function AdminDashboard({ initialDepartments, initialDoctors, ini
                         <input
                           value={formData.icon || 'HeartPulse'}
                           onChange={e => setFormData({ ...formData, icon: e.target.value })}
-                          className="w-full p-4 bg-gray-50 rounded-2xl border border-gray-100 focus:outline-none focus:border-medical-blue transition-all"
+                          className="premium-input"
                         />
                       </div>
                       <div className="space-y-2">
@@ -742,7 +747,7 @@ export default function AdminDashboard({ initialDepartments, initialDoctors, ini
                             <input
                               value={formData.image || ''}
                               onChange={e => setFormData({ ...formData, image: e.target.value })}
-                              className="flex-1 p-4 bg-gray-50 rounded-2xl border border-gray-100 focus:outline-none focus:border-medical-blue transition-all"
+                              className="flex-1 premium-input"
                               placeholder="Image URL or Upload below..."
                             />
                           </div>

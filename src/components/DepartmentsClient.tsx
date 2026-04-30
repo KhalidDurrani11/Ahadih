@@ -110,7 +110,7 @@ export function DepartmentsClient({ initialDepartments }: DepartmentsClientProps
                   <div className="relative z-10 mt-auto pt-6 border-t border-gray-100">
                     <Link 
                       href="/appointment"
-                      className="flex items-center justify-center w-full py-4 rounded-2xl border-2 border-gray-100 text-sm font-bold text-gray-600 hover:bg-medical-blue hover:border-medical-blue hover:text-white transition-all duration-300 group-hover:shadow-lg group-hover:shadow-medical-blue/20"
+                      className="flex items-center justify-center w-full py-4 rounded-2xl border-2 border-gray-100 text-sm font-bold text-gray-600 hover:bg-medical-blue hover:border-medical-blue hover:text-white transition-all duration-300 group-hover:shadow-lg group-hover:shadow-medical-blue/20 hover:-translate-y-1"
                     >
                       Book Consultation
                     </Link>

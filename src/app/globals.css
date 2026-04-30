@@ -47,4 +47,22 @@
     filter: brightness(0) invert(1) contrast(1.05);
     opacity: 0.96;
   }
+
+  .premium-card {
+    @apply bg-white border border-gray-100 shadow-xl shadow-gray-200/40 rounded-[32px] sm:rounded-[40px] transition-all duration-500 hover:-translate-y-1.5 hover:shadow-2xl hover:shadow-medical-blue/10 hover:border-medical-blue/20;
+    @apply dark:bg-gray-900 dark:border-gray-800 dark:shadow-none dark:hover:border-medical-blue/30;
+  }
+
+  .premium-input {
+    @apply w-full px-6 py-4 bg-gray-50/50 border border-gray-100 rounded-2xl transition-all duration-300 outline-none;
+    @apply focus:bg-white focus:border-medical-blue/30 focus:ring-4 focus:ring-medical-blue/10 focus:shadow-sm;
+    @apply hover:border-gray-200;
+    @apply dark:bg-gray-800/50 dark:border-gray-700 dark:focus:bg-gray-800 dark:focus:border-medical-blue/50 dark:focus:ring-medical-blue/20;
+  }
+
+  .admin-table-row {
+    @apply border-b border-gray-50 transition-colors duration-300;
+    @apply hover:bg-medical-blue/[0.02] even:bg-gray-50/30;
+    @apply dark:border-gray-800 dark:hover:bg-medical-blue/10 dark:even:bg-gray-800/30;
+  }
 }
