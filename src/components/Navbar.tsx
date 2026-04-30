@@ -78,12 +78,21 @@ export function Navbar() {
                   <Link
                     href={item.href !== '#' ? item.href : item.subItems![0].href}
                     className={cn(
-                      "text-sm font-semibold transition-all duration-300 relative flex items-center gap-1 px-4 py-2 rounded-full",
-                      isActive ? "bg-medical-blue/10 text-medical-blue shadow-inner" : "text-gray-600 dark:text-gray-300 hover:bg-medical-blue/5 dark:hover:bg-gray-800 hover:text-medical-blue"
+                      "text-sm font-bold transition-all duration-300 relative flex items-center gap-1.5 px-1 py-2 rounded-full whitespace-nowrap",
+                      isActive ? "text-medical-blue" : "text-gray-600 dark:text-gray-300 hover:text-medical-blue"
                     )}
                   >
                     {item.label}
                     {item.subItems && <ChevronDown className="w-4 h-4 ml-0.5 group-hover:rotate-180 transition-transform duration-300" />}
+                    
+                    {/* Underline Hover Effect */}
+                    <motion.div
+                      className={cn(
+                        "absolute bottom-0 left-0 right-0 h-0.5 bg-medical-blue rounded-full transition-all duration-300",
+                        isActive ? "opacity-100 scale-x-100" : "opacity-0 scale-x-0 group-hover:opacity-100 group-hover:scale-x-100"
+                      )}
+                      initial={false}
+                    />
                   </Link>
                   
                   {item.subItems && (
@@ -103,23 +112,23 @@ export function Navbar() {
               );
             })}
 
-            {/* Theme toggle pill */}
+            {/* Theme toggle pill - HIGH VISIBILITY */}
             <button
               onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
-              className="relative w-16 h-8 flex items-center bg-gray-100/80 dark:bg-gray-800/80 rounded-full p-1 cursor-pointer border border-gray-200 dark:border-gray-700 overflow-hidden shadow-inner transition-colors hover:border-medical-blue/30"
+              className="relative w-16 h-8 flex items-center bg-gray-100 dark:bg-gray-800 rounded-full p-1 cursor-pointer border-2 border-gray-200 dark:border-gray-700 overflow-hidden transition-all hover:border-medical-blue shadow-inner group"
               aria-label="Toggle Dark Mode"
             >
               {mounted && (
                 <>
-                  <div className="absolute left-2"><Sun className="w-3.5 h-3.5 text-yellow-500/60" /></div>
-                  <div className="absolute right-2"><Moon className="w-3.5 h-3.5 text-indigo-400/60" /></div>
+                  <div className="absolute left-2.5 opacity-40 group-hover:opacity-100 transition-opacity"><Sun className="w-3.5 h-3.5 text-yellow-500" /></div>
+                  <div className="absolute right-2.5 opacity-40 group-hover:opacity-100 transition-opacity"><Moon className="w-3.5 h-3.5 text-indigo-400" /></div>
                   <motion.div
-                    className="w-6 h-6 bg-white dark:bg-indigo-900 rounded-full shadow-md flex items-center justify-center z-10"
+                    className="w-6 h-6 bg-white dark:bg-indigo-900 rounded-full shadow-lg flex items-center justify-center z-10 border border-gray-100 dark:border-indigo-800"
                     initial={false}
                     animate={{ x: theme === 'dark' ? 32 : 0, rotate: theme === 'dark' ? 360 : 0 }}
                     transition={{ type: "spring", stiffness: 500, damping: 30 }}
                   >
-                    {theme === 'dark' ? <Moon className="w-3 h-3 text-indigo-300" /> : <Sun className="w-3 h-3 text-yellow-500" />}
+                    {theme === 'dark' ? <Moon className="w-3.5 h-3.5 text-indigo-300" /> : <Sun className="w-3.5 h-3.5 text-yellow-500" />}
                   </motion.div>
                 </>
               )}
