@@ -56,24 +56,21 @@ export function Navbar() {
       )}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className={cn(
-          "flex justify-between items-center transition-all duration-700",
-          isScrolled ? "h-20 md:h-24" : "h-24 md:h-32"
-        )}>
+        <div className="flex justify-between items-center h-[72px]">
 
           {/* Logo — true transparent PNG */}
           <Link href="/" className="flex items-center cursor-pointer shrink-0">
             <motion.img
               src="/logo-transparent.png"
               alt="AHAD International Hospital"
-              className="h-[100px] md:h-[130px] w-auto object-contain dark:brightness-0 dark:invert transition-all duration-500"
-              whileHover={{ scale: 1.05 }}
+              className="h-[115px] md:h-[140px] w-auto object-contain dark:brightness-0 dark:invert transition-all duration-300"
+              whileHover={{ scale: 1.04 }}
               transition={{ type: "spring", stiffness: 400, damping: 17 }}
             />
           </Link>
 
           {/* Desktop Nav */}
-          <div className="hidden md:flex items-center space-x-1.5 h-full">
+          <div className="hidden md:flex items-center space-x-8 h-full">
             {navItems.map((item) => {
               const isActive = pathname === item.href || item.subItems?.some((s: any) => pathname === s.href);
               return (
@@ -81,54 +78,33 @@ export function Navbar() {
                   <Link
                     href={item.href !== '#' ? item.href : item.subItems![0].href}
                     className={cn(
-                      "text-[13px] font-bold transition-all duration-500 relative flex items-center gap-1.5 px-4.5 py-2.5 rounded-full whitespace-nowrap tracking-wide px-5",
-                      isActive 
-                        ? "text-medical-blue" 
-                        : "text-gray-600 dark:text-gray-300 hover:text-medical-blue"
+                      "text-sm font-bold transition-all duration-300 relative flex items-center gap-1.5 px-1 py-2 rounded-full whitespace-nowrap",
+                      isActive ? "text-medical-blue" : "text-gray-600 dark:text-gray-300 hover:text-medical-blue"
                     )}
                   >
-                    {/* Hover Pill Background - High Visibility */}
-                    <AnimatePresence>
-                      {(isActive || item.label === item.label) && (
-                        <motion.div
-                          className="absolute inset-0 bg-medical-blue/[0.05] dark:bg-medical-blue/10 rounded-full -z-10 opacity-0 group-hover:opacity-100 transition-opacity border border-medical-blue/10 dark:border-medical-blue/30 shadow-sm"
-                          layoutId="nav-pill"
-                          transition={{ type: "spring", stiffness: 400, damping: 30 }}
-                        />
-                      )}
-                    </AnimatePresence>
-                    
-                    {isActive && (
-                      <motion.div
-                        className="absolute inset-0 bg-medical-blue/[0.08] dark:bg-medical-blue/20 rounded-full -z-10 shadow-[0_0_20px_rgba(0,119,182,0.12)] border border-medical-blue/20"
-                        layoutId="nav-active-pill"
-                      />
-                    )}
-
                     {item.label}
-                    {item.subItems && (
-                      <ChevronDown className="w-3.5 h-3.5 opacity-60 group-hover:rotate-180 group-hover:opacity-100 transition-all duration-500" />
-                    )}
+                    {item.subItems && <ChevronDown className="w-4 h-4 ml-0.5 group-hover:rotate-180 transition-transform duration-300" />}
+                    
+                    {/* Underline Hover Effect */}
+                    <motion.div
+                      className={cn(
+                        "absolute bottom-0 left-0 right-0 h-0.5 bg-medical-blue rounded-full transition-all duration-300",
+                        isActive ? "opacity-100 scale-x-100" : "opacity-0 scale-x-0 group-hover:opacity-100 group-hover:scale-x-100"
+                      )}
+                      initial={false}
+                    />
                   </Link>
                   
                   {item.subItems && (
-                    <div className="absolute top-[85%] left-1/2 -translate-x-1/2 w-64 bg-white dark:bg-gray-900 rounded-[32px] shadow-2xl shadow-medical-blue/20 border border-medical-blue/10 dark:border-gray-800 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-500 translate-y-4 group-hover:translate-y-0 z-50 overflow-hidden p-2 backdrop-blur-3xl">
-                      <div className="absolute inset-0 bg-gradient-to-br from-medical-blue/5 to-transparent pointer-events-none" />
-                      {item.subItems.map((subItem: any, idx: number) => (
-                        <motion.div
-                          key={subItem.href}
-                          initial={{ opacity: 0, x: -10 }}
-                          whileInView={{ opacity: 1, x: 0 }}
-                          transition={{ delay: idx * 0.05 }}
+                    <div className="absolute top-[80%] left-0 w-64 bg-white/95 dark:bg-gray-900/95 backdrop-blur-xl rounded-2xl shadow-2xl shadow-medical-blue/10 border border-medical-blue/10 dark:border-gray-800 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 translate-y-4 group-hover:translate-y-0 z-50 overflow-hidden py-2">
+                      {item.subItems.map((subItem: any) => (
+                        <Link 
+                           key={subItem.href} 
+                           href={subItem.href}
+                           className="block px-6 py-3 text-sm text-gray-600 dark:text-gray-300 hover:bg-medical-blue/5 dark:hover:bg-gray-800 hover:text-medical-blue transition-all duration-300 font-medium hover:pl-8"
                         >
-                          <Link 
-                            href={subItem.href}
-                            className="flex items-center gap-3 px-5 py-3.5 rounded-2xl text-[13px] text-gray-600 dark:text-gray-300 hover:bg-medical-blue/5 dark:hover:bg-medical-blue/10 hover:text-medical-blue transition-all duration-300 font-bold relative group/sub"
-                          >
-                            <div className="w-1.5 h-1.5 bg-medical-blue rounded-full opacity-0 group-hover/sub:opacity-100 transition-opacity" />
-                            {subItem.label}
-                          </Link>
-                        </motion.div>
+                           {subItem.label}
+                        </Link>
                       ))}
                     </div>
                   )}
@@ -136,21 +112,18 @@ export function Navbar() {
               );
             })}
 
-            {/* Separator */}
-            <div className="h-6 w-[1px] bg-gray-200 dark:bg-gray-800 mx-2" />
-
-            {/* Theme toggle - MAXIMUM VISIBILITY */}
+            {/* Theme toggle pill - HIGH VISIBILITY */}
             <button
               onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
-              className="relative w-16 h-8 flex items-center bg-gray-100 dark:bg-gray-800 rounded-full p-1 cursor-pointer border-2 border-gray-300 dark:border-gray-600 overflow-hidden transition-all hover:border-medical-blue shadow-lg group"
+              className="relative w-16 h-8 flex items-center bg-gray-100 dark:bg-gray-800 rounded-full p-1 cursor-pointer border-2 border-gray-200 dark:border-gray-700 overflow-hidden transition-all hover:border-medical-blue shadow-inner group"
               aria-label="Toggle Dark Mode"
             >
               {mounted && (
                 <>
-                  <div className="absolute left-2.5 opacity-60 group-hover:opacity-100 transition-opacity"><Sun className="w-3.5 h-3.5 text-yellow-500" /></div>
-                  <div className="absolute right-2.5 opacity-60 group-hover:opacity-100 transition-opacity"><Moon className="w-3.5 h-3.5 text-indigo-400" /></div>
+                  <div className="absolute left-2.5 opacity-40 group-hover:opacity-100 transition-opacity"><Sun className="w-3.5 h-3.5 text-yellow-500" /></div>
+                  <div className="absolute right-2.5 opacity-40 group-hover:opacity-100 transition-opacity"><Moon className="w-3.5 h-3.5 text-indigo-400" /></div>
                   <motion.div
-                    className="w-6 h-6 bg-white dark:bg-indigo-900 rounded-full shadow-[0_2px_10px_rgba(0,0,0,0.15)] flex items-center justify-center z-10 border border-gray-200 dark:border-indigo-800"
+                    className="w-6 h-6 bg-white dark:bg-indigo-900 rounded-full shadow-lg flex items-center justify-center z-10 border border-gray-100 dark:border-indigo-800"
                     initial={false}
                     animate={{ x: theme === 'dark' ? 32 : 0, rotate: theme === 'dark' ? 360 : 0 }}
                     transition={{ type: "spring", stiffness: 500, damping: 30 }}
@@ -163,10 +136,9 @@ export function Navbar() {
 
             <Link
               href="/appointment"
-              className="ml-2 px-8 py-3.5 premium-gradient text-white rounded-full text-[13px] font-black uppercase tracking-widest shadow-xl shadow-medical-blue/20 hover:shadow-2xl hover:shadow-medical-blue/40 hover:-translate-y-1 active:translate-y-0 transition-all duration-500 relative overflow-hidden group/btn"
+              className="px-6 py-2.5 premium-gradient text-white rounded-full text-sm font-semibold shadow-lg shadow-medical-blue/20 hover:shadow-2xl hover:shadow-medical-blue/40 hover:-translate-y-0.5 active:translate-y-0 transition-all duration-300"
             >
-              <div className="absolute inset-0 bg-white/20 translate-x-[-100%] group-hover/btn:translate-x-[100%] transition-transform duration-700 skew-x-[-20deg]" />
-              <span className="relative z-10">Book Appointment</span>
+              Book Appointment
             </Link>
           </div>
 
