@@ -393,7 +393,7 @@ export function HomeClient({ initialDepartments, initialNews = [], initialTestim
 
       {/* Premium Testimonials Section */}
       {initialTestimonials.length > 0 && (
-        <section className="py-24 bg-medical-dark relative overflow-hidden">
+        <section className="py-16 bg-medical-dark relative overflow-hidden">
           {/* Animated Background Elements */}
           <div className="absolute inset-0 opacity-20 pointer-events-none">
             <motion.div 
@@ -419,17 +419,17 @@ export function HomeClient({ initialDepartments, initialNews = [], initialTestim
           </div>
           
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-            <div className="flex flex-col items-center text-center mb-12 px-4">
+            <div className="flex flex-col items-center text-center mb-8 px-4">
               <motion.div 
                 initial={{ opacity: 0, scale: 0.9 }}
                 whileInView={{ opacity: 1, scale: 1 }}
                 viewport={{ once: true }}
-                className="inline-flex items-center space-x-2 px-4 py-1.5 rounded-full bg-white/5 border border-white/10 text-white/80 text-[10px] font-bold uppercase tracking-[0.2em] mb-6"
+                className="inline-flex items-center space-x-2 px-4 py-1.5 rounded-full bg-white/5 border border-white/10 text-white/80 text-[10px] font-bold uppercase tracking-[0.2em] mb-4"
               >
                 <div className="w-1.5 h-1.5 rounded-full bg-medical-blue animate-pulse" />
                 <span>Patient Stories</span>
               </motion.div>
-              <h2 className="text-3xl md:text-5xl font-display font-black text-white mb-4">
+              <h2 className="text-3xl md:text-5xl font-display font-black text-white mb-2">
                 Trusted by <span className="text-gradient">Thousands</span>
               </h2>
               <p className="text-white/50 text-sm max-w-lg mx-auto leading-relaxed">
@@ -439,7 +439,7 @@ export function HomeClient({ initialDepartments, initialNews = [], initialTestim
           </div>
 
           {/* Compact Marquee Container */}
-          <div className="relative w-full overflow-hidden pb-8 pt-4 group/marquee">
+          <div className="relative w-full overflow-hidden pb-4 pt-4 group/marquee">
             {/* Gradient Masks for smooth edges */}
             <div className="absolute inset-y-0 left-0 w-24 md:w-64 bg-gradient-to-r from-medical-dark via-medical-dark/80 to-transparent z-20 pointer-events-none" />
             <div className="absolute inset-y-0 right-0 w-24 md:w-64 bg-gradient-to-l from-medical-dark via-medical-dark/80 to-transparent z-20 pointer-events-none" />
