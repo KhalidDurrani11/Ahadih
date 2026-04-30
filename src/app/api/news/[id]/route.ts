@@ -15,7 +15,17 @@ export async function GET(_req: Request, props: { params: Promise<{ id: string }
 export async function PUT(req: Request, props: { params: Promise<{ id: string }> }) {
   try {
     const params = await props.params;
-    const { id, createdAt, updatedAt, ...updateData } = await req.json();
+    const { id, createdAt, updatedAt, title, description, content, image, date, category } = await req.json();
+    
+    // Create an object with only the fields that are present in the request
+    const updateData: any = {};
+    if (title !== undefined) updateData.title = title;
+    if (description !== undefined) updateData.description = description;
+    if (content !== undefined) updateData.content = content;
+    if (image !== undefined) updateData.image = image;
+    if (date !== undefined) updateData.date = date;
+    if (category !== undefined) updateData.category = category;
+
     const news = await prisma.news.update({
       where: { id: params.id },
       data: updateData,

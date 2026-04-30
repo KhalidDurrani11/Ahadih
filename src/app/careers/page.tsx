@@ -4,7 +4,6 @@ import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { Briefcase, MapPin, Building2, ChevronDown, ChevronUp, X, Upload, CheckCircle, Loader2 } from 'lucide-react';
 import { Navbar } from '../../components/Navbar';
-import { Footer } from '../../components/Footer';
 
 interface Job {
   id: string;
@@ -272,8 +271,6 @@ export default function CareersPage() {
           </div>
         )}
       </AnimatePresence>
-
-      <Footer />
     </div>
   );
 }

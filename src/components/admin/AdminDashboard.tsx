@@ -71,7 +71,11 @@ export default function AdminDashboard({ initialDepartments, initialDoctors, ini
   const openModal = (type: 'doctor' | 'department' | 'news', item: any = null) => {
     if (item) {
       setEditingItem({ ...item });
-      setFormData({ ...item, achievements: item.achievements || [] });
+      if (type === 'doctor') {
+        setFormData({ ...item, achievements: item.achievements || [] });
+      } else {
+        setFormData({ ...item });
+      }
     } else {
       setEditingItem(null);
       if (type === 'doctor') {

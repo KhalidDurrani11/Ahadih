@@ -425,53 +425,62 @@ export function HomeClient({ initialDepartments, initialNews = [], initialTestim
               </h2>
             </div>
 
-            <div className="flex overflow-x-auto pb-12 pt-4 snap-x snap-mandatory hide-scrollbar space-x-8">
-              {initialTestimonials.map((testimonial, i) => (
-                <motion.div 
-                  key={testimonial.id}
-                  initial={{ opacity: 0, scale: 0.9 }}
-                  whileInView={{ opacity: 1, scale: 1 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: i * 0.1 }}
-                  className="shrink-0 w-[350px] md:w-[450px] snap-center relative group"
-                >
-                  <div className="absolute inset-0 bg-gradient-to-br from-white/10 to-white/5 rounded-[32px] transform group-hover:-translate-y-2 group-hover:-translate-x-2 transition-transform duration-500"></div>
-                  <div className="absolute inset-0 bg-medical-blue/20 rounded-[32px] transform translate-y-4 translate-x-4 group-hover:translate-y-2 group-hover:translate-x-2 transition-transform duration-500 -z-10"></div>
-                  
-                  <div className="relative h-full bg-white/5 backdrop-blur-xl border border-white/10 p-8 md:p-10 rounded-[32px] flex flex-col justify-between overflow-hidden">
-                    <div className="absolute -right-6 -top-6 text-[120px] text-white/5 font-serif leading-none">"</div>
+            {/* Marquee Container */}
+            <div className="relative w-full overflow-hidden pb-12 pt-4">
+              <motion.div
+                animate={{ x: ["0%", "-50%"] }}
+                transition={{
+                  repeat: Infinity,
+                  ease: "linear",
+                  duration: 40,
+                }}
+                className="flex space-x-8 w-max"
+              >
+                {/* We render the list twice to create a seamless infinite loop */}
+                {[...initialTestimonials, ...initialTestimonials].map((testimonial, i) => (
+                  <div 
+                    key={`${testimonial.id}-${i}`}
+                    className="shrink-0 w-[350px] md:w-[450px] relative group"
+                  >
+                    <div className="absolute inset-0 bg-gradient-to-br from-white/10 to-white/5 rounded-[32px] transform group-hover:-translate-y-2 group-hover:-translate-x-2 transition-transform duration-500"></div>
+                    <div className="absolute inset-0 bg-medical-blue/20 rounded-[32px] transform translate-y-4 translate-x-4 group-hover:translate-y-2 group-hover:translate-x-2 transition-transform duration-500 -z-10"></div>
                     
-                    <div className="relative z-10 mb-8">
-                      <div className="flex text-yellow-400 mb-6 space-x-1">
-                        {[...Array(testimonial.rating || 5)].map((_, idx) => (
-                          <Star key={idx} className="w-5 h-5 fill-current" />
-                        ))}
-                      </div>
-                      <p className="text-white/80 text-lg md:text-xl font-medium leading-relaxed italic line-clamp-6">
-                        "{testimonial.review || testimonial.content}"
-                      </p>
-                    </div>
-
-                    <div className="relative z-10 flex items-center space-x-4 mt-auto pt-6 border-t border-white/10">
-                      {testimonial.image ? (
-                        <img 
-                          src={testimonial.image} 
-                          alt={testimonial.patientName} 
-                          className="w-16 h-16 rounded-full object-cover ring-4 ring-white/10"
-                        />
-                      ) : (
-                        <div className="w-16 h-16 rounded-full bg-gradient-to-br from-medical-blue to-blue-600 flex items-center justify-center text-white text-xl font-bold ring-4 ring-white/10">
-                          {(testimonial.patientName || 'A').charAt(0)}
+                    <div className="relative h-full bg-white/5 backdrop-blur-xl border border-white/10 p-8 md:p-10 rounded-[32px] flex flex-col justify-between overflow-hidden">
+                      <div className="absolute -right-6 -top-6 text-[120px] text-white/5 font-serif leading-none">"</div>
+                      
+                      <div className="relative z-10 mb-8">
+                        <div className="flex text-yellow-400 mb-6 space-x-1">
+                          {[...Array(testimonial.rating || 5)].map((_, idx) => (
+                            <Star key={idx} className="w-5 h-5 fill-current" />
+                          ))}
                         </div>
-                      )}
-                      <div>
-                        <h4 className="text-white font-bold text-lg">{testimonial.patientName}</h4>
-                        <p className="text-white/50 text-sm uppercase tracking-widest">{testimonial.role || 'Patient'}</p>
+                        <p className="text-white/80 text-lg md:text-xl font-medium leading-relaxed italic line-clamp-6">
+                          "{testimonial.review || testimonial.content}"
+                        </p>
+                      </div>
+
+                      <div className="relative z-10 flex items-center space-x-4 mt-auto pt-6 border-t border-white/10">
+                        {testimonial.image ? (
+                          <img 
+                            src={testimonial.image} 
+                            alt={testimonial.patientName} 
+                            className="w-16 h-16 rounded-full object-cover ring-4 ring-white/10"
+                            referrerPolicy="no-referrer"
+                          />
+                        ) : (
+                          <div className="w-16 h-16 rounded-full bg-gradient-to-br from-medical-blue to-blue-600 flex items-center justify-center text-white text-xl font-bold ring-4 ring-white/10">
+                            {(testimonial.patientName || 'A').charAt(0)}
+                          </div>
+                        )}
+                        <div>
+                          <h4 className="text-white font-bold text-lg">{testimonial.patientName}</h4>
+                          <p className="text-white/50 text-sm uppercase tracking-widest">{testimonial.role || 'Patient'}</p>
+                        </div>
                       </div>
                     </div>
                   </div>
-                </motion.div>
-              ))}
+                ))}
+              </motion.div>
             </div>
           </div>
         </section>

@@ -5,7 +5,6 @@ import { motion } from 'motion/react';
 import { Linkedin, Mail, Twitter, Users } from 'lucide-react';
 import Link from 'next/link';
 import { Navbar } from '../../components/Navbar';
-import { Footer } from '../../components/Footer';
 
 interface TeamMember {
   id: string;
@@ -147,8 +146,6 @@ export default function TeamPage() {
           </div>
         )}
       </section>
-
-      <Footer />
     </div>
   );
 }

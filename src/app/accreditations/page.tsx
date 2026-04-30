@@ -4,7 +4,6 @@ import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { Award, X, ShieldCheck, ZoomIn } from 'lucide-react';
 import { Navbar } from '../../components/Navbar';
-import { Footer } from '../../components/Footer';
 
 interface Certification {
   id: string;
@@ -163,8 +162,6 @@ export default function AccreditationsPage() {
           </div>
         )}
       </AnimatePresence>
-
-      <Footer />
     </div>
   );
 }

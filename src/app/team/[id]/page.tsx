@@ -3,7 +3,6 @@ import { notFound } from 'next/navigation';
 import { Linkedin, Mail, Twitter, ArrowLeft, GraduationCap } from 'lucide-react';
 import Link from 'next/link';
 import { Navbar } from '../../../components/Navbar';
-import { Footer } from '../../../components/Footer';
 
 export const dynamic = 'force-dynamic';
 
@@ -85,8 +84,6 @@ export default async function TeamMemberPage(props: { params: Promise<{ id: stri
           </div>
         </div>
       </div>
-
-      <Footer />
     </div>
   );
 }

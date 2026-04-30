@@ -14,7 +14,11 @@ export async function GET() {
 
 export async function POST(req: Request) {
   try {
-    const { id, createdAt, updatedAt, ...data } = await req.json();
+    const { title, description, content, image, date, category } = await req.json();
+    
+    // Create an object with only the fields that are present in the request
+    const data: any = { title, description, content, image, date, category: category || 'General' };
+
     const news = await prisma.news.create({ data });
     return NextResponse.json(news);
   } catch (error: any) {

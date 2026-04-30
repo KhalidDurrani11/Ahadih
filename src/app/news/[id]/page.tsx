@@ -3,7 +3,6 @@ import { notFound } from 'next/navigation';
 import { Calendar, ArrowLeft } from 'lucide-react';
 import Link from 'next/link';
 import { Navbar } from '../../../components/Navbar';
-import { Footer } from '../../../components/Footer';
 
 export const dynamic = 'force-dynamic';
 
@@ -72,7 +71,6 @@ export default async function SingleNewsPage(props: { params: Promise<{ id: stri
           </Link>
         </div>
       </div>
-      <Footer />
     </div>
   );
 }

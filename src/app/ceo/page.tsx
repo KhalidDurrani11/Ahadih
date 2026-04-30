@@ -1,6 +1,5 @@
 import { prisma } from '../../lib/prisma';
 import { Navbar } from '../../components/Navbar';
-import { Footer } from '../../components/Footer';
 import { Quote, Award, GraduationCap, Heart } from 'lucide-react';
 
 export const dynamic = 'force-dynamic';
@@ -150,8 +149,6 @@ export default async function CEOPage() {
           </div>
         </div>
       </section>
-
-      <Footer />
     </div>
   );
 }

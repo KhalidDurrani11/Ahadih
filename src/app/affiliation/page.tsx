@@ -1,5 +1,4 @@
 import { Navbar } from '../../components/Navbar';
-import { Footer } from '../../components/Footer';
 import { prisma } from '../../lib/prisma';
 import { PageHeader } from '../../components/PageHeader';
 
@@ -23,8 +22,6 @@ export default async function AffiliationPage() {
         </div>
         <p className="text-xl text-gray-600 leading-relaxed max-w-3xl mx-auto font-medium">{text}</p>
       </section>
-
-      <Footer />
     </main>
   );
 }
