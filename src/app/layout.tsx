@@ -19,6 +19,8 @@ const outfit = Outfit({
   subsets: ['latin'],
 });
 
+import { SiteContentProvider } from '../components/SiteContentProvider';
+
 const DEFAULT_SEO = {
   title: 'AHAD International Hospital | Advanced Care, Personalized for You',
   description: 'AHAD International Hospital delivers world-class tertiary care, leading specialists, and evidence-based medicine for local and international patients.',
@@ -69,21 +71,31 @@ export async function generateMetadata(): Promise<Metadata> {
   }
 }
 
-export default function RootLayout({ children }: { children: ReactNode }) {
+export default async function RootLayout({ children }: { children: ReactNode }) {
+  let siteContent = {};
+  try {
+    const record = await prisma.siteContent.findUnique({ where: { id: 'singleton' } });
+    if (record?.data) siteContent = record.data;
+  } catch (err) {
+    console.error(err);
+  }
+
   return (
     <html lang="en">
       <body className={`${poppins.variable} ${outfit.variable} antialiased text-medical-dark bg-white dark:bg-gray-900 dark:text-gray-100 flex flex-col min-h-screen selection:bg-medical-blue selection:text-white transition-colors duration-300`}>
         <ThemeProvider>
-          <Navbar />
-          <main className="flex-grow pt-20 overflow-hidden">
-            {children}
-          </main>
+          <SiteContentProvider content={siteContent}>
+            <Navbar />
+            <main className="flex-grow pt-20 overflow-hidden">
+              {children}
+            </main>
           <FloatingElements />
         <Footer />
         <div className="fixed top-0 left-0 w-full h-full pointer-events-none -z-10 overflow-hidden">
           <div className="absolute top-[-10%] right-[-10%] w-[50%] h-[50%] bg-medical-blue/5 blur-[120px] rounded-full"></div>
           <div className="absolute bottom-[-10%] left-[-10%] w-[50%] h-[50%] bg-medical-accent/5 blur-[120px] rounded-full"></div>
         </div>
+          </SiteContentProvider>
         </ThemeProvider>
       </body>
     </html>

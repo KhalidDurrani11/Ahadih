@@ -20,19 +20,17 @@ interface TeamMember {
   order: number;
 }
 
+import { useSiteContent } from '../../components/SiteContentProvider';
+
+const DEFAULT_CONTENT = {
+  title: 'The Managing Team', subtitle: "The dedicated leaders driving AHAD International Hospital's mission of world-class, compassionate care."
+};
+
 export default function TeamPage() {
+  const globalContent = useSiteContent();
+  const content = { ...DEFAULT_CONTENT, ...(globalContent?.team || {}) };
   const [members, setMembers] = useState<TeamMember[]>([]);
   const [loading, setLoading] = useState(true);
-  const [content, setContent] = useState<any>({
-    title: 'The Managing Team', subtitle: "The dedicated leaders driving AHAD International Hospital's mission of world-class, compassionate care."
-  });
-
-  useEffect(() => {
-    fetch('/api/site-content')
-      .then(r => r.json())
-      .then(data => { if (data?.team) setContent((prev: any) => ({ ...prev, ...data.team })); })
-      .catch(() => {});
-  }, []);
 
   useEffect(() => {
     fetch('/api/team')

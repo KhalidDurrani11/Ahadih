@@ -5,6 +5,8 @@ import { motion, AnimatePresence } from 'motion/react';
 import { Award, X, ShieldCheck, ZoomIn } from 'lucide-react';
 import { Navbar } from '../../components/Navbar';
 
+import { useSiteContent } from '../../components/SiteContentProvider';
+
 interface Certification {
   id: string;
   name: string;
@@ -21,20 +23,23 @@ const FALLBACK_CERTS: Certification[] = [
 ];
 
 export default function AccreditationsPage() {
+  const globalContent = useSiteContent();
+  const siteContent = globalContent || {};
   const [certs, setCerts] = useState<Certification[]>([]);
   const [loading, setLoading] = useState(true);
   const [lightbox, setLightbox] = useState<Certification | null>(null);
-  const [siteContent, setSiteContent] = useState<any>({});
 
   useEffect(() => {
-    Promise.all([
-      fetch('/api/certifications').then(r => r.json()).catch(() => []),
-      fetch('/api/site-content').then(r => r.json()).catch(() => ({})),
-    ]).then(([certData, content]) => {
-      setCerts(Array.isArray(certData) && certData.length > 0 ? certData : FALLBACK_CERTS);
-      setSiteContent(content);
-      setLoading(false);
-    });
+    fetch('/api/certifications')
+      .then(r => r.json())
+      .then(certData => {
+        setCerts(Array.isArray(certData) && certData.length > 0 ? certData : FALLBACK_CERTS);
+        setLoading(false);
+      })
+      .catch(() => {
+        setCerts(FALLBACK_CERTS);
+        setLoading(false);
+      });
   }, []);
 
   const title = siteContent?.accreditations?.title || 'Certifications & Accreditations';

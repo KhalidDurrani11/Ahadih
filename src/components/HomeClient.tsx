@@ -11,6 +11,8 @@ interface HomeClientProps {
   initialTestimonials?: any[];
 }
 
+import { useSiteContent } from './SiteContentProvider';
+
 const DEFAULT_CONTENT = {
   home: {
     heroTitle: 'Advanced Care, Personalized for You.',
@@ -45,22 +47,10 @@ const DEFAULT_CONTENT = {
 };
 
 export function HomeClient({ initialDepartments, initialNews = [], initialTestimonials = [] }: HomeClientProps) {
-  const [siteContent, setSiteContent] = useState(DEFAULT_CONTENT);
-
-  useEffect(() => {
-    fetch('/api/site-content')
-      .then(r => r.json())
-      .then(data => { 
-        if (data) {
-          setSiteContent(prev => {
-            const merged = { ...prev };
-            if (data.home) merged.home = { ...prev.home, ...data.home };
-            return merged;
-          });
-        }
-      })
-      .catch(() => {});
-  }, []);
+  const globalContent = useSiteContent();
+  const siteContent = {
+    home: { ...DEFAULT_CONTENT.home, ...(globalContent?.home || {}) }
+  };
 
   const hero = siteContent.home;
 

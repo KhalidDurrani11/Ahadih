@@ -5,6 +5,8 @@ import { motion, AnimatePresence } from 'motion/react';
 import { Briefcase, MapPin, Building2, ChevronDown, ChevronUp, X, Upload, CheckCircle, Loader2 } from 'lucide-react';
 import { Navbar } from '../../components/Navbar';
 
+import { useSiteContent } from '../../components/SiteContentProvider';
+
 interface Job {
   id: string;
   title: string;
@@ -26,6 +28,9 @@ interface AppForm {
 const DEFAULT_FORM: AppForm = { name: '', email: '', phone: '', coverLetter: '', cvFile: '' };
 
 export default function CareersPage() {
+  const globalContent = useSiteContent();
+  const siteContent = globalContent || {};
+  
   const [jobs, setJobs] = useState<Job[]>([]);
   const [loading, setLoading] = useState(true);
   const [expandedJob, setExpandedJob] = useState<string | null>(null);
@@ -33,17 +38,17 @@ export default function CareersPage() {
   const [form, setForm] = useState<AppForm>(DEFAULT_FORM);
   const [submitting, setSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
-  const [siteContent, setSiteContent] = useState<any>({});
 
   useEffect(() => {
-    Promise.all([
-      fetch('/api/jobs').then(r => r.json()).catch(() => []),
-      fetch('/api/site-content').then(r => r.json()).catch(() => ({})),
-    ]).then(([jobsData, content]) => {
-      setJobs(Array.isArray(jobsData) ? jobsData.filter((j: Job) => j.active) : []);
-      setSiteContent(content);
-      setLoading(false);
-    });
+    fetch('/api/jobs')
+      .then(r => r.json())
+      .then(jobsData => {
+        setJobs(Array.isArray(jobsData) ? jobsData.filter((j: Job) => j.active) : []);
+        setLoading(false);
+      })
+      .catch(() => {
+        setLoading(false);
+      });
   }, []);
 
   const title = siteContent?.careers?.title || 'Careers at AHAD';

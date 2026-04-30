@@ -9,20 +9,18 @@ interface SpecialistsClientProps {
   initialDoctors: any[];
 }
 
+import { useSiteContent } from './SiteContentProvider';
+
+const DEFAULT_CONTENT = {
+  title: 'Global Medical Experts', subtitle: "Handpicked specialists from top medical institutions worldwide, dedicated to your well-being."
+};
+
 export function SpecialistsClient({ initialDoctors }: SpecialistsClientProps) {
+  const globalContent = useSiteContent();
+  const content = { ...DEFAULT_CONTENT, ...(globalContent?.specialists || {}) };
   const [selectedDoctor, setSelectedDoctor] = useState<any | null>(null);
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedSpec, setSelectedSpec] = useState('All');
-  const [content, setContent] = useState<any>({
-    title: 'Global Medical Experts', subtitle: "Handpicked specialists from top medical institutions worldwide, dedicated to your well-being."
-  });
-
-  useEffect(() => {
-    fetch('/api/site-content')
-      .then(r => r.json())
-      .then(data => { if (data?.specialists) setContent((prev: any) => ({ ...prev, ...data.specialists })); })
-      .catch(() => {});
-  }, []);
 
   const uniqueSpecializations = ['All', ...Array.from(new Set(initialDoctors.map(doc => doc.specialization)))].sort();
 

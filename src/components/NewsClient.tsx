@@ -19,26 +19,24 @@ interface NewsClientProps {
   initialNews: NewsItem[];
 }
 
+import { useSiteContent } from './SiteContentProvider';
+
+const DEFAULT_CONTENT = {
+  title: 'Latest News & Updates',
+  subtitle: 'Stay at the forefront of healthcare excellence with the latest announcements from AHAD International Hospital.',
+  heroPreTitle: 'Pioneering Moments',
+  allArticlesTitle: 'All Articles',
+  dragToBrowseText: '← Drag to browse →',
+  noNewsTitle: 'No news updates yet.',
+  noNewsDesc: 'Check back soon for exciting announcements.',
+  readFullStoryText: 'Read full story',
+};
+
 export function NewsClient({ initialNews }: NewsClientProps) {
-  const [content, setContent] = useState<any>({
-    title: 'Latest News & Updates',
-    subtitle: 'Stay at the forefront of healthcare excellence with the latest announcements from AHAD International Hospital.',
-    heroPreTitle: 'Pioneering Moments',
-    allArticlesTitle: 'All Articles',
-    dragToBrowseText: '← Drag to browse →',
-    noNewsTitle: 'No news updates yet.',
-    noNewsDesc: 'Check back soon for exciting announcements.',
-    readFullStoryText: 'Read full story',
-  });
+  const globalContent = useSiteContent();
+  const content = { ...DEFAULT_CONTENT, ...(globalContent?.news || {}) };
 
-  useEffect(() => {
-    fetch('/api/site-content')
-      .then(r => r.json())
-      .then(data => { if (data?.news) setContent((prev: any) => ({ ...prev, ...data.news })); })
-      .catch(() => {});
-  }, []);
-
-function formatDate(item: NewsItem) {
+  function formatDate(item: NewsItem) {
   const raw = item.date || item.createdAt;
   const d = new Date(raw as string);
   if (isNaN(d.getTime())) return { year: item.date || '2025', month: '', day: '' };

@@ -2,23 +2,19 @@
 
 import { motion } from 'motion/react';
 import { Award, CheckCircle2, Heart, Shield, Target, Users } from 'lucide-react';
-import { useState, useEffect } from 'react';
+import { useSiteContent } from '../../components/SiteContentProvider';
+
+const DEFAULT_CONTENT = {
+  title: 'Our Mission & Vision',
+  story: 'Founded over two decades ago, AHAD International Hospital has grown from a community center into a trusted regional referral destination.\\n\\nOur journey has been defined by one commitment: the patient. By combining international protocols with compassionate service design, we create a care environment that is both clinically advanced and deeply human.',
+  mission: 'To deliver world-class, compassionate, and evidence-based healthcare to every patient, regardless of their origin or background.',
+  vision: 'To become the most trusted international hospital, renowned for clinical excellence and patient-centered care.',
+  values: 'Excellence|Striving for perfection in every clinical procedure and patient interaction.\\nCompassion|Treating every patient like family with warmth, empathy, and respect.\\nInnovation|Embracing cutting-edge technology to redefine the future of healthcare.\\nTrust|Maintaining the highest ethical standards and transparency in all we do.'
+};
 
 export default function AboutPage() {
-  const [content, setContent] = useState<any>({
-    title: 'Our Mission & Vision',
-    story: 'Founded over two decades ago, AHAD International Hospital has grown from a community center into a trusted regional referral destination.\\n\\nOur journey has been defined by one commitment: the patient. By combining international protocols with compassionate service design, we create a care environment that is both clinically advanced and deeply human.',
-    mission: 'To deliver world-class, compassionate, and evidence-based healthcare to every patient, regardless of their origin or background.',
-    vision: 'To become the most trusted international hospital, renowned for clinical excellence and patient-centered care.',
-    values: 'Excellence|Striving for perfection in every clinical procedure and patient interaction.\\nCompassion|Treating every patient like family with warmth, empathy, and respect.\\nInnovation|Embracing cutting-edge technology to redefine the future of healthcare.\\nTrust|Maintaining the highest ethical standards and transparency in all we do.'
-  });
-
-  useEffect(() => {
-    fetch('/api/site-content')
-      .then(r => r.json())
-      .then(data => { if (data?.about) setContent((prev: any) => ({ ...prev, ...data.about })); })
-      .catch(() => {});
-  }, []);
+  const globalContent = useSiteContent();
+  const content = { ...DEFAULT_CONTENT, ...(globalContent?.about || {}) };
   const defaultValues = [
     { title: 'Excellence', desc: 'Striving for perfection in every clinical procedure and patient interaction.', icon: Award },
     { title: 'Compassion', desc: 'Treating every patient like family with warmth, empathy, and respect.', icon: Heart },

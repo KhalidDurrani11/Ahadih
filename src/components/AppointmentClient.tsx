@@ -11,7 +11,15 @@ interface AppointmentClientProps {
   initialDoctors: any[];
 }
 
+import { useSiteContent } from './SiteContentProvider';
+
+const DEFAULT_CONTENT = {
+  title: 'Book Your Appointment', subtitle: 'Experience hassle-free medical scheduling with AHAD. Select your specialist and preferred time slot in just a few clicks.'
+};
+
 export function AppointmentClient({ initialDepartments, initialDoctors }: AppointmentClientProps) {
+  const globalContent = useSiteContent();
+  const content = { ...DEFAULT_CONTENT, ...(globalContent?.appointment || {}) };
   const [step, setStep] = useState(1);
   const [formData, setFormData] = useState({
     name: '',
@@ -23,16 +31,6 @@ export function AppointmentClient({ initialDepartments, initialDoctors }: Appoin
     time: '',
     notes: ''
   });
-  const [content, setContent] = useState<any>({
-    title: 'Book Your Appointment', subtitle: 'Experience hassle-free medical scheduling with AHAD. Select your specialist and preferred time slot in just a few clicks.'
-  });
-
-  useEffect(() => {
-    fetch('/api/site-content')
-      .then(r => r.json())
-      .then(data => { if (data?.appointment) setContent((prev: any) => ({ ...prev, ...data.appointment })); })
-      .catch(() => {});
-  }, []);
 
   const timeSlots = [
     '09:00 AM', '10:00 AM', '11:00 AM', '12:00 PM', 

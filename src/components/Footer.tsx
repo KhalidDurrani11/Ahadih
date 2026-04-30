@@ -2,7 +2,6 @@
 
 import { Instagram, Linkedin, Mail, MapPin, Phone, Twitter, ExternalLink } from 'lucide-react';
 import Link from 'next/link';
-import { useEffect, useState } from 'react';
 
 const DEFAULTS = {
   address: 'Al Zahiyah District, Abu Dhabi, United Arab Emirates',
@@ -16,20 +15,12 @@ const DEFAULTS = {
   mapLink: 'https://maps.google.com/?q=Al+Zahiyah+Abu+Dhabi+UAE',
 };
 
+import { useSiteContent } from './SiteContentProvider';
+
 export function Footer() {
   const currentYear = new Date().getFullYear();
-  const [content, setContent] = useState(DEFAULTS);
-
-  useEffect(() => {
-    fetch('/api/site-content')
-      .then(r => r.json())
-      .then(data => {
-        if (data?.footer) {
-          setContent({ ...DEFAULTS, ...data.footer });
-        }
-      })
-      .catch(() => {});
-  }, []);
+  const globalContent = useSiteContent();
+  const content = { ...DEFAULTS, ...(globalContent?.footer || {}) };
 
   return (
     <footer className="bg-medical-dark text-white">

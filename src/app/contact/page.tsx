@@ -2,19 +2,16 @@
 
 import { motion } from 'motion/react';
 import { Mail, MapPin, Phone, Clock, Send, CheckCircle2 } from 'lucide-react';
-import { useState, FormEvent, useEffect } from 'react';
+import { useState, FormEvent } from 'react';
+import { useSiteContent } from '../../components/SiteContentProvider';
+
+const DEFAULT_CONTENT = {
+  title: 'Contact Us', subtitle: "We're Here for You", phone: '+971 800 2423', emergencyPhone: '+971 800 2423', email: 'info@ahadinternationalhospital.com', address: 'Al Zahiyah District, Abu Dhabi, United Arab Emirates'
+};
 
 export default function ContactPage() {
-  const [content, setContent] = useState<any>({
-    title: 'Contact Us', subtitle: "We're Here for You", phone: '+971 800 2423', emergencyPhone: '+971 800 2423', email: 'info@ahadinternationalhospital.com', address: 'Al Zahiyah District, Abu Dhabi, United Arab Emirates'
-  });
-
-  useEffect(() => {
-    fetch('/api/site-content')
-      .then(r => r.json())
-      .then(data => { if (data?.contact) setContent((prev: any) => ({ ...prev, ...data.contact })); })
-      .catch(() => {});
-  }, []);
+  const globalContent = useSiteContent();
+  const content = { ...DEFAULT_CONTENT, ...(globalContent?.contact || {}) };
   const [formStatus, setFormStatus] = useState<'idle' | 'submitting' | 'success'>('idle');
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
