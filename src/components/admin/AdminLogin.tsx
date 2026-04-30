@@ -37,12 +37,13 @@ export default function AdminLogin() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4 pt-20">
+    <div className="min-h-screen bg-medical-blue/[0.02] flex items-center justify-center p-4">
       <motion.div 
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        className="max-w-md w-full bg-white rounded-3xl shadow-xl p-8 border border-gray-100"
+        initial={{ opacity: 0, scale: 0.95 }}
+        animate={{ opacity: 1, scale: 1 }}
+        className="max-w-md w-full bg-white rounded-[40px] shadow-2xl shadow-medical-blue/10 p-10 border border-medical-blue/5 relative overflow-hidden"
       >
+        <div className="absolute top-0 left-0 w-full h-1 premium-gradient" />
         <div className="text-center mb-8">
           <img
             src="/logo-transparent.png"
@@ -61,30 +62,34 @@ export default function AdminLogin() {
           )}
           
           <div className="space-y-2">
-            <label className="text-[10px] font-bold text-gray-400 uppercase tracking-widest pl-2">Username</label>
-            <div className="relative">
-              <User className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
+            <label className="text-[10px] font-black text-medical-blue/50 uppercase tracking-[0.2em] pl-2">Username</label>
+            <div className="relative group">
+              <div className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-medical-blue/30 group-focus-within:text-medical-blue transition-colors">
+                <User className="w-full h-full" />
+              </div>
               <input 
                 type="text" 
                 required
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
-                className="w-full pl-12 pr-6 py-4 bg-gray-50 border border-gray-100 rounded-2xl outline-none focus:ring-2 focus:ring-medical-blue transition-all"
+                className="premium-input pl-12"
                 placeholder="admin"
               />
             </div>
           </div>
 
           <div className="space-y-2">
-             <label className="text-[10px] font-bold text-gray-400 uppercase tracking-widest pl-2">Password</label>
-             <div className="relative">
-                <Lock className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
+             <label className="text-[10px] font-black text-medical-blue/50 uppercase tracking-[0.2em] pl-2">Password</label>
+             <div className="relative group">
+                <div className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-medical-blue/30 group-focus-within:text-medical-blue transition-colors">
+                  <Lock className="w-full h-full" />
+                </div>
                 <input 
                   type="password" 
                   required
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  className="w-full pl-12 pr-6 py-4 bg-gray-50 border border-gray-100 rounded-2xl outline-none focus:ring-2 focus:ring-medical-blue transition-all"
+                  className="premium-input pl-12"
                   placeholder="••••••••"
                 />
              </div>
@@ -93,7 +98,7 @@ export default function AdminLogin() {
           <button 
             type="submit"
             disabled={isLoading}
-            className="w-full py-4 premium-gradient text-white rounded-2xl font-bold hover:shadow-lg hover:shadow-medical-blue/30 transition-all disabled:opacity-50"
+            className="w-full py-4 premium-gradient text-white rounded-2xl font-black text-sm uppercase tracking-widest shadow-lg shadow-medical-blue/20 hover:shadow-medical-blue/40 hover:-translate-y-0.5 active:translate-y-0 transition-all duration-300 disabled:opacity-50"
           >
             {isLoading ? 'Authenticating...' : 'Secure Login'}
           </button>

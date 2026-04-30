@@ -323,26 +323,29 @@ export function PageContentTab() {
       <div className="flex flex-wrap gap-2 mb-8">
         {SECTIONS.map(s => (
           <button key={s.id} onClick={() => setSection(s.id)}
-            className={`px-4 py-2 rounded-full text-sm font-bold transition-all ${section === s.id ? 'premium-gradient text-white shadow-lg' : 'bg-gray-100 text-gray-500 hover:bg-gray-200'}`}>
+            className={`px-6 py-2.5 rounded-2xl text-sm font-bold transition-all duration-300 ${section === s.id ? 'premium-gradient text-white shadow-lg shadow-medical-blue/20' : 'bg-white border border-medical-blue/5 text-gray-500 hover:bg-medical-blue/5 hover:text-medical-blue'}`}>
             {s.label}
           </button>
         ))}
       </div>
 
-      <div className="bg-gray-50 rounded-2xl p-6 space-y-5">
-        <h3 className="font-black text-lg text-medical-dark">{SECTIONS.find(s => s.id === section)?.label}</h3>
+      <div className="bg-medical-blue/[0.02] border border-medical-blue/8 rounded-[32px] p-8 space-y-6">
+        <h3 className="font-display font-black text-xl text-medical-dark flex items-center gap-2">
+          <span className="w-2 h-8 bg-medical-blue rounded-full"></span>
+          {SECTIONS.find(s => s.id === section)?.label}
+        </h3>
         {fields.map(({ key, label, type }) => (
           <div key={key}>
-            <label className="block text-xs font-bold text-gray-500 mb-1.5 uppercase tracking-wider">{label}</label>
+            <label className="block text-xs font-bold text-medical-blue/60 mb-2 uppercase tracking-widest pl-1">{label}</label>
             {type === 'textarea' ? (
               <textarea rows={key === 'message' ? 8 : 3} value={sectionData[key] || ''} onChange={e => set(key, e.target.value)}
-                className="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm focus:ring-2 focus:ring-medical-blue outline-none resize-none bg-white" />
+                className="premium-input resize-none" />
             ) : (
-              <div className="flex space-x-2">
+              <div className="flex space-x-3">
                 <input type="text" value={sectionData[key] || ''} onChange={e => set(key, e.target.value)}
-                  className="flex-1 border border-gray-200 rounded-xl px-4 py-3 text-sm focus:ring-2 focus:ring-medical-blue outline-none bg-white" />
+                  className="premium-input" />
                 {type === 'url' && key.toLowerCase().includes('image') && (
-                  <label className="flex items-center space-x-1.5 px-4 py-2.5 bg-white border-2 border-dashed border-gray-200 rounded-xl cursor-pointer hover:border-medical-blue text-xs font-bold text-gray-400 shrink-0">
+                  <label className="flex items-center space-x-2 px-6 py-2.5 bg-white border-2 border-dashed border-medical-blue/10 rounded-2xl cursor-pointer hover:border-medical-blue/30 hover:bg-medical-blue/5 transition-all text-xs font-bold text-medical-blue/50 shrink-0">
                     <ImageIcon className="w-4 h-4" /><span>Upload</span>
                     <input type="file" className="hidden" accept="image/*" onChange={handleFileUpload(key)} />
                   </label>
@@ -352,10 +355,10 @@ export function PageContentTab() {
           </div>
         ))}
 
-        <div className="flex items-center space-x-4 pt-2">
+        <div className="flex items-center space-x-4 pt-4 border-t border-medical-blue/8">
           <button onClick={saveAll} disabled={saving}
-            className="flex items-center space-x-2 px-8 py-3 premium-gradient text-white rounded-2xl font-bold hover:shadow-xl transition-all disabled:opacity-70">
-            <Save className="w-4 h-4" /><span>{saving ? 'Saving...' : 'Save All Changes'}</span>
+            className="flex items-center space-x-2 px-10 py-4 premium-gradient text-white rounded-2xl font-bold hover:shadow-xl hover:shadow-medical-blue/30 hover:-translate-y-0.5 active:translate-y-0 transition-all duration-300 disabled:opacity-70 disabled:translate-y-0">
+            <Save className="w-5 h-5" /><span>{saving ? 'Saving...' : 'Save All Changes'}</span>
           </button>
           {saved && <span className="text-green-500 font-bold text-sm flex items-center gap-1"><CheckCircle className="w-4 h-4" /> Saved!</span>}
           {error && <span className="text-red-500 font-bold text-sm flex items-center gap-1"><XCircle className="w-4 h-4" /> Save failed.</span>}

@@ -91,14 +91,14 @@ export default function TeamPage() {
                 viewport={{ once: true, margin: '-80px' }}
                 transition={{ delay: (i % 3) * 0.1, duration: 0.5 }}
               >
-                <Link href={`/team/${member.id}`} className="group block bg-white rounded-[32px] shadow-xl shadow-gray-100/80 border border-gray-100 overflow-hidden hover:-translate-y-2 transition-all duration-500">
+                <Link href={`/team/${member.id}`} className="premium-card block group overflow-hidden">
                   {/* Photo */}
-                  <div className="h-72 relative overflow-hidden">
+                  <div className="h-80 relative overflow-hidden">
                     {member.image ? (
                       <img
                         src={member.image}
                         alt={member.name}
-                        className="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-700"
+                        className="w-full h-full object-cover object-top group-hover:scale-110 transition-transform duration-1000"
                         referrerPolicy="no-referrer"
                         onError={(e) => { (e.currentTarget as HTMLImageElement).src = '/fallback-department.svg'; }}
                       />
@@ -107,25 +107,25 @@ export default function TeamPage() {
                         <span className="text-6xl font-display font-black text-white/30">{member.name.charAt(0)}</span>
                       </div>
                     )}
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-medical-dark/80 via-transparent to-transparent opacity-60 group-hover:opacity-80 transition-opacity duration-500" />
 
                     {/* Social Links */}
-                    <div className="absolute bottom-4 right-4 flex space-x-2">
+                    <div className="absolute bottom-6 right-6 flex flex-col space-y-2 translate-x-4 opacity-0 group-hover:translate-x-0 group-hover:opacity-100 transition-all duration-500">
                       {member.linkedin && (
                         <a href={member.linkedin} target="_blank" rel="noopener noreferrer" onClick={e => e.stopPropagation()}
-                          className="w-9 h-9 bg-white/20 backdrop-blur-sm border border-white/20 rounded-full flex items-center justify-center text-white hover:bg-white hover:text-medical-blue transition-all">
+                          className="w-10 h-10 bg-white shadow-lg rounded-xl flex items-center justify-center text-medical-blue hover:premium-gradient hover:text-white transition-all transform hover:-rotate-12">
                           <Linkedin className="w-4 h-4" />
                         </a>
                       )}
                       {member.twitter && (
                         <a href={member.twitter} target="_blank" rel="noopener noreferrer" onClick={e => e.stopPropagation()}
-                          className="w-9 h-9 bg-white/20 backdrop-blur-sm border border-white/20 rounded-full flex items-center justify-center text-white hover:bg-white hover:text-medical-blue transition-all">
+                          className="w-10 h-10 bg-white shadow-lg rounded-xl flex items-center justify-center text-medical-blue hover:premium-gradient hover:text-white transition-all transform hover:-rotate-12">
                           <Twitter className="w-4 h-4" />
                         </a>
                       )}
                       {member.email && (
                         <a href={`mailto:${member.email}`} onClick={e => e.stopPropagation()}
-                          className="w-9 h-9 bg-white/20 backdrop-blur-sm border border-white/20 rounded-full flex items-center justify-center text-white hover:bg-white hover:text-medical-blue transition-all">
+                          className="w-10 h-10 bg-white shadow-lg rounded-xl flex items-center justify-center text-medical-blue hover:premium-gradient hover:text-white transition-all transform hover:-rotate-12">
                           <Mail className="w-4 h-4" />
                         </a>
                       )}
@@ -133,10 +133,18 @@ export default function TeamPage() {
                   </div>
 
                   {/* Info */}
-                  <div className="p-7">
-                    <h3 className="text-xl font-display font-black text-medical-dark mb-1 group-hover:text-medical-blue transition-colors">{member.name}</h3>
-                    <p className="text-medical-blue text-xs font-bold uppercase tracking-widest mb-4">{member.designation}{member.department ? ` • ${member.department}` : ''}</p>
-                    <p className="text-gray-500 text-sm leading-relaxed line-clamp-3">{member.bio}</p>
+                  <div className="p-8">
+                    <div className="flex items-center gap-2 mb-2">
+                      <span className="w-4 h-1 bg-medical-blue rounded-full"></span>
+                      <p className="text-medical-blue text-[10px] font-black uppercase tracking-[0.2em]">{member.designation}</p>
+                    </div>
+                    <h3 className="text-2xl font-display font-black text-medical-dark mb-4 leading-tight group-hover:text-medical-blue transition-colors">{member.name}</h3>
+                    <p className="text-gray-500 text-sm leading-relaxed line-clamp-3 italic">"{member.bio}"</p>
+                    
+                    <div className="mt-6 pt-6 border-t border-gray-50 flex items-center justify-between">
+                      <span className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">{member.department || 'Management'}</span>
+                      <span className="text-medical-blue text-xs font-black group-hover:translate-x-1 transition-transform">View Profile →</span>
+                    </div>
                   </div>
                 </Link>
               </motion.div>

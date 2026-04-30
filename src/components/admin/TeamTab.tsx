@@ -1,6 +1,6 @@
 "use client";
 import { useState } from 'react';
-import { Trash2, Edit, Plus, Image as ImageIcon, Save } from 'lucide-react';
+import { Trash2, Edit, Plus, Image as ImageIcon, Save, X } from 'lucide-react';
 
 interface TeamMember {
   id: string; name: string; designation: string; bio: string;
@@ -76,59 +76,79 @@ export function TeamTab({ initialData }: { initialData: TeamMember[] }) {
   return (
     <div>
       <div className="flex justify-between items-center mb-6">
-        <h2 className="text-xl font-black text-medical-dark">Managing Team</h2>
-        <button onClick={() => openModal()} className="flex items-center space-x-2 px-5 py-2.5 premium-gradient text-white rounded-2xl font-bold text-sm">
-          <Plus className="w-4 h-4" /><span>Add Member</span>
+        <h2 className="text-xl font-black text-medical-dark flex items-center gap-2">
+          <span className="w-1.5 h-6 bg-medical-blue rounded-full"></span>
+          Managing Team
+        </h2>
+        <button onClick={() => openModal()} className="flex items-center space-x-2 px-6 py-3 premium-gradient text-white rounded-2xl font-bold text-sm hover:shadow-lg hover:shadow-medical-blue/30 hover:-translate-y-0.5 transition-all duration-300 active:translate-y-0">
+          <Plus className="w-5 h-5" /><span>Add Member</span>
         </button>
       </div>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {members.length === 0 && <p className="text-gray-400 col-span-3 text-center py-12">No team members yet.</p>}
         {members.map(m => (
-          <div key={m.id} className="bg-gray-50 rounded-2xl p-5 border border-gray-100 flex items-start space-x-4">
-            <img src={m.image || '/fallback-department.svg'} alt={m.name} className="w-14 h-14 rounded-xl object-cover shrink-0 border border-gray-200" onError={(e) => { (e.currentTarget as HTMLImageElement).src = '/fallback-department.svg'; }} />
-            <div className="flex-1 min-w-0">
-              <p className="font-bold text-medical-dark text-sm truncate">{m.name}</p>
-              <p className="text-xs text-medical-blue font-bold truncate">{m.designation}{m.department ? ` • ${m.department}` : ''}</p>
-              <p className="text-xs text-gray-400 mt-1 line-clamp-2">{m.bio}</p>
+          <div key={m.id} className="premium-card p-6 flex items-start space-x-4">
+            <div className="relative shrink-0">
+              <img src={m.image || '/fallback-department.svg'} alt={m.name} className="w-16 h-16 rounded-2xl object-cover border-2 border-white shadow-md" onError={(e) => { (e.currentTarget as HTMLImageElement).src = '/fallback-department.svg'; }} />
+              <div className="absolute -bottom-1 -right-1 w-5 h-5 bg-medical-blue rounded-full flex items-center justify-center text-[10px] text-white font-bold shadow-sm">
+                {m.order}
+              </div>
             </div>
-            <div className="flex space-x-1 shrink-0">
-              <button onClick={() => openModal(m)} className="p-2 text-gray-400 hover:text-medical-blue rounded-lg hover:bg-blue-50 transition-colors"><Edit className="w-4 h-4" /></button>
-              <button onClick={() => del(m.id)} className="p-2 text-gray-400 hover:text-red-500 rounded-lg hover:bg-red-50 transition-colors"><Trash2 className="w-4 h-4" /></button>
+            <div className="flex-1 min-w-0 pt-1">
+              <p className="font-display font-black text-medical-dark text-sm truncate leading-tight">{m.name}</p>
+              <p className="text-[10px] text-medical-blue font-bold uppercase tracking-wider mt-1 truncate">{m.designation}{m.department ? ` • ${m.department}` : ''}</p>
+              <p className="text-[11px] text-gray-500 mt-2 line-clamp-2 leading-relaxed italic">"{m.bio}"</p>
+            </div>
+            <div className="flex flex-col space-y-1 shrink-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+              <button onClick={() => openModal(m)} className="p-2 text-medical-blue hover:bg-medical-blue/10 rounded-xl transition-all" title="Edit"><Edit className="w-4 h-4" /></button>
+              <button onClick={() => del(m.id)} className="p-2 text-red-500 hover:bg-red-50 rounded-xl transition-all" title="Delete"><Trash2 className="w-4 h-4" /></button>
             </div>
           </div>
         ))}
       </div>
 
       {open && (
-        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/40 backdrop-blur-sm">
-          <div className="bg-white rounded-[32px] shadow-2xl w-full max-w-xl overflow-hidden">
-            <div className="p-6 border-b border-gray-100 flex justify-between items-center">
-              <h3 className="text-xl font-black text-medical-dark">{editing ? 'Edit' : 'Add'} Team Member</h3>
-              <button onClick={() => setOpen(false)} className="text-gray-400 hover:text-gray-600 text-xl">✕</button>
+        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-medical-dark/40 backdrop-blur-sm">
+          <div className="bg-white rounded-[40px] shadow-2xl shadow-medical-blue/20 w-full max-w-xl overflow-hidden border border-medical-blue/10">
+            <div className="p-8 border-b border-medical-blue/8 flex justify-between items-center bg-medical-blue/[0.02]">
+              <h3 className="text-2xl font-black text-medical-dark">{editing ? 'Edit' : 'Add'} Team Member</h3>
+              <button onClick={() => setOpen(false)} className="p-2 hover:bg-medical-blue/5 rounded-full transition-colors">
+                <X className="w-6 h-6 text-gray-400" />
+              </button>
             </div>
-            <form onSubmit={save} className="p-6 space-y-4 max-h-[70vh] overflow-y-auto">
-              <div className="grid grid-cols-2 gap-4">
+            <form onSubmit={save} className="p-8 space-y-6 max-h-[70vh] overflow-y-auto">
+              <div className="grid grid-cols-2 gap-6">
                 {[['name', 'Full Name'], ['designation', 'Designation']].map(([k, l]) => (
-                  <div key={k}><label className="text-xs font-bold text-gray-400 uppercase tracking-wider block mb-1">{l}</label>
-                    <input required value={form[k] || ''} onChange={e => setForm((f: any) => ({ ...f, [k]: e.target.value }))} className="w-full p-3 bg-gray-50 rounded-xl border border-gray-100 text-sm focus:outline-none focus:border-medical-blue" /></div>
+                  <div key={k}>
+                    <label className="text-[10px] font-bold text-medical-blue/50 uppercase tracking-widest block mb-2 pl-1">{l}</label>
+                    <input required value={form[k] || ''} onChange={e => setForm((f: any) => ({ ...f, [k]: e.target.value }))} className="premium-input" />
+                  </div>
                 ))}
               </div>
-              <div className="grid grid-cols-2 gap-4">
-                {[['experience', 'Years of Experience'], ['department', 'Department (e.g. IT, Finance)']].map(([k, l]) => (
-                  <div key={k}><label className="text-xs font-bold text-gray-400 uppercase tracking-wider block mb-1">{l}</label>
-                    <input value={form[k] || ''} onChange={e => setForm((f: any) => ({ ...f, [k]: e.target.value }))} className="w-full p-3 bg-gray-50 rounded-xl border border-gray-100 text-sm focus:outline-none focus:border-medical-blue" /></div>
+              <div className="grid grid-cols-2 gap-6">
+                {[['experience', 'Years of Experience'], ['department', 'Department']].map(([k, l]) => (
+                  <div key={k}>
+                    <label className="text-[10px] font-bold text-medical-blue/50 uppercase tracking-widest block mb-2 pl-1">{l}</label>
+                    <input value={form[k] || ''} onChange={e => setForm((f: any) => ({ ...f, [k]: e.target.value }))} className="premium-input" />
+                  </div>
                 ))}
               </div>
-              <div><label className="text-xs font-bold text-gray-400 uppercase tracking-wider block mb-1">Bio</label>
-                <textarea rows={3} value={form.bio || ''} onChange={e => setForm((f: any) => ({ ...f, bio: e.target.value }))} className="w-full p-3 bg-gray-50 rounded-xl border border-gray-100 text-sm focus:outline-none focus:border-medical-blue resize-none" /></div>
-              <div><label className="text-xs font-bold text-gray-400 uppercase tracking-wider block mb-1">Photo URL</label>
-                <input value={form.image || ''} onChange={e => setForm((f: any) => ({ ...f, image: e.target.value }))} className="w-full p-3 bg-gray-50 rounded-xl border border-gray-100 text-sm focus:outline-none focus:border-medical-blue" placeholder="https://..." />
-                <label className="mt-2 flex items-center space-x-2 px-4 py-2.5 bg-white border-2 border-dashed border-gray-200 rounded-xl cursor-pointer hover:border-medical-blue text-sm font-bold text-gray-400">
-                  <ImageIcon className="w-4 h-4" /><span>Upload Photo</span><input type="file" className="hidden" accept="image/*" onChange={handleFile} /></label></div>
-              <div><label className="text-xs font-bold text-gray-400 uppercase tracking-wider block mb-1">Display Order</label>
-                <input type="number" value={form.order || 0} onChange={e => setForm((f: any) => ({ ...f, order: Number(e.target.value) }))} className="w-full p-3 bg-gray-50 rounded-xl border border-gray-100 text-sm focus:outline-none focus:border-medical-blue" /></div>
-              <button type="submit" disabled={loading} className="w-full py-3 premium-gradient text-white rounded-xl font-bold text-sm flex items-center justify-center space-x-2">
-                <Save className="w-4 h-4" /><span>{loading ? 'Saving...' : 'Save Member'}</span></button>
+              <div>
+                <label className="text-[10px] font-bold text-medical-blue/50 uppercase tracking-widest block mb-2 pl-1">Bio</label>
+                <textarea rows={3} value={form.bio || ''} onChange={e => setForm((f: any) => ({ ...f, bio: e.target.value }))} className="premium-input resize-none" />
+              </div>
+              <div>
+                <label className="text-[10px] font-bold text-medical-blue/50 uppercase tracking-widest block mb-2 pl-1">Photo URL</label>
+                <input value={form.image || ''} onChange={e => setForm((f: any) => ({ ...f, image: e.target.value }))} className="premium-input" placeholder="https://..." />
+                <label className="mt-3 flex items-center space-x-2 px-6 py-2.5 bg-white border-2 border-dashed border-medical-blue/10 rounded-2xl cursor-pointer hover:border-medical-blue/30 hover:bg-medical-blue/5 transition-all text-xs font-bold text-medical-blue/50">
+                  <ImageIcon className="w-4 h-4" /><span>Upload Photo</span><input type="file" className="hidden" accept="image/*" onChange={handleFile} /></label>
+              </div>
+              <div>
+                <label className="text-[10px] font-bold text-medical-blue/50 uppercase tracking-widest block mb-2 pl-1">Display Order</label>
+                <input type="number" value={form.order || 0} onChange={e => setForm((f: any) => ({ ...f, order: Number(e.target.value) }))} className="premium-input" />
+              </div>
+              <button type="submit" disabled={loading} className="w-full py-4 premium-gradient text-white rounded-2xl font-bold text-sm flex items-center justify-center space-x-2 hover:shadow-xl hover:shadow-medical-blue/30 hover:-translate-y-0.5 transition-all duration-300 disabled:opacity-70 active:translate-y-0">
+                <Save className="w-5 h-5" /><span>{loading ? 'Saving...' : 'Save Member'}</span></button>
             </form>
           </div>
         </div>

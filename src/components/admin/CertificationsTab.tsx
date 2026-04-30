@@ -1,6 +1,6 @@
 "use client";
 import { useState } from 'react';
-import { Trash2, Edit, Plus, Image as ImageIcon, Award, Save } from 'lucide-react';
+import { Trash2, Edit, Plus, Image as ImageIcon, Award, Save, X } from 'lucide-react';
 
 interface Cert { id: string; name: string; authority: string; year: string; image: string; order: number; }
 const EMPTY = { name: '', authority: '', year: new Date().getFullYear().toString(), image: '', order: 0 };
@@ -59,55 +59,67 @@ export function CertificationsTab({ initialData }: { initialData: Cert[] }) {
   return (
     <div>
       <div className="flex justify-between items-center mb-6">
-        <h2 className="text-xl font-black text-medical-dark">Certifications & Accreditations</h2>
-        <button onClick={() => openModal()} className="flex items-center space-x-2 px-5 py-2.5 premium-gradient text-white rounded-2xl font-bold text-sm">
-          <Plus className="w-4 h-4" /><span>Add Certification</span>
+        <h2 className="text-xl font-black text-medical-dark flex items-center gap-2">
+          <span className="w-1.5 h-6 bg-medical-blue rounded-full"></span>
+          Certifications & Accreditations
+        </h2>
+        <button onClick={() => openModal()} className="flex items-center space-x-2 px-6 py-3 premium-gradient text-white rounded-2xl font-bold text-sm hover:shadow-lg hover:shadow-medical-blue/30 transition-all duration-300 hover:-translate-y-0.5 active:translate-y-0">
+          <Plus className="w-5 h-5" /><span>Add Certification</span>
         </button>
       </div>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {certs.length === 0 && <p className="text-gray-400 col-span-3 text-center py-12">No certifications added yet.</p>}
         {certs.map(c => (
-          <div key={c.id} className="bg-gray-50 rounded-2xl p-5 border border-gray-100 flex items-start space-x-4">
+          <div key={c.id} className="premium-card p-6 flex items-start space-x-5 group">
             {c.image ? (
-              <img src={c.image} alt={c.name} className="w-14 h-14 rounded-xl object-contain border border-gray-200 bg-white p-1 shrink-0" />
+              <img src={c.image} alt={c.name} className="w-16 h-16 rounded-2xl object-contain border border-medical-blue/5 bg-white p-2 shrink-0 shadow-sm" />
             ) : (
-              <div className="w-14 h-14 rounded-xl bg-medical-blue/10 flex items-center justify-center shrink-0">
-                <Award className="w-7 h-7 text-medical-blue" />
+              <div className="w-16 h-16 rounded-2xl bg-medical-blue/5 flex items-center justify-center shrink-0 border border-medical-blue/10">
+                <Award className="w-8 h-8 text-medical-blue" />
               </div>
             )}
-            <div className="flex-1 min-w-0">
-              <p className="font-bold text-medical-dark text-sm truncate">{c.name}</p>
-              <p className="text-xs text-gray-500 truncate">{c.authority}</p>
-              <p className="text-xs text-medical-blue font-bold mt-0.5">{c.year}</p>
+            <div className="flex-1 min-w-0 pt-1">
+              <p className="font-display font-black text-medical-dark text-sm truncate leading-tight">{c.name}</p>
+              <p className="text-[10px] text-gray-500 font-bold uppercase tracking-widest mt-1 truncate">{c.authority}</p>
+              <p className="inline-block text-[10px] bg-medical-blue/5 text-medical-blue font-black px-2 py-0.5 rounded-full mt-3 border border-medical-blue/10">{c.year}</p>
             </div>
-            <div className="flex space-x-1 shrink-0">
-              <button onClick={() => openModal(c)} className="p-2 text-gray-400 hover:text-medical-blue rounded-lg hover:bg-blue-50 transition-colors"><Edit className="w-4 h-4" /></button>
-              <button onClick={() => del(c.id)} className="p-2 text-gray-400 hover:text-red-500 rounded-lg hover:bg-red-50 transition-colors"><Trash2 className="w-4 h-4" /></button>
+            <div className="flex flex-col space-y-1 shrink-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+              <button onClick={() => openModal(c)} className="p-2 text-medical-blue hover:bg-medical-blue/10 rounded-xl transition-all" title="Edit"><Edit className="w-4 h-4" /></button>
+              <button onClick={() => del(c.id)} className="p-2 text-red-500 hover:bg-red-50 rounded-xl transition-all" title="Delete"><Trash2 className="w-4 h-4" /></button>
             </div>
           </div>
         ))}
       </div>
 
       {open && (
-        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/40 backdrop-blur-sm">
-          <div className="bg-white rounded-[32px] shadow-2xl w-full max-w-md overflow-hidden">
-            <div className="p-6 border-b border-gray-100 flex justify-between items-center">
-              <h3 className="text-xl font-black text-medical-dark">{editing ? 'Edit' : 'Add'} Certification</h3>
-              <button onClick={() => setOpen(false)} className="text-gray-400 text-xl">✕</button>
+        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-medical-dark/40 backdrop-blur-sm">
+          <div className="bg-white rounded-[40px] shadow-2xl shadow-medical-blue/20 w-full max-w-md overflow-hidden border border-medical-blue/10">
+            <div className="p-8 border-b border-medical-blue/8 flex justify-between items-center bg-medical-blue/[0.02]">
+              <h3 className="text-2xl font-black text-medical-dark">{editing ? 'Edit' : 'Add'} Certification</h3>
+              <button onClick={() => setOpen(false)} className="p-2 hover:bg-medical-blue/5 rounded-full transition-colors">
+                <X className="w-6 h-6 text-gray-400" />
+              </button>
             </div>
-            <form onSubmit={save} className="p-6 space-y-4">
+            <form onSubmit={save} className="p-8 space-y-6">
               {[['name', 'Certification Name'], ['authority', 'Issuing Authority'], ['year', 'Year']].map(([k, l]) => (
-                <div key={k}><label className="text-xs font-bold text-gray-400 uppercase tracking-wider block mb-1">{l}</label>
-                  <input required value={form[k] || ''} onChange={e => setForm((f: any) => ({ ...f, [k]: e.target.value }))} className="w-full p-3 bg-gray-50 rounded-xl border border-gray-100 text-sm focus:outline-none focus:border-medical-blue" /></div>
+                <div key={k}>
+                  <label className="text-[10px] font-bold text-medical-blue/50 uppercase tracking-widest block mb-2 pl-1">{l}</label>
+                  <input required value={form[k] || ''} onChange={e => setForm((f: any) => ({ ...f, [k]: e.target.value }))} className="premium-input" />
+                </div>
               ))}
-              <div><label className="text-xs font-bold text-gray-400 uppercase tracking-wider block mb-1">Logo/Badge Image URL</label>
-                <input value={form.image || ''} onChange={e => setForm((f: any) => ({ ...f, image: e.target.value }))} className="w-full p-3 bg-gray-50 rounded-xl border border-gray-100 text-sm focus:outline-none focus:border-medical-blue" placeholder="https://..." />
-                <label className="mt-2 flex items-center space-x-2 px-4 py-2.5 bg-white border-2 border-dashed border-gray-200 rounded-xl cursor-pointer hover:border-medical-blue text-sm font-bold text-gray-400">
-                  <ImageIcon className="w-4 h-4" /><span>Upload Logo</span><input type="file" className="hidden" accept="image/*" onChange={handleFile} /></label></div>
-              <div><label className="text-xs font-bold text-gray-400 uppercase tracking-wider block mb-1">Display Order</label>
-                <input type="number" value={form.order || 0} onChange={e => setForm((f: any) => ({ ...f, order: Number(e.target.value) }))} className="w-full p-3 bg-gray-50 rounded-xl border border-gray-100 text-sm focus:outline-none focus:border-medical-blue" /></div>
-              <button type="submit" disabled={loading} className="w-full py-3 premium-gradient text-white rounded-xl font-bold text-sm flex items-center justify-center space-x-2">
-                <Save className="w-4 h-4" /><span>{loading ? 'Saving...' : 'Save Certification'}</span></button>
+              <div>
+                <label className="text-[10px] font-bold text-medical-blue/50 uppercase tracking-widest block mb-2 pl-1">Logo/Badge Image URL</label>
+                <input value={form.image || ''} onChange={e => setForm((f: any) => ({ ...f, image: e.target.value }))} className="premium-input" placeholder="https://..." />
+                <label className="mt-3 flex items-center space-x-2 px-6 py-2.5 bg-white border-2 border-dashed border-medical-blue/10 rounded-2xl cursor-pointer hover:border-medical-blue/30 hover:bg-medical-blue/5 transition-all text-xs font-bold text-medical-blue/50">
+                  <ImageIcon className="w-4 h-4" /><span>Upload Logo</span><input type="file" className="hidden" accept="image/*" onChange={handleFile} /></label>
+              </div>
+              <div>
+                <label className="text-[10px] font-bold text-medical-blue/50 uppercase tracking-widest block mb-2 pl-1">Display Order</label>
+                <input type="number" value={form.order || 0} onChange={e => setForm((f: any) => ({ ...f, order: Number(e.target.value) }))} className="premium-input" />
+              </div>
+              <button type="submit" disabled={loading} className="w-full py-4 premium-gradient text-white rounded-2xl font-bold text-sm flex items-center justify-center space-x-2 hover:shadow-xl hover:shadow-medical-blue/30 transition-all duration-300 hover:-translate-y-0.5 active:translate-y-0 disabled:opacity-70">
+                <Save className="w-5 h-5" /><span>{loading ? 'Saving...' : 'Save Certification'}</span>
+              </button>
             </form>
           </div>
         </div>

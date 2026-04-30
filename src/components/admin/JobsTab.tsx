@@ -1,6 +1,6 @@
 "use client";
 import { useState } from 'react';
-import { Trash2, Edit, Plus, CheckCircle, Save, Briefcase } from 'lucide-react';
+import { Trash2, Edit, Plus, CheckCircle, Save, Briefcase, X } from 'lucide-react';
 
 interface Job { id: string; title: string; department: string; location: string; description: string; requirements: string[]; active: boolean; }
 const EMPTY = { title: '', department: '', location: '', description: '', requirements: [] as string[], active: true };
@@ -32,94 +32,136 @@ export function JobsTab({ initialJobs, initialApplications }: { initialJobs: Job
 
   return (
     <div>
-      <div className="flex items-center space-x-3 mb-6 flex-wrap gap-2">
+      <div className="flex items-center space-x-3 mb-8 flex-wrap gap-3">
         {(['jobs', 'apps'] as const).map(t => (
-          <button key={t} onClick={() => setTab(t)} className={`px-5 py-2 rounded-full text-sm font-bold transition-all ${tab === t ? 'premium-gradient text-white' : 'bg-gray-100 text-gray-500 hover:bg-gray-200'}`}>
+          <button key={t} onClick={() => setTab(t)} 
+            className={`px-6 py-2.5 rounded-2xl text-sm font-bold transition-all duration-300 ${tab === t ? 'premium-gradient text-white shadow-lg shadow-medical-blue/20' : 'bg-white border border-medical-blue/5 text-gray-500 hover:bg-medical-blue/5 hover:text-medical-blue'}`}>
             {t === 'jobs' ? `Vacancies (${jobs.length})` : `Applications (${initialApplications.length})`}
           </button>
         ))}
-        {tab === 'jobs' && <button onClick={() => openModal()} className="ml-auto flex items-center space-x-2 px-5 py-2.5 premium-gradient text-white rounded-2xl font-bold text-sm"><Plus className="w-4 h-4" /><span>Add Vacancy</span></button>}
+        {tab === 'jobs' && (
+          <button onClick={() => openModal()} className="ml-auto flex items-center space-x-2 px-6 py-3 premium-gradient text-white rounded-2xl font-bold text-sm hover:shadow-lg hover:shadow-medical-blue/30 hover:-translate-y-0.5 transition-all duration-300 active:translate-y-0">
+            <Plus className="w-5 h-5" /><span>Add Vacancy</span>
+          </button>
+        )}
       </div>
 
       {tab === 'jobs' ? (
-        <div className="space-y-4">
+        <div className="space-y-5">
           {jobs.length === 0 && <p className="text-gray-400 text-center py-12">No vacancies posted yet.</p>}
           {jobs.map(j => (
-            <div key={j.id} className="bg-gray-50 rounded-2xl p-5 border border-gray-100 flex items-start justify-between gap-4">
-              <div className="flex items-start space-x-4">
-                <div className="w-12 h-12 bg-medical-blue/10 rounded-xl flex items-center justify-center shrink-0"><Briefcase className="w-5 h-5 text-medical-blue" /></div>
+            <div key={j.id} className="premium-card p-6 flex items-start justify-between gap-6 group">
+              <div className="flex items-start space-x-5">
+                <div className="w-14 h-14 bg-medical-blue/5 rounded-2xl flex items-center justify-center shrink-0 border border-medical-blue/10">
+                  <Briefcase className="w-6 h-6 text-medical-blue" />
+                </div>
                 <div>
-                  <div className="flex items-center space-x-2">
-                    <p className="font-bold text-medical-dark text-sm">{j.title}</p>
-                    <span className={`text-[10px] font-black px-2 py-0.5 rounded-full ${j.active ? 'bg-green-100 text-green-600' : 'bg-gray-200 text-gray-500'}`}>{j.active ? 'Active' : 'Inactive'}</span>
+                  <div className="flex items-center gap-3">
+                    <p className="font-display font-black text-medical-dark text-lg">{j.title}</p>
+                    <span className={`text-[10px] font-black tracking-widest uppercase px-3 py-1 rounded-full ${j.active ? 'bg-green-100 text-green-600' : 'bg-gray-100 text-gray-400'}`}>
+                      {j.active ? 'Active' : 'Inactive'}
+                    </span>
                   </div>
-                  <p className="text-xs text-gray-500 mt-0.5">{j.department} · {j.location}</p>
+                  <p className="text-xs font-bold text-medical-blue/60 mt-1 uppercase tracking-wider">{j.department} · {j.location}</p>
+                  <p className="text-sm text-gray-500 mt-3 line-clamp-1 italic">"{j.description}"</p>
                 </div>
               </div>
-              <div className="flex space-x-1 shrink-0">
-                <button onClick={() => openModal(j)} className="p-2 text-gray-400 hover:text-medical-blue rounded-lg hover:bg-blue-50"><Edit className="w-4 h-4" /></button>
-                <button onClick={() => del(j.id)} className="p-2 text-gray-400 hover:text-red-500 rounded-lg hover:bg-red-50"><Trash2 className="w-4 h-4" /></button>
+              <div className="flex flex-col space-y-1 shrink-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                <button onClick={() => openModal(j)} className="p-2.5 text-medical-blue hover:bg-medical-blue/10 rounded-xl transition-all" title="Edit"><Edit className="w-4 h-4" /></button>
+                <button onClick={() => del(j.id)} className="p-2.5 text-red-500 hover:bg-red-50 rounded-xl transition-all" title="Delete"><Trash2 className="w-4 h-4" /></button>
               </div>
             </div>
           ))}
         </div>
       ) : (
-        <div className="overflow-x-auto">
-          <table className="w-full text-left border-collapse min-w-[600px]">
-            <thead><tr className="bg-gray-50 text-[10px] uppercase tracking-wider text-gray-400">
-              <th className="p-4 pl-6">Applicant</th><th className="p-4">Position</th><th className="p-4">Phone</th><th className="p-4">Date</th><th className="p-4 pr-6">CV</th>
-            </tr></thead>
-            <tbody className="divide-y divide-gray-100">
-              {initialApplications.length === 0 && <tr><td colSpan={5} className="p-8 text-center text-gray-400">No applications yet.</td></tr>}
-              {initialApplications.map((a: any) => (
-                <tr key={a.id} className="hover:bg-gray-50/50">
-                  <td className="p-4 pl-6"><p className="font-bold text-sm text-medical-dark">{a.name}</p><p className="text-xs text-gray-400">{a.email}</p></td>
-                  <td className="p-4 text-sm text-gray-600">{a.job?.title || '—'}</td>
-                  <td className="p-4 text-sm text-gray-600">{a.phone || '—'}</td>
-                  <td className="p-4 text-xs text-gray-400">{new Date(a.createdAt).toLocaleDateString()}</td>
-                  <td className="p-4 pr-6">{a.cvFile ? <a href={a.cvFile} download className="text-medical-blue text-xs font-bold underline">Download</a> : <span className="text-gray-300 text-xs">None</span>}</td>
+        <div className="bg-white rounded-[32px] border border-medical-blue/8 shadow-xl shadow-medical-blue/5 overflow-hidden">
+          <div className="overflow-x-auto">
+            <table className="w-full text-left border-collapse min-w-[800px]">
+              <thead>
+                <tr className="bg-medical-blue/[0.03] border-b border-medical-blue/8 text-[11px] uppercase tracking-widest text-medical-blue/50">
+                  <th className="p-5 pl-8">Applicant</th>
+                  <th className="p-5">Position</th>
+                  <th className="p-5">Phone</th>
+                  <th className="p-5">Date</th>
+                  <th className="p-5 pr-8 text-right">CV</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+              <tbody>
+                {initialApplications.length === 0 && <tr><td colSpan={5} className="p-12 text-center text-gray-400 italic">No applications received yet.</td></tr>}
+                {initialApplications.map((a: any) => (
+                  <tr key={a.id} className="admin-table-row">
+                    <td className="p-5 pl-8">
+                      <p className="font-display font-black text-medical-dark">{a.name}</p>
+                      <p className="text-xs text-gray-400">{a.email}</p>
+                    </td>
+                    <td className="p-5">
+                      <span className="px-3 py-1 bg-medical-blue/5 text-medical-blue rounded-full text-xs font-bold border border-medical-blue/10">
+                        {a.job?.title || 'General'}
+                      </span>
+                    </td>
+                    <td className="p-5 text-sm font-medium text-gray-600">{a.phone || '—'}</td>
+                    <td className="p-5 text-xs text-gray-400 font-medium">{new Date(a.createdAt).toLocaleDateString()}</td>
+                    <td className="p-5 pr-8 text-right">
+                      {a.cvFile ? (
+                        <a href={a.cvFile} download className="inline-flex items-center gap-1.5 px-4 py-2 bg-medical-blue text-white rounded-xl text-xs font-bold hover:shadow-lg hover:shadow-medical-blue/30 transition-all">
+                          Download
+                        </a>
+                      ) : (
+                        <span className="text-gray-300 text-xs italic">No CV</span>
+                      )}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         </div>
       )}
 
       {open && (
-        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/40 backdrop-blur-sm">
-          <div className="bg-white rounded-[32px] shadow-2xl w-full max-w-xl overflow-hidden">
-            <div className="p-6 border-b border-gray-100 flex justify-between items-center">
-              <h3 className="text-xl font-black text-medical-dark">{editing ? 'Edit' : 'Add'} Vacancy</h3>
-              <button onClick={() => setOpen(false)} className="text-gray-400 text-xl">✕</button>
+        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-medical-dark/40 backdrop-blur-sm">
+          <div className="bg-white rounded-[40px] shadow-2xl shadow-medical-blue/20 w-full max-w-xl overflow-hidden border border-medical-blue/10">
+            <div className="p-8 border-b border-medical-blue/8 flex justify-between items-center bg-medical-blue/[0.02]">
+              <h3 className="text-2xl font-black text-medical-dark">{editing ? 'Edit' : 'Add'} Vacancy</h3>
+              <button onClick={() => setOpen(false)} className="p-2 hover:bg-medical-blue/5 rounded-full transition-colors">
+                <X className="w-6 h-6 text-gray-400" />
+              </button>
             </div>
-            <form onSubmit={save} className="p-6 space-y-4 max-h-[70vh] overflow-y-auto">
+            <form onSubmit={save} className="p-8 space-y-6 max-h-[70vh] overflow-y-auto">
               {(['title', 'department', 'location'] as const).map(k => (
-                <div key={k}><label className="text-xs font-bold text-gray-400 uppercase tracking-wider block mb-1">{k.charAt(0).toUpperCase() + k.slice(1)}</label>
-                  <input required value={form[k] || ''} onChange={e => setForm((f: any) => ({ ...f, [k]: e.target.value }))} className="w-full p-3 bg-gray-50 rounded-xl border border-gray-100 text-sm focus:outline-none focus:border-medical-blue" /></div>
-              ))}
-              <div><label className="text-xs font-bold text-gray-400 uppercase tracking-wider block mb-1">Description</label>
-                <textarea rows={3} required value={form.description || ''} onChange={e => setForm((f: any) => ({ ...f, description: e.target.value }))} className="w-full p-3 bg-gray-50 rounded-xl border border-gray-100 text-sm focus:outline-none focus:border-medical-blue resize-none" /></div>
-              <div>
-                <label className="text-xs font-bold text-gray-400 uppercase tracking-wider block mb-1">Requirements</label>
-                <div className="flex space-x-2 mb-2">
-                  <input value={reqInput} onChange={e => setReqInput(e.target.value)} onKeyDown={e => { if (e.key === 'Enter') { e.preventDefault(); addReq(); } }} placeholder="Add requirement + Enter" className="flex-1 p-3 bg-gray-50 rounded-xl border border-gray-100 text-sm focus:outline-none focus:border-medical-blue" />
-                  <button type="button" onClick={addReq} className="px-4 premium-gradient text-white rounded-xl text-sm font-bold">Add</button>
+                <div key={k}>
+                  <label className="text-[10px] font-bold text-medical-blue/50 uppercase tracking-widest block mb-2 pl-1">{k.charAt(0).toUpperCase() + k.slice(1)}</label>
+                  <input required value={form[k] || ''} onChange={e => setForm((f: any) => ({ ...f, [k]: e.target.value }))} className="premium-input" />
                 </div>
-                {form.requirements?.map((r: string, i: number) => (
-                  <div key={i} className="flex items-center justify-between bg-gray-50 rounded-lg px-3 py-2 text-sm mb-1">
-                    <span className="text-gray-600 flex items-center space-x-2"><CheckCircle className="w-3.5 h-3.5 text-medical-blue" /><span>{r}</span></span>
-                    <button type="button" onClick={() => removeReq(i)} className="text-red-400 text-xs">✕</button>
-                  </div>
-                ))}
+              ))}
+              <div>
+                <label className="text-[10px] font-bold text-medical-blue/50 uppercase tracking-widest block mb-2 pl-1">Description</label>
+                <textarea rows={3} required value={form.description || ''} onChange={e => setForm((f: any) => ({ ...f, description: e.target.value }))} className="premium-input resize-none" />
               </div>
-              <div className="flex items-center space-x-3">
-                <label className="text-xs font-bold text-gray-400 uppercase tracking-wider">Active</label>
-                <button type="button" onClick={() => setForm((f: any) => ({ ...f, active: !f.active }))} className={`w-12 h-6 rounded-full transition-all relative ${form.active ? 'bg-medical-blue' : 'bg-gray-200'}`}>
-                  <div className={`absolute top-0.5 w-5 h-5 bg-white rounded-full shadow transition-all ${form.active ? 'left-6' : 'left-0.5'}`} />
+              <div>
+                <label className="text-[10px] font-bold text-medical-blue/50 uppercase tracking-widest block mb-2 pl-1">Requirements</label>
+                <div className="flex space-x-3 mb-3">
+                  <input value={reqInput} onChange={e => setReqInput(e.target.value)} onKeyDown={e => { if (e.key === 'Enter') { e.preventDefault(); addReq(); } }} placeholder="Add requirement + Enter" className="premium-input" />
+                  <button type="button" onClick={addReq} className="px-6 py-3 premium-gradient text-white rounded-2xl text-sm font-bold hover:shadow-lg transition-all duration-300">Add</button>
+                </div>
+                <div className="space-y-2">
+                  {form.requirements?.map((r: string, i: number) => (
+                    <div key={i} className="flex items-center justify-between bg-medical-blue/[0.03] rounded-xl px-4 py-2.5 text-sm border border-medical-blue/5">
+                      <span className="text-gray-600 flex items-center space-x-3"><CheckCircle className="w-4 h-4 text-medical-blue" /><span>{r}</span></span>
+                      <button type="button" onClick={() => removeReq(i)} className="p-1 text-red-400 hover:text-red-600 transition-colors">✕</button>
+                    </div>
+                  ))}
+                </div>
+              </div>
+              <div className="flex items-center space-x-4 p-4 bg-medical-blue/[0.02] rounded-2xl border border-medical-blue/5">
+                <label className="text-xs font-bold text-medical-blue uppercase tracking-widest">Active Status</label>
+                <button type="button" onClick={() => setForm((f: any) => ({ ...f, active: !f.active }))} className={`w-14 h-7 rounded-full transition-all relative ${form.active ? 'bg-medical-blue' : 'bg-gray-300'}`}>
+                  <div className={`absolute top-1 w-5 h-5 bg-white rounded-full shadow-md transition-all ${form.active ? 'left-8' : 'left-1'}`} />
                 </button>
               </div>
-              <button type="submit" disabled={loading} className="w-full py-3 premium-gradient text-white rounded-xl font-bold text-sm flex items-center justify-center space-x-2">
-                <Save className="w-4 h-4" /><span>{loading ? 'Saving...' : 'Save Vacancy'}</span></button>
+              <button type="submit" disabled={loading} className="w-full py-4 premium-gradient text-white rounded-2xl font-bold text-sm flex items-center justify-center space-x-2 hover:shadow-xl hover:shadow-medical-blue/30 transition-all duration-300 hover:-translate-y-0.5 active:translate-y-0 disabled:opacity-70">
+                <Save className="w-5 h-5" /><span>{loading ? 'Saving...' : 'Save Vacancy'}</span>
+              </button>
             </form>
           </div>
         </div>
