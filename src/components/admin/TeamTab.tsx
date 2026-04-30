@@ -87,7 +87,7 @@ export function TeamTab({ initialData }: { initialData: TeamMember[] }) {
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {members.length === 0 && <p className="text-gray-400 col-span-3 text-center py-12">No team members yet.</p>}
         {members.map(m => (
-          <div key={m.id} className="premium-card p-6 flex items-start space-x-4">
+          <div key={m.id} className="premium-card p-6 flex items-start space-x-4 group">
             <div className="relative shrink-0">
               <img src={m.image || '/fallback-department.svg'} alt={m.name} className="w-16 h-16 rounded-2xl object-cover border-2 border-white shadow-md" onError={(e) => { (e.currentTarget as HTMLImageElement).src = '/fallback-department.svg'; }} />
               <div className="absolute -bottom-1 -right-1 w-5 h-5 bg-medical-blue rounded-full flex items-center justify-center text-[10px] text-white font-bold shadow-sm">
