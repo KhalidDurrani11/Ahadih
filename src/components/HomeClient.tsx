@@ -477,7 +477,6 @@ export function HomeClient({ initialDepartments, initialNews = [], initialTestim
               ))}
             </motion.div>
           </div>
-          </div>
         </section>
       )}
 
