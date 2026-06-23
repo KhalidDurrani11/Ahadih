@@ -116,7 +116,11 @@ export function Footer() {
           </div>
 
           <div className="pt-8 border-t border-white/5 flex flex-col md:flex-row justify-between items-center text-xs text-medical-light/40 space-y-4 md:space-y-0">
-            <p>© {currentYear} AHAD International Hospital. All rights reserved.</p>
+            <p>
+              © {currentYear} AHAD International Hospital. All rights reserved.
+              <span className="hidden md:inline mx-2 text-white/10">|</span>
+              <span className="block md:inline mt-2 md:mt-0">Made with ❤️ by GenZomate</span>
+            </p>
             <div className="flex space-x-6">
               <a href="#" className="hover:text-white transition-colors">Privacy Policy</a>
               <a href="#" className="hover:text-white transition-colors">Terms of Service</a>
